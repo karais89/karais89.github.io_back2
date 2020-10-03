@@ -7,7 +7,7 @@ header-img: "img/home-bg.jpg"
 header-mask: 0.3
 catalog:    true
 tags:
-    - TIL
+    - til
 ---
 
 > https://huangxuan.me/ fork
@@ -15,3 +15,5 @@ tags:
 오랜만에 지킬 블로그를 변경함.
 우선 모든 포스트를 다 제거 후 현재 테스트 중.
 dns 설정 때문인지 disqus 안되고, github에 cname 관련 오류 발생.
+
+블로그 자체의 feature tags도 제대로 동작 안하는 것 같은데 확인 필요.
