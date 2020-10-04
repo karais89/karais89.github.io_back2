@@ -8,9 +8,6 @@ header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags:
     - jekyll
-    - tag1
-    - tag2
-    - tag3
 ---
 
 각주 테스트[^1]
