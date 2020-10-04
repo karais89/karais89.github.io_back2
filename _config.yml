@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: karais89@gmail.com
 description: "게임 개발 관련 개발 이슈 정리 블로그. 개인 정리 용도 입니다."
 keyword: "Web, JavaScript, Unity"
-url: "https://lonpeach.com"              # your host, for absolute URL
+url: "https://tech.lonpeach.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
@@ -72,7 +72,7 @@ netease_comment: false
 
 # Google Analytics
 ga_track_id: 'UA-59335977-2'            # Format: UA-xxxxxx-xx
-ga_domain: lonpeach.com
+ga_domain: karais89.github.io
 
 
 # Sidebar settings
