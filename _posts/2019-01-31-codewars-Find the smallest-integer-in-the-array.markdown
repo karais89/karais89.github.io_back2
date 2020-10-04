@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #63]  Find the smallest integer in the array (8kyu)"
-excerpt: "[Codewars #63]  Find the smallest integer in the array (8kyu) 문제 풀이"
+subtitle: "[Codewars #63]  Find the smallest integer in the array (8kyu) 문제 풀이"
 date: 2019-01-31 11:31:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

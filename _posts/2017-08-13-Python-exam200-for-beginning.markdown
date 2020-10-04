@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[리뷰] 초보자를 위한 파이썬 200제"
-description: "초보자를 위한 파이썬 200제 서적에 대한 리뷰"
+subtitle: "초보자를 위한 파이썬 200제 서적에 대한 리뷰"
 date:   2017-08-13 20:26:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

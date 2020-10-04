@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 소프트웨어 장인"
-description: "소프트웨어 장인에 대한 리뷰"
+subtitle: "소프트웨어 장인에 대한 리뷰"
 date: 2017-11-13 23:14:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

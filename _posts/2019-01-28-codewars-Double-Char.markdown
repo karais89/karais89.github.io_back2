@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #59] Double Char (8kyu)"
-excerpt: "[Codewars #59] Double Char (8kyu) 문제 풀이"
+subtitle: "[Codewars #59] Double Char (8kyu) 문제 풀이"
 date: 2019-01-28 09:27:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

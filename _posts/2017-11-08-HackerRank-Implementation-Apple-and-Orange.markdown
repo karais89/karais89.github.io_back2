@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #12] Implementation - Apple and Orange"
-excerpt: "HackerRank Implementation Apple and Orange 문제 풀이"
+subtitle: "HackerRank Implementation Apple and Orange 문제 풀이"
 date: 2017-11-08 07:44:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

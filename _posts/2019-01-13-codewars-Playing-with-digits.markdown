@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #30]  Playing with digits (6kyu)"
-excerpt: "[Codewars #30]  Playing with digits (6kyu) 문제 풀이"
+subtitle: "[Codewars #30]  Playing with digits (6kyu) 문제 풀이"
 date: 2019-01-13 14:19:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

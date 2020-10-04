@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #23] Sum The Tree (6kyu)"
-excerpt: "[Codewars #23] Sum The Tree (6kyu) 문제 풀이"
+subtitle: "[Codewars #23] Sum The Tree (6kyu) 문제 풀이"
 date: 2019-01-10 22:21:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

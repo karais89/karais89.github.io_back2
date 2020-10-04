@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Reactive Extensions] Hot 변환은 어떤 때에 필요한가?"
-excerpt: "[Reactive Extensions] Hot 변환은 어떤 때에 필요한가? 번역"
+subtitle: "[Reactive Extensions] Hot 변환은 어떤 때에 필요한가? 번역"
 date: 2019-10-13 19:01:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

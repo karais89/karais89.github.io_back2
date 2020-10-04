@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #49] Take a Ten Minute Walk (6kyu)"
-excerpt: "[Codewars #49] Take a Ten Minute Walk (6kyu) 문제 풀이"
+subtitle: "[Codewars #49] Take a Ten Minute Walk (6kyu) 문제 풀이"
 date: 2019-01-24 23:36:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

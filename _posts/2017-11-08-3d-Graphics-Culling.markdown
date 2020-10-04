@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "3D 그래픽스에서 컬링 이란?"
-excerpt: "3D 그래픽스의 컬링에 대한 개념 설명"
+subtitle: "3D 그래픽스의 컬링에 대한 개념 설명"
 date: 2017-11-08 21:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

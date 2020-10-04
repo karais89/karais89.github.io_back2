@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "한마디로 닷컴 - 영어의 비밀"
-excerpt: "한마디로 닷컴 - 영어의 비밀 내용 정리"
+subtitle: "한마디로 닷컴 - 영어의 비밀 내용 정리"
 date: 2018-11-12 00:54:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

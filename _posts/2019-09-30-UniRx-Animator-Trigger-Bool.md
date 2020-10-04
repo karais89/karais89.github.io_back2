@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Animator의 Trigger를 Bool을 사용하여 재현하자"
-excerpt: "Animator의 Trigger를 Bool을 사용하여 재현하자 번역"
+subtitle: "Animator의 Trigger를 Bool을 사용하여 재현하자 번역"
 date: 2019-09-30 22:50:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

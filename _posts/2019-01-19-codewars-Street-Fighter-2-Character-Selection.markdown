@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #35] Street Fighter 2 - Character Selection (6kyu)"
-excerpt: "[Codewars #35] Street Fighter 2 - Character Selection (6kyu) 문제 풀이"
+subtitle: "[Codewars #35] Street Fighter 2 - Character Selection (6kyu) 문제 풀이"
 date: 2019-01-19 00:12:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

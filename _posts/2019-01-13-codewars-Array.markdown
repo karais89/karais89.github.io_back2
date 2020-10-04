@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #29] +1 Array (6kyu)"
-excerpt: "[Codewars #29] +1 Array (6kyu) 문제 풀이"
+subtitle: "[Codewars #29] +1 Array (6kyu) 문제 풀이"
 date: 2019-01-13 14:17:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PhotonCloud 콜백 처리를 UniRx 지능적으로 쓴다 'PhotonRx'"
-excerpt: "PhotonCloud 콜백 처리를 UniRx 지능적으로 쓴다 'PhotonRx' 번역"
+subtitle: "PhotonCloud 콜백 처리를 UniRx 지능적으로 쓴다 'PhotonRx' 번역"
 date: 2019-10-16 22:24:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

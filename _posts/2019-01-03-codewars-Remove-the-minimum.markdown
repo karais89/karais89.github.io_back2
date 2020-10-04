@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #7] Remove the minimum (7kyu)"
-excerpt: "[Codewars #7] Remove the minimum (7kyu) 문제 풀이"
+subtitle: "[Codewars #7] Remove the minimum (7kyu) 문제 풀이"
 date: 2019-01-03 01:37:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

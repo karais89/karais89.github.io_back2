@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "한마디로 닷컴 - PART 1. 주어 만들기"
-excerpt: "한마디로 닷컴 - PART 1. 주어 만들기"
+subtitle: "한마디로 닷컴 - PART 1. 주어 만들기"
 date: 2019-01-12 17:37:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

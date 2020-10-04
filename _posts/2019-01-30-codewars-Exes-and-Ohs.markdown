@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #62]  Exes and Ohs (7kyu)"
-excerpt: "[Codewars #62]  Exes and Ohs (7kyu) 문제 풀이"
+subtitle: "[Codewars #62]  Exes and Ohs (7kyu) 문제 풀이"
 date: 2019-01-30 12:58:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "jekyll disqus 코멘트 달기"
-excerpt: "지킬 블로그에서 댓글 시스템 다는 법"
+subtitle: "지킬 블로그에서 댓글 시스템 다는 법"
 date: "2017-01-15 12:26:32 +0900"
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

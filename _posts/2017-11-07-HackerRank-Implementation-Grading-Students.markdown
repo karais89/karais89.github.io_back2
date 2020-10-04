@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #11] Implementation - Grading Students"
-excerpt: "HackerRank Implementation Grading Students 문제 풀이"
+subtitle: "HackerRank Implementation Grading Students 문제 풀이"
 date: 2017-11-07 21:22:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

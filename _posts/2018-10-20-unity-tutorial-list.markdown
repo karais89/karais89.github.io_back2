@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "유니티 튜토리얼 목록"
-excerpt: "유니티 튜토리얼 목록"
+subtitle: "유니티 튜토리얼 목록"
 date: 2018-10-20 10:59:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

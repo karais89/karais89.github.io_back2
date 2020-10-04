@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #44] Domain name validator (5kyu)"
-excerpt: "[Codewars #44] Domain name validator (5kyu) 문제 풀이"
+subtitle: "[Codewars #44] Domain name validator (5kyu) 문제 풀이"
 date: 2019-01-23 13:39:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

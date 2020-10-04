@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #34] Reverse or rotate? (6kyu)"
-excerpt: "[Codewars #34] Reverse or rotate? (6kyu) 문제 풀이"
+subtitle: "[Codewars #34] Reverse or rotate? (6kyu) 문제 풀이"
 date: 2019-01-18 00:45:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

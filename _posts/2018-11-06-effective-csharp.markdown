@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] Effective C#"
-description: "Effective C# 강력한 C# 코드를 구현하는 50가지 전략과 기법,이펙티브"
+subtitle: "Effective C# 강력한 C# 코드를 구현하는 50가지 전략과 기법,이펙티브"
 date: 2018-11-06 12:26:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

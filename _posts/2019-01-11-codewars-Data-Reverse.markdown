@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #25] Data Reverse (6kyu)"
-excerpt: "[Codewars #25] Data Reverse (6kyu) 문제 풀이"
+subtitle: "[Codewars #25] Data Reverse (6kyu) 문제 풀이"
 date: 2019-01-11 23:43:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

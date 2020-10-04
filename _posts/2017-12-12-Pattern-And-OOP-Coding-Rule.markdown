@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 패턴 그리고 객체지향적 코딩의 법칙"
-description: "패턴 그리고 객체지향적 코딩의 법칙"
+subtitle: "패턴 그리고 객체지향적 코딩의 법칙"
 date: 2017-12-12 23:48:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

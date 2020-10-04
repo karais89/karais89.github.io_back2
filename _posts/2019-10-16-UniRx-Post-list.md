@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 대해 쓴 포스트를 정리해 보았다"
-excerpt: "UniRx 대해 쓴 포스트를 정리해 보았다 번역"
+subtitle: "UniRx 대해 쓴 포스트를 정리해 보았다 번역"
 date: 2019-10-16 22:01:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

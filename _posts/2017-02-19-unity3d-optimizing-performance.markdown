@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Unity3d 성능 최적화"
-excerpt: "유니티 성능 최적화 정리"
+subtitle: "유니티 성능 최적화 정리"
 date: "2017-02-19 21:39:24 +0900"
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

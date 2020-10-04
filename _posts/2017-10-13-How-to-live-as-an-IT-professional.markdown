@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] IT 전문가로 사는 법"
-description: "IT 전문가로 사는 법 서적에 대한 리뷰"
+subtitle: "IT 전문가로 사는 법 서적에 대한 리뷰"
 date: 2017-10-13 15:23:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

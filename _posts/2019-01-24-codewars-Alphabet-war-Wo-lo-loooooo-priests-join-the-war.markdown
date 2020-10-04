@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #47] Alphabet war - Wo lo loooooo priests join the war (5kyu)"
-excerpt: "[Codewars #47] Alphabet war - Wo lo loooooo priests join the war (5kyu) 문제 풀이"
+subtitle: "[Codewars #47] Alphabet war - Wo lo loooooo priests join the war (5kyu) 문제 풀이"
 date: 2019-01-24 23:32:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

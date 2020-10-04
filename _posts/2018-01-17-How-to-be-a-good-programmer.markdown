@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 훌륭한 프로그래머 되는 법"
-description: "훌륭한 프로그래머 되는 법"
+subtitle: "훌륭한 프로그래머 되는 법"
 date: 2018-01-17 22:12:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

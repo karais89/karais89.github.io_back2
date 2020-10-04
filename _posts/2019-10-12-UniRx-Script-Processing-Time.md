@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "스크립트 처리 시점을 조작한다"
-excerpt: "스크립트 처리 시점을 조작한다 번역"
+subtitle: "스크립트 처리 시점을 조작한다 번역"
 date: 2019-10-12 09:04:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

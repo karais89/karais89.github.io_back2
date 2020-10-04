@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Update()을 Observable로 변환하는 방법"
-excerpt: "Update()을 Observable로 변환하는 방법 번역"
+subtitle: "Update()을 Observable로 변환하는 방법 번역"
 date: 2019-10-10 22:41:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

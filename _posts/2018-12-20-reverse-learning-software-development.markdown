@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 거꾸로 배우는 소프트웨어 개발"
-description: "거꾸로 배우는 소프트웨어 개발"
+subtitle: "거꾸로 배우는 소프트웨어 개발"
 date: 2018-12-20 11:49:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

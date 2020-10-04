@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 비하인드 도어"
-description: "비하인드 도어"
+subtitle: "비하인드 도어"
 date: 2018-03-17 23:52:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 입문 5 부 - 코루틴과 함께 -"
-excerpt: "UniRx 입문 5 부 - 코루틴과 함께 - 번역"
+subtitle: "UniRx 입문 5 부 - 코루틴과 함께 - 번역"
 date: 2020-02-26 21:45:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

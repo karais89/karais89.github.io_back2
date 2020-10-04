@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #40] Best travel (5kyu)"
-excerpt: "[Codewars #40] Best travel (5kyu) 문제 풀이"
+subtitle: "[Codewars #40] Best travel (5kyu) 문제 풀이"
 date: 2019-01-20 22:39:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

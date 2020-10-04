@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ObserveEveryValueChanged 프레임간에 값의 변동을 감시하자"
-excerpt: "ObserveEveryValueChanged 프레임간에 값의 변동을 감시하자 번역"
+subtitle: "ObserveEveryValueChanged 프레임간에 값의 변동을 감시하자 번역"
 date: 2019-10-05 08:29:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

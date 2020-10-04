@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 오퍼레이터 소개"
-excerpt: "UniRx 오퍼레이터 소개 번역"
+subtitle: "UniRx 오퍼레이터 소개 번역"
 date: 2019-10-31 09:16:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

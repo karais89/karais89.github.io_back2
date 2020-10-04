@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #16] Vasya - Clerk (6kyu)"
-excerpt: "[Codewars #16] Vasya - Clerk (6kyu) 문제 풀이"
+subtitle: "[Codewars #16] Vasya - Clerk (6kyu) 문제 풀이"
 date: 2019-01-06 18:43:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

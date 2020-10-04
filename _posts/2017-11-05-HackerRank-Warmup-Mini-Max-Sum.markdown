@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #8] Warmup - Mini-Max Sum"
-excerpt: "HackerRank Warmup Mini-Max Sum 문제 풀이"
+subtitle: "HackerRank Warmup Mini-Max Sum 문제 풀이"
 date: 2017-11-05 12:54:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

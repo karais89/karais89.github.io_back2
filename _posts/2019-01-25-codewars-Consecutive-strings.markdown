@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #51] Consecutive strings (6kyu)"
-excerpt: "[Codewars #51] Consecutive strings (6kyu) 문제 풀이"
+subtitle: "[Codewars #51] Consecutive strings (6kyu) 문제 풀이"
 date: 2019-01-25 23:52:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

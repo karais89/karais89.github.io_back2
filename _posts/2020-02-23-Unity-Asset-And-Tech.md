@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Unity 개발에 편리했다 자산 서비스 소개 및 Unity에서의 프로그래밍 기법"
-excerpt: "Unity 개발에 편리했다 자산 서비스 소개 및 Unity에서의 프로그래밍 기법 번역"
+subtitle: "Unity 개발에 편리했다 자산 서비스 소개 및 Unity에서의 프로그래밍 기법 번역"
 date: 2020-02-23 16:46:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

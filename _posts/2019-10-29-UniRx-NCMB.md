@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[NCMB]회원가입/로그인 UniRx로 처리"
-excerpt: "[NCMB]회원가입/로그인 UniRx로 처리 번역"
+subtitle: "[NCMB]회원가입/로그인 UniRx로 처리 번역"
 date: 2019-10-29 22:38:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

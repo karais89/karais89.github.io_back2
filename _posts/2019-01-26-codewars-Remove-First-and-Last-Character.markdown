@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #56] Remove First and Last Character (8kyu)"
-excerpt: "[Codewars #56] Remove First and Last Character (8kyu) 문제 풀이"
+subtitle: "[Codewars #56] Remove First and Last Character (8kyu) 문제 풀이"
 date: 2019-01-26 16:21:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #10] Find the unique number (6kyu)"
-excerpt: "[Codewars #10] Find the unique number (6kyu) 문제 풀이"
+subtitle: "[Codewars #10] Find the unique number (6kyu) 문제 풀이"
 date: 2019-01-03 16:49:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

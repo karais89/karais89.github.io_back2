@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #60] Basic Mathematical Operations (8kyu)"
-excerpt: "[Codewars #60] Basic Mathematical Operations (8kyu) 문제 풀이"
+subtitle: "[Codewars #60] Basic Mathematical Operations (8kyu) 문제 풀이"
 date: 2019-01-28 09:28:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 입문 1"
-excerpt: "UniRx 입문 1 번역"
+subtitle: "UniRx 입문 1 번역"
 date: 2019-11-03 08:31:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

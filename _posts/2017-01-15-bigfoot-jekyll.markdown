@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "bigfoot jekyll 적용하기"
-excerpt: "지킬 블로그에서 편하게 각주를 보는 플러그인을 다는 법"
+subtitle: "지킬 블로그에서 편하게 각주를 보는 플러그인을 다는 법"
 date: "2017-01-15 18:46:59 +0900"
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

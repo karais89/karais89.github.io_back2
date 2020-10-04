@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "TIL - 20181114"
-excerpt: "TIL - 20181114"
+subtitle: "TIL - 20181114"
 date: 2018-11-14 21:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Unity Cloud Build"
-excerpt: "유니티 클라우드 빌드에 대한 포스트 번역"
+subtitle: "유니티 클라우드 빌드에 대한 포스트 번역"
 date: "2017-03-10 22:16:35 +0900"
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

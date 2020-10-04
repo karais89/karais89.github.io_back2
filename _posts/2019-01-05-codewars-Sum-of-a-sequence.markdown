@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #14] Sum of a sequence (7kyu)"
-excerpt: "[Codewars #14] Sum of a sequence (7kyu) 문제 풀이"
+subtitle: "[Codewars #14] Sum of a sequence (7kyu) 문제 풀이"
 date: 2019-01-05 14:01:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #3] Warmup - Compare the Triplets"
-excerpt: "HackerRank Warmup Compare the Triplets 문제 풀이"
+subtitle: "HackerRank Warmup Compare the Triplets 문제 풀이"
 date: 2017-10-31 16:12:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

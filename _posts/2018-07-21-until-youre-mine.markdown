@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 언틸유아마인"
-description: "언틸유아마인"
+subtitle: "언틸유아마인"
 date: 2018-07-21 13:17:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

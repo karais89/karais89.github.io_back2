@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #26] extract file name (6kyu)"
-excerpt: "[Codewars #26] extract file name (6kyu) 문제 풀이"
+subtitle: "[Codewars #26] extract file name (6kyu) 문제 풀이"
 date: 2019-01-11 23:45:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

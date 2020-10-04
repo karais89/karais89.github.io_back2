@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #36] Basic DeNico (5kyu)"
-excerpt: "[Codewars #36] Basic DeNico (5kyu) 문제 풀이"
+subtitle: "[Codewars #36] Basic DeNico (5kyu) 문제 풀이"
 date: 2019-01-19 00:13:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

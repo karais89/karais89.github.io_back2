@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 입문 2 - 메시지의 종류/스트림의 수명"
-excerpt: "UniRx 입문 2 - 메시지의 종류/스트림의 수명 번역"
+subtitle: "UniRx 입문 2 - 메시지의 종류/스트림의 수명 번역"
 date: 2019-11-06 22:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #55] Convert number to reversed array of digits (8kyu)"
-excerpt: "[Codewars #55] Convert number to reversed array of digits (8kyu) 문제 풀이"
+subtitle: "[Codewars #55] Convert number to reversed array of digits (8kyu) 문제 풀이"
 date: 2019-01-26 16:20:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

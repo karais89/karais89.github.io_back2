@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[리뷰] The Nature of Software Development"
-description: "The Nature of Software Development 서적에 대한 리뷰"
+subtitle: "The Nature of Software Development 서적에 대한 리뷰"
 date:   2017-09-23 11:22:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

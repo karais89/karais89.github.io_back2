@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #21] Parse HTML/CSS Colors (6kyu)"
-excerpt: "[Codewars #21] Parse HTML/CSS Colors (6kyu) 문제 풀이"
+subtitle: "[Codewars #21] Parse HTML/CSS Colors (6kyu) 문제 풀이"
 date: 2019-01-09 14:05:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

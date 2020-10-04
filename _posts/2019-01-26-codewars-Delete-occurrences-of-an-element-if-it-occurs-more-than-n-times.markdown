@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #54] Delete occurrences of an element if it occurs more than n times (6kyu)"
-excerpt: "[Codewars #54] Delete occurrences of an element if it occurs more than n times (6kyu) 문제 풀이"
+subtitle: "[Codewars #54] Delete occurrences of an element if it occurs more than n times (6kyu) 문제 풀이"
 date: 2019-01-26 01:58:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

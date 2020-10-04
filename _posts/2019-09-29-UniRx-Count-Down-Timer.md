@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx에서 카운트 다운 타이머를 만들자"
-excerpt: "UniRx에서 카운트 다운 타이머를 만들자 번역"
+subtitle: "UniRx에서 카운트 다운 타이머를 만들자 번역"
 date: 2019-09-29 22:44:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

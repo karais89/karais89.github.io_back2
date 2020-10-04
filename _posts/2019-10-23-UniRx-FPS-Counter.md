@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx에서 FPS 카운터를 만들어보자"
-excerpt: "UniRx에서 FPS 카운터를 만들어보자 번역"
+subtitle: "UniRx에서 FPS 카운터를 만들어보자 번역"
 date: 2019-10-23 13:10:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

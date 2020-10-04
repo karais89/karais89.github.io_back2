@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Udemy 강의 목록"
-excerpt: "Udemy 강의 목록"
+subtitle: "Udemy 강의 목록"
 date: 2018-10-20 11:21:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

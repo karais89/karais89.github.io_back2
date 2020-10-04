@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PhotonCloud 로그인 처리를 UniRx로 동기처리 처럼 쓰기"
-excerpt: "PhotonCloud 로그인 처리를 UniRx로 동기처리 처럼 쓰기 번역"
+subtitle: "PhotonCloud 로그인 처리를 UniRx로 동기처리 처럼 쓰기 번역"
 date: 2019-10-13 21:16:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

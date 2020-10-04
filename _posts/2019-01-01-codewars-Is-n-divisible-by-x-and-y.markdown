@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #6] Is n divisible by x and y? (8kyu)"
-excerpt: "[Codewars #6] Is n divisible by x and y? (8kyu) 문제 풀이"
+subtitle: "[Codewars #6] Is n divisible by x and y? (8kyu) 문제 풀이"
 date: 2019-01-01 23:23:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

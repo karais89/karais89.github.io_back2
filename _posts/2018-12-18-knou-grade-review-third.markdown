@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "방송대 3학년 편입 후 1년 6개월"
-excerpt: "방송대 3학년 편입 후 1년 6개월 느낀점 및 과목 별 평가에 대한 설명"
+subtitle: "방송대 3학년 편입 후 1년 6개월 느낀점 및 과목 별 평가에 대한 설명"
 date: 2018-12-18 00:10:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

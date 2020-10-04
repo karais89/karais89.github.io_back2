@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "유니티 버전 관리 컨트롤 연동하기 (git)"
-excerpt: "유니티 버전 관리 컨트롤 연동하기 (git)"
+subtitle: "유니티 버전 관리 컨트롤 연동하기 (git)"
 date: "2018-12-14 02:06:24 +0900"
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

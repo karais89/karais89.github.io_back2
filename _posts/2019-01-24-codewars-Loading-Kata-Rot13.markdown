@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #45] Loading Kata: Rot13 (5kyu)"
-excerpt: "[Codewars #45] Loading Kata: Rot13 (5kyu) 문제 풀이"
+subtitle: "[Codewars #45] Loading Kata: Rot13 (5kyu) 문제 풀이"
 date: 2019-01-24 01:03:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

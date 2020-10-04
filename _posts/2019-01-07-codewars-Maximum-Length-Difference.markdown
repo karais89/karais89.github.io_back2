@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #18] Maximum Length Difference (7kyu)"
-excerpt: "[Codewars #18] Maximum Length Difference (7kyu) 문제 풀이"
+subtitle: "[Codewars #18] Maximum Length Difference (7kyu) 문제 풀이"
 date: 2019-01-07 14:18:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

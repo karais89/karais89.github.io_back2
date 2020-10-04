@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #19] Implementation - Day of the Programmer"
-excerpt: "HackerRank Implementation Day of the Programmer 문제 풀이"
+subtitle: "HackerRank Implementation Day of the Programmer 문제 풀이"
 date: 2017-11-16 21:06:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

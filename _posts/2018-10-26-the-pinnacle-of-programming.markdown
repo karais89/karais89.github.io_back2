@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 프로그래밍의 정석"
-description: "프로그래밍의 정석"
+subtitle: "프로그래밍의 정석"
 date: 2018-10-26 09:23:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

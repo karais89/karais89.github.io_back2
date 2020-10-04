@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 누워서 읽는 알고리즘"
-description: "누워서 읽는 알고리즘"
+subtitle: "누워서 읽는 알고리즘"
 date: 2018-02-17 14:10:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

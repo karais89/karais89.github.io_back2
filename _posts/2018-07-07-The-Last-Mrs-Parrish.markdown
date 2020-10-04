@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 마지막 패리시 부인"
-description: "마지막 패리시 부인"
+subtitle: "마지막 패리시 부인"
 date: 2018-07-07 13:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #3] Sum without highest and lowest number (8kyu)"
-excerpt: "[Codewars #3] Sum without highest and lowest number (8kyu) 문제 풀이"
+subtitle: "[Codewars #3] Sum without highest and lowest number (8kyu) 문제 풀이"
 date: 2018-12-31 22:51:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

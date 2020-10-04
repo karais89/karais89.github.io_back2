@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #17] Speed Control (7kyu)"
-excerpt: "[Codewars #17] Speed Control (7kyu) 문제 풀이"
+subtitle: "[Codewars #17] Speed Control (7kyu) 문제 풀이"
 date: 2019-01-07 14:17:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #42] N00bify - English to n00b Translator (5kyu)"
-excerpt: "[Codewars #42] N00bify - English to n00b Translator (5kyu) 문제 풀이"
+subtitle: "[Codewars #42] N00bify - English to n00b Translator (5kyu) 문제 풀이"
 date: 2019-01-22 19:46:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

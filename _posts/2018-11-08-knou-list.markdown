@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "방송대 3학기 강의 목록"
-excerpt: "방송대 3학기 강의 목록"
+subtitle: "방송대 3학기 강의 목록"
 date: 2018-11-08 14:36:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Extend the Unity3d Editor"
-excerpt: "Extend the Unity3d Editor 번역"
+subtitle: "Extend the Unity3d Editor 번역"
 date: 2019-03-17 09:14:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

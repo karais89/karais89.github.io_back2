@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 입문 3 - 스트림 소스를 만드는 방법"
-excerpt: "UniRx 입문 3 - 스트림 소스를 만드는 방법 번역"
+subtitle: "UniRx 입문 3 - 스트림 소스를 만드는 방법 번역"
 date: 2019-11-10 09:35:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

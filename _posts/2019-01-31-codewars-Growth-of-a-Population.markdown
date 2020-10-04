@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #64] Growth of a Population (7kyu)"
-excerpt: "[Codewars #64] Growth of a Population (7kyu) 문제 풀이"
+subtitle: "[Codewars #64] Growth of a Population (7kyu) 문제 풀이"
 date: 2019-01-31 11:33:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

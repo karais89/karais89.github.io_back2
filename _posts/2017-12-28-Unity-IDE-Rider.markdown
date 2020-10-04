@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "유니티 IDE로 젯브레인의 Rider 사용하기"
-excerpt: "유니티 IDE로 젯브레인의 Rider 사용하기"
+subtitle: "유니티 IDE로 젯브레인의 Rider 사용하기"
 date: 2017-12-28 17:45:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

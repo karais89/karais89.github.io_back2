@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 소프트 스킬"
-description: "소프트 스킬 서적에 대한 리뷰"
+subtitle: "소프트 스킬 서적에 대한 리뷰"
 date: 2017-11-02 13:52:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

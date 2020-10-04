@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "프로그래밍의 정석 요약"
-excerpt: "프로그래밍의 정석책을 요약해서 정리"
+subtitle: "프로그래밍의 정석책을 요약해서 정리"
 date: 2018-10-26 09:32:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

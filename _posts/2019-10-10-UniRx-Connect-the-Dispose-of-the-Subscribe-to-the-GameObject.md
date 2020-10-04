@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Subscribe의 Dispose를 GameObject에 연결 시킨다."
-excerpt: "Subscribe의 Dispose를 GameObject에 연결 시킨다 번역"
+subtitle: "Subscribe의 Dispose를 GameObject에 연결 시킨다 번역"
 date: 2019-10-10 22:34:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

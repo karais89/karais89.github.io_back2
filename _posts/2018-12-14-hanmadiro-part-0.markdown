@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "한마디로 닷컴 - part 0. Intro"
-excerpt: "한마디로 닷컴 - part 0. Intro"
+subtitle: "한마디로 닷컴 - part 0. Intro"
 date: 2018-12-14 12:17:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 파이썬 프로그래밍으로 지루한 작업 자동화하기"
-description: "파이썬 프로그래밍으로 지루한 작업 자동화하기"
+subtitle: "파이썬 프로그래밍으로 지루한 작업 자동화하기"
 date: 2018-10-29 23:45:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

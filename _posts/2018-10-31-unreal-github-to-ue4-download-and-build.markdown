@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GitHub 를 통한 UE4 소스 다운로드와 빌드"
-excerpt: "GitHub 를 통한 UE4 소스 다운로드와 빌드"
+subtitle: "GitHub 를 통한 UE4 소스 다운로드와 빌드"
 date: 2018-10-31 21:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

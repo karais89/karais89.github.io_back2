@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #11] Who likes it? (6kyu)"
-excerpt: "[Codewars #11] Who likes it? (6kyu) 문제 풀이"
+subtitle: "[Codewars #11] Who likes it? (6kyu) 문제 풀이"
 date: 2019-01-04 19:42:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

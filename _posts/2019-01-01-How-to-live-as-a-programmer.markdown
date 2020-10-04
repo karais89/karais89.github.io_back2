@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 프로그래머로 사는법"
-description: "프로그래머로 사는법을 읽고"
+subtitle: "프로그래머로 사는법을 읽고"
 date: 2019-01-01 23:47:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

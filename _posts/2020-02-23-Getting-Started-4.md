@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx 입문 그 4 -Update를 스트림으로 변환하는 방법 및 장점 -"
-excerpt: "UniRx 입문 그 4 -Update를 스트림으로 변환하는 방법 및 장점 - 번역"
+subtitle: "UniRx 입문 그 4 -Update를 스트림으로 변환하는 방법 및 장점 - 번역"
 date: 2020-02-23 19:46:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

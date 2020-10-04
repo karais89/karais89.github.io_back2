@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #12] Factorial (7kyu)"
-excerpt: "[Codewars #12] Factorial (7kyu) 문제 풀이"
+subtitle: "[Codewars #12] Factorial (7kyu) 문제 풀이"
 date: 2019-01-04 19:44:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

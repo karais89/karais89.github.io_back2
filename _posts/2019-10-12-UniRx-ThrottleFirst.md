@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[UniRx] 연속된 OnNext의 최초 값만 흘리는 오퍼레이터 ThrottleFirst"
-excerpt: "[UniRx] 연속된 OnNext의 최초 값만 흘리는 오퍼레이터 ThrottleFirst 번역"
+subtitle: "[UniRx] 연속된 OnNext의 최초 값만 흘리는 오퍼레이터 ThrottleFirst 번역"
 date: 2019-10-12 18:31:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

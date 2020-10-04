@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 클린코더"
-description: "클린 코더 [단순 기술자에서 진정한 소프트웨어 장인이 되기까지]"
+subtitle: "클린 코더 [단순 기술자에서 진정한 소프트웨어 장인이 되기까지]"
 date: 2018-12-28 15:19:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

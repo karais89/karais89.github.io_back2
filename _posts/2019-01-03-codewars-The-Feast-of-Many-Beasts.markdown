@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #9] The Feast of Many Beasts (8kyu)"
-excerpt: "[Codewars #9] The Feast of Many Beasts (8kyu) 문제 풀이"
+subtitle: "[Codewars #9] The Feast of Many Beasts (8kyu) 문제 풀이"
 date: 2019-01-03 16:48:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

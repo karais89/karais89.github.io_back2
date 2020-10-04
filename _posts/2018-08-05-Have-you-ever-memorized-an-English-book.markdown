@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 영어책 한 권 외워봤니?"
-description: "영어책 한 권 외워봤니?"
+subtitle: "영어책 한 권 외워봤니?"
 date: 2018-08-05 17:30:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

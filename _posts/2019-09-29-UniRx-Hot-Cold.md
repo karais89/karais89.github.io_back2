@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Rx의 Hot과 Cold 대해"
-excerpt: "Rx의 Hot과 Cold 대해 번역"
+subtitle: "Rx의 Hot과 Cold 대해 번역"
 date: 2019-09-29 21:35:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

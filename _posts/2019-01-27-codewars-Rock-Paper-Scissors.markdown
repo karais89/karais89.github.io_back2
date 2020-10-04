@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #57] Rock Paper Scissors! (8kyu)"
-excerpt: "[Codewars #57] Rock Paper Scissors! (8kyu) 문제 풀이"
+subtitle: "[Codewars #57] Rock Paper Scissors! (8kyu) 문제 풀이"
 date: 2019-01-27 22:54:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

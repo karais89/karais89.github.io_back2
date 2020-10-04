@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 빽 넘버"
-description: "빽 넘버"
+subtitle: "빽 넘버"
 date: 2018-03-17 23:53:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

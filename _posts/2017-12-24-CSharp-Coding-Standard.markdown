@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "C# 코딩 스탠다드"
-excerpt: "C# 언어를 사용할 때 사용되는 코딩 스탠다드"
+subtitle: "C# 언어를 사용할 때 사용되는 코딩 스탠다드"
 date: 2017-12-24 23:55:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "스트림의 메시지를 서로 비교하기"
-excerpt: "스트림의 메시지를 서로 비교하기 번역"
+subtitle: "스트림의 메시지를 서로 비교하기 번역"
 date: 2019-10-20 23:22:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

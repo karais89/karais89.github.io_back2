@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #27] Word a10n (abbreviation) (6kyu)"
-excerpt: "[Codewars #27] Word a10n (abbreviation) (6kyu) 문제 풀이"
+subtitle: "[Codewars #27] Word a10n (abbreviation) (6kyu) 문제 풀이"
 date: 2019-01-12 23:54:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #58] Take a Number And Sum Its Digits Raised To The Consecutive Powers And ....¡Eureka!! (6kyu)"
-excerpt: "[Codewars #58] Take a Number And Sum Its Digits Raised To The Consecutive Powers And ....¡Eureka!! (6kyu) 문제 풀이"
+subtitle: "[Codewars #58] Take a Number And Sum Its Digits Raised To The Consecutive Powers And ....¡Eureka!! (6kyu) 문제 풀이"
 date: 2019-01-27 22:56:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #14] Implementation - Between Two Sets"
-excerpt: "HackerRank Implementation Between Two Sets 문제 풀이"
+subtitle: "HackerRank Implementation Between Two Sets 문제 풀이"
 date: 2017-11-12 11:39:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

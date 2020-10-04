@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[ReactiveExtensions] 'Repeat'이란 무엇인가?"
-excerpt: "[ReactiveExtensions] 'Repeat'이란 무엇인가? 번역"
+subtitle: "[ReactiveExtensions] 'Repeat'이란 무엇인가? 번역"
 date: 2019-10-12 10:47:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

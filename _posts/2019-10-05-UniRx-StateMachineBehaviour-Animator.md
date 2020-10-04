@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "StateMachineBehaviour에서 Animator를 감시하자"
-excerpt: "StateMachineBehaviour에서 Animator를 감시하자 번역"
+subtitle: "StateMachineBehaviour에서 Animator를 감시하자 번역"
 date: 2019-10-05 08:17:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

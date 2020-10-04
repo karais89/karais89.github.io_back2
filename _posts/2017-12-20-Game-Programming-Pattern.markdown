@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[리뷰] 게임 프로그래밍 패턴"
-description: "게임 프로그래밍 패턴"
+subtitle: "게임 프로그래밍 패턴"
 date: 2017-12-20 21:30:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

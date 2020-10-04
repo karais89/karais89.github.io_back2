@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #1] Printer Errors (7kyu)"
-excerpt: "[Codewars #1] Printer Errors (7kyu) 문제 풀이"
+subtitle: "[Codewars #1] Printer Errors (7kyu) 문제 풀이"
 date: 2018-12-30 22:32:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

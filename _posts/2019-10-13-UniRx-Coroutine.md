@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx와 코루틴"
-excerpt: "UniRx와 코루틴 번역"
+subtitle: "UniRx와 코루틴 번역"
 date: 2019-10-13 22:22:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

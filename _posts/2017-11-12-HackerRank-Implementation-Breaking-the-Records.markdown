@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #15] Implementation - Breaking the Records"
-excerpt: "HackerRank Implementation Breaking the Records 문제 풀이"
+subtitle: "HackerRank Implementation Breaking the Records 문제 풀이"
 date: 2017-11-12 14:37:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

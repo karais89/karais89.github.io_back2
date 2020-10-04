@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "마우스 롱클릭 판단하기"
-excerpt: "마우스 롱클릭 판단하기 번역"
+subtitle: "마우스 롱클릭 판단하기 번역"
 date: 2019-10-23 09:00:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

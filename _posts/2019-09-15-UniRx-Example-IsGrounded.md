@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CharacterController IsGrounded 판정을 개선하기"
-excerpt: "CharacterController IsGrounded 판정을 개선하기 번역"
+subtitle: "CharacterController IsGrounded 판정을 개선하기 번역"
 date: 2019-09-15 20:10:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

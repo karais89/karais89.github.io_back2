@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #65]  Return Negative (8kyu)"
-excerpt: "[Codewars #65]  Return Negative (8kyu) 문제 풀이"
+subtitle: "[Codewars #65]  Return Negative (8kyu) 문제 풀이"
 date: 2019-02-09 10:43:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

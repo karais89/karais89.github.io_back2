@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #1] Warmup - Solve Me First"
-excerpt: "HackerRank Warmup Solve Me First 문제 풀이"
+subtitle: "HackerRank Warmup Solve Me First 문제 풀이"
 date: 2017-10-29 01:30:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

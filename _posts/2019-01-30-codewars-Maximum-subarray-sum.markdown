@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #61] Maximum subarray sum (5kyu)"
-excerpt: "[Codewars #61] Maximum subarray sum (5kyu) 문제 풀이"
+subtitle: "[Codewars #61] Maximum subarray sum (5kyu) 문제 풀이"
 date: 2019-01-30 12:57:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

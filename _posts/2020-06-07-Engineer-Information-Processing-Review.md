@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "정보처리기사 2020 필기 후기"
-excerpt: "정보처리기사 2020 필기 후기"
+subtitle: "정보처리기사 2020 필기 후기"
 date: 2020-06-07 13:00:00 +0900
 author: "karais89"
-header-img: "img/post-bg-2015.jpg"
-header-mask: 0.3
+header-style: text
 catalog: true
-tags: [review]
+tags: 
+    - review
 ---
 
 

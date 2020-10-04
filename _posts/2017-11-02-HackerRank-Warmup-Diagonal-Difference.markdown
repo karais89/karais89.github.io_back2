@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #5] Warmup - Diagonal Difference"
-excerpt: "HackerRank Warmup Diagonal Difference 문제 풀이"
+subtitle: "HackerRank Warmup Diagonal Difference 문제 풀이"
 date: 2017-11-02 14:04:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

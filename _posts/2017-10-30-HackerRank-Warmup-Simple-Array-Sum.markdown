@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[HackerRank #2] Warmup - Simple Array Sum"
-excerpt: "HackerRank Warmup Simple Array Sum 문제 풀이"
+subtitle: "HackerRank Warmup Simple Array Sum 문제 풀이"
 date: 2017-10-30 21:47:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

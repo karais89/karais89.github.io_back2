@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Codewars #15] Are they the same? (6kyu)"
-excerpt: "[Codewars #15] Are they the same? (6kyu) 문제 풀이"
+subtitle: "[Codewars #15] Are they the same? (6kyu) 문제 풀이"
 date: 2019-01-06 18:42:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"

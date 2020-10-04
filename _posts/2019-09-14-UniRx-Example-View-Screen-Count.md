@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UniRx를 사용하여 동시에 화면에 비친 객체의 수를 세기"
-excerpt: "UniRx를 사용하여 동시에 화면에 비친 객체의 수를 세기 번역"
+subtitle: "UniRx를 사용하여 동시에 화면에 비친 객체의 수를 세기 번역"
 date: 2019-09-14 13:39:00 +0900
 author:     "karais89"
 header-img: "img/post-bg-2015.jpg"
