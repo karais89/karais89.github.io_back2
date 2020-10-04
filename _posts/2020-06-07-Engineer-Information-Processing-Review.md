@@ -9,8 +9,7 @@ header-mask: 0.3
 catalog: true
 tags: [review]
 ---
-* TOC
-{:toc}
+
 
 # 스펙
 

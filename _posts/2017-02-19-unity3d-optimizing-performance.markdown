@@ -8,8 +8,7 @@ header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags: [unity3d]
 ---
-* TOC
-{:toc}
+
 
 # 01. 메모리와 리소스 최적화
 

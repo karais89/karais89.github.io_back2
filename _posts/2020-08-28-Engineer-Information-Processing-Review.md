@@ -8,8 +8,7 @@ catalog: true
 tags: 
     - review
 ---
-* TOC
-{:toc}
+
 
 # 스펙
 

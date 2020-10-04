@@ -8,8 +8,7 @@ header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags: [programming, unity3d]
 ---
-* TOC
-{:toc}
+
 
 
 [김포프님 C# 코딩 스탠다드](https://docs.google.com/document/d/1ymFFTVpR4lFEkUgYNJPRJda_eLKXMB6Ok4gpNWOo4rc/edit#)
