@@ -1,0 +1,15 @@
+---
+layout:     post
+title:      "2020-10-04 TIL"
+date:       2020-10-04 09:23:00
+author:     "karais89"
+header-img: "img/home-bg.jpg"
+header-mask: 0.3
+catalog:    true
+---
+
+https 변경 이후
+
+https://karais89.github.io -> 접속 불가
+http://karais89.github.io -> 접속 가능
+https://lonpeach.com -> 접속 가능
