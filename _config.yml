@@ -12,9 +12,7 @@ baseurl: ""                             # for example, '/blog' if your blog host
 future: true
 
 # SNS settings
-RSS: false
-#weibo_username:     huxpro
-#zhihu_username:     huxpro
+RSS: true
 github_username:    karais89
 twitter_username:   karais89
 #facebook_username:  huxpro
@@ -64,11 +62,6 @@ disqus_username: karais89-github-io
 # Netease settings
 netease_comment: false
 
-
-
-# Analytics settings
-# Baidu Analytics 
-# ba_track_id: [your track id]
 
 # Google Analytics
 ga_track_id: 'UA-59335977-2'            # Format: UA-xxxxxx-xx
