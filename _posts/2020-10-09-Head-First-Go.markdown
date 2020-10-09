@@ -5,6 +5,7 @@ subtitle: "Head First Go를 읽고"
 date: 2020-10-09 10:30:00 +0900
 author: "karais89"
 header-img: "img/post-bg-book.jpg"
+header-mask: 0.4
 catalog: true
 tags: [book]
 ---
