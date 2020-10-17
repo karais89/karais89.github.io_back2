@@ -55,3 +55,120 @@ docker version
 ```
 
 - 도커 내부적으로는 리눅스 VM을 돌린다.
+
+
+# **섹션 2. 기본적인 도커 클라이언트 명령어 알아보기**
+
+## 도커 이미지 내부 파일 구조 보기
+
+기본적인 도커 클라이언트 명령어 알아보기
+
+```docker
+# docker run <imageName>
+docker run hello-world
+```
+
+### 이미지 내부 파일 시스템 구조 보기
+
+```docker
+# 1     2    3    4
+docker run alpine ls
+```
+
+4번째 위치 명령어 → 이미지가 가지고 있는 시작 명령어를 무시하고 여기에 있는 커맨드를 실행한다.
+
+ls 커맨드는 현재 디렉토리의 파일 리스트 표출
+
+alpine 컨테이너에 ls 명령어가 포함되어 있어서 실행 가능함.
+
+## 컨테이너들 나열하기
+
+### 현재 실행중인 컨테이너 나열
+
+```docker
+docker ps
+
+docker run alpine ping localhost
+docker ps
+```
+
+### 원하는 항목만 보기
+
+```docker
+docker ps --format 'table{{.Names}}\ttable{{.Image}}'
+```
+
+### 모든 컨테이너 나열
+
+```docker
+docker ps -a
+```
+
+## 도커 컨테이너의 생명주기
+
+- 생성 → 시작 → 실행 → 중지 → 삭제
+
+```docker
+docker create <이미지 이름>
+docker start <시작할 컨테이너 아이디/이름>
+docker run <이미지 이름>
+docker stop <중지할 컨테이너 아이디/이름>
+docker rm <삭제할 컨테이너 아이디/이름>
+```
+
+- `docker run <이미지 이름>` 명령어는 `docker create <이미지 이름>` + `docker start <시작할 컨테이너 아이디/이름>`과 같다.
+
+```docker
+docker create hello-world # 명렁어 임력 후 해시값 나옴.
+docker start -a <컨테이너 아이디/이름> # 아이디 = 해시값 입력
+```
+
+- a = attach
+
+## Docker Stop vs Docker Kill
+
+```docker
+docker stop <중지할 컨테이너 아이디/이름>
+docker kill <중지할 컨테이너 아이디/이름>
+```
+
+```docker
+docker run alpine ping localhost
+docker ps # 아이디 알아내기
+docker stop <컨테이너 아이디/이름>
+# or
+docker kill <컨테이너 아이디/이름>
+```
+
+> stop은 Gracefully하게 중지를 시킨다. 자비롭게 그동안 하던 작업들을 (메시지를 보내고 있었다면 보내고 있던 메시지) 완료하고 컨테이너를 중지 시킨다.
+
+> Kill은 Stop과 달리 어떠한 것도 기다리지 않고 바로 컨테이너를 중지 시킨다.
+
+## 컨테이너 삭제하기
+
+```docker
+docker rm <삭제할 컨테이너 아이디/이름>
+```
+
+- 실행중인 컨테이너는 먼저 중지한 후에 삭제 가능.
+
+### 모든 컨테이너 삭제
+
+```docker
+docker rm $(docker ps -a -q)
+```
+
+### 이미지 삭제
+
+```docker
+docker rmi <이미지id>
+```
+
+### 한번에 컨테이너, 이미지, 네트워크 모두 삭제하고 싶다면
+
+```docker
+docker system prune
+```
+
+- 도커를 쓰지 않을때 모두 정리하고 싶을때 사용해주면 좋음
+- 하지만 이것도 실행중인 컨테이너에는 영향을 주지 않음
