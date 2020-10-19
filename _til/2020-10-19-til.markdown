@@ -1,0 +1,154 @@
+---
+layout: post
+title: "2020-10-19"
+author: "karais89"
+header-style: text
+---
+
+인프런에서 결제한 도커 강의 학습 및 내용 정리 진행.
+이전에 도커에 대해 몇개의 강의 및 책을 학습한 적은 있어 대략적인 방식만 알고 있는 상태에서, 실제 개발에 적용 가능한지 확인을 위해 학습 중.
+
+
+# **섹션 4. 도커를 이용한 간단한 Node.js 어플 만들기**
+
+## 섹션 설명
+
+nodejs를 도커 환경에서 실행. 굉장히 간단한 앱을 만들 예정.
+
+앱의 기능은 간단히. 도커의 활용에 초점을 맞춤
+
+Dockerfile을 만드는 법을 중점적으로 볼 예정
+
+### 순서
+
+nodjs 앱 만들기 → 도커 이미지 생성후 컨테이너 실행
+
+## Node.js 앱 만들기
+
+npm init 명령어를 사용하려면 nodejs 컴퓨터에 설치
+
+- [https://nodejs.org/en/](https://nodejs.org/en/)
+
+### Node.js 앱 만들기 순서
+
+- package.json
+    - 프로젝트 정보와 프로젝트에서 사용 중인 패키지의 의존성을 관리
+- server.js
+    - 시작점으로서 가장먼저 시작되는 파일
+
+### package.json 만들기
+
+- npm init 실행
+- 엔터, 엔터, 엔터, 엔터
+- package.json 생성 됨
+
+```docker
+{
+  "name": "nodejs-docker-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+		"start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+
+- express 라이브러리 사용할 예정 생성된 package.json에 추가
+- scripts에 start 생성
+- server.js 생성
+
+```jsx
+const express = require('express')
+
+// Constants
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
+// App
+const app = express();
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.listen(PORT, HOST)
+console.log(`Running on http://${HOST}:${PORT}`);
+```
+
+## Dockerfile 작성하기
+
+순서
+
+1. 이미지 생성
+2. 컨테이너 실행
+3. 컨테이너 안에서 nodejs 앱 실행
+
+이미지 생성을 위한 도커 파일 작성
+
+이번에 만들 Dockerfile은 이전에 만든 것 보다는 복잡함
+
+우선 기본 뼈대
+
+```docker
+FROM node:10
+
+RUN npm install
+
+CMD ["node", "server.js"]
+```
+
+- node:10을 사용하는 이유 num 커맨드 사용을 위해 npm이 들어있는 베이스 이미지
+- npm install 은 package.json에 적혀있는 종속성을 웹에서 자동 다운로드 함.
+
+```docker
+docker build ./
+```
+
+- 하면 에러가 나온다고하지만 안나옴
+
+## Package.json 파일이 없다고 나오는 이유
+
+해결하는 방법
+
+- COPY라는 명령어를 이용해 에러를 없앨 예정
+
+> pakcage.json은 컨테이너 안에 없고 밖에 있다. server.js도 없음
+
+```docker
+# COPY <현재위치> <컨테이너위치>
+COPY package.json ./
+```
+
+- COPY 명령어로 package.json을 컨테이너 안에 집어넣자.
+
+```docker
+FROM node:10
+
+COPY package.json ./
+
+RUN npm install
+
+CMD ["node", "server.js"]
+```
+
+- 전체 파일 복사 필요 (아래 처럼 실행)
+
+```docker
+FROM node:10
+
+COPY ./ ./
+
+RUN npm install
+
+CMD ["node", "server.js"]
+```
+
+> 소스 수정시 다시 이미지 빌드해야 됨.
+
+에러 → [localhost:8080](http://localhost:8080) 접속. 하지만 접속되지 않음 이 이유는 다음 강의에
