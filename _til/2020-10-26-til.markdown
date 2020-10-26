@@ -1,0 +1,290 @@
+---
+layout: post
+title: "2020-10-26"
+author: "karais89"
+header-style: text
+---
+
+인프런에서 결제한 도커 강의 학습 및 내용 정리 진행.
+이전에 도커에 대해 몇개의 강의 및 책을 학습한 적은 있어 대략적인 방식만 알고 있는 상태에서, 실제 개발에 적용 가능한지 확인을 위해 학습 중.
+
+# **섹션 6. 간단한 어플을 실제로 배포해보기(개발 환경 부분)**
+
+## 섹션설명
+
+실무에 가까운 개발
+
+단일 컨테이너 어플리케이션 (6,7)
+
+- 개발환경에서 리액트앱 개발
+- 리액트앱 테스트 & 배포
+
+멀티 컨테이너 어플리케이션 (8,9)
+
+- 리액트 & 노드 & 데이터베이스 앱 개발
+- 리액트 & 노드 & 데이터베이스 앱 테스트 & 배포
+
+## 리액트 앱 설치하기
+
+노드를 다운 받아야 됨.
+
+- node -v 로 체크 가능
+
+리액트 설치 명령어
+
+```bash
+npx create-react-app ./
+```
+
+- 현재 디렉터리에 리액트 설치
+
+리액트 실행 및 테스트 등 사용 방법
+
+```bash
+# 실행
+npm run start 
+# 테스트
+npm run test
+# 배포
+npm run build
+```
+
+## 도커를 이용하여 리액트 앱 실행하기
+
+도커를 이용하여 리액트 실행
+
+1. 도커 이미지 생성
+    - Dockerfile 작성
+2. 이미지를 이용해 컨테이너 생성
+
+> Dockerfile을 여러개 만들 수 있다. (개발, 운영 환경)
+
+Dockerfile.dev라는 파일을 만들 예정.
+
+```docker
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY ./ ./
+
+CMD ["npm", "run", "start"]
+```
+
+```docker
+docker build ./
+docker build ./ -f Dockerfile.dev
+```
+
+- Dockerfile이 없다. f 옵션을 줘서 Dockerfile을 명시함.
+
+### 한가지 팁
+
+- node-modules 폴더가 있다.
+- 도커 환경에서 실행시 굳이 로컬에는 node-modules가 필요없다.
+- node-modules를 copy 한다. copy를 할 필요가 없다.
+- 로컬에서 node-modules 폴더를 지워주자.
+
+## 생성된 도커 이미지로 리액트 앱 실행해보기
+
+```docker
+# 생성
+docker build ./ -f Dockerfile.dev -t karais89/docker-react-app
+# 실행
+docker run karais89/docker-react-app
+```
+
+- 리액트는 기본적으로 3000번 포트에서 실행 됨.
+- localhost:3000번 접속을 시도해도 접속이 되지 않음.
+- 이유는 포트 매핑을 하지 않았기 때문.
+
+```docker
+docker run -p 3000:3000 -it karais89/docker-react-app
+```
+
+- i: 상호 입출력
+- t: tty를 활성화하여 bash쉘을 사용
+
+## 도커 볼륨을 이용한 소스 코드 변경
+
+소스를 변경했을때 다시 이미지를 빌드하지 않아도 변경된 소스로 변경할 수 있도록 볼륨사용.
+
+볼륨은 도커 컨테이너에서 로컬에 있는 파일들을 매핑하고 참조 시킨다.
+
+### Volume 사용해서 애플리케이션 실행
+
+```docker
+docker run -p 3000:3000 -v /usr/src/app/node_modules -v $(pwd):/usr/src/app <이미지 아이디>
+```
+
+이전에 복습한 내용임.
+
+윈도우 도커에서는 소스를 변경해도 반영이 되지 않음
+
+docker run 옵션으로 아래를 추가
+
+```docker
+-e CHOKIDAR_USEPOLLING=true
+```
+
+### 최종실행
+
+```docker
+docker run -p 3000:3000 -it -e CHOKIDAR_USEPOLLING=true -v /usr/src/app/node_modules -v ${pwd}:/usr/src/app  karais89/docker-react-app
+```
+
+## 도커 컴포즈로 좀 더 간단하게 앱 실행해보기
+
+> 이전에 입력했던 명령어는 너무 길다.
+
+너무나 번거롭다. 이러한 불편함을 해결하기 위해 도커 컴포즈로 실행해 보자.
+
+```yaml
+version: "3"
+services:
+    react:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - /usr/src/app/node_modules
+            - ./:/usr/src/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        stdin_open: true
+```
+
+- context: 도커 이미지를 구성하기 위한 파일과 폴더들이 있는 위치
+- stdin_open: 리액트 앱을 끌때 사용(버그수정)
+- environment: CHOKIDAR_USEPOLLING=true을 넣어줘야 소스 코드가 수정되는 것이 핫 리로딩이 제대로 작동함. (윈도우 도커에서만 발생하는 현상)
+
+```docker
+docker-compose up --build
+```
+
+- build 옵션은 이미지가 있든 없든 빌드 (이미지 갱신을 위해 테스트 시에는 그냥 build 옵션을 적용하는게 마음 편할듯)
+
+## 리액트 앱 테스트 하기
+
+보통 리액트 앱을 테스트
+
+```docker
+npm run test
+```
+
+도커를 이용해 테스트 하는 방법
+
+```docker
+docker build -f dockerfile.dev ./
+docker run -it <이미지이름> npm run test
+```
+
+테스트 소스도 변경하면 바로 반영되면 좋을 것 같다.
+
+```yaml
+version: "3"
+services:
+    react:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - /usr/src/app/node_modules
+            - ./:/usr/src/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        stdin_open: true
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /usr/src/app/node_moduels
+            - ./:/usr/src/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        command: ["npm", "run", "test"]
+```
+
+- tests 부분 아래 부터 추가
+
+```yaml
+docker-compose up --build
+```
+
+- 원래는 test 코드 수정시 자동으로 반영 되어야 하는데 반영되지 않음.
+    - environment도 소용 없음
+    - 윈도우 도커 문제로 보임.
+
+## 운영환경을 위한 Nginx
+
+현재 까지는 개발 환경에 초점을 맞추어 다루어 봄.
+
+### Nginx가 필요한 이유?
+
+개발 환경에서는 개발 서버가 있음.
+
+운영 환경에서는 개발 서버가 없어짐. 브라우저가 어떤 요청을 주면 그에 맞게 정적파일을 제공해야 되지만 그러지 못함.
+
+Nginx로 정적 파일을 제공하는 웹서버를 구축.
+
+## 운영환경 도커 이미지를 위한 Dockerfile 작성하기
+
+dockerfile 작성
+
+```docker
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY ./ ./
+
+CMD ["npm", "run", "build"]
+```
+
+- dockerfile.dev 파일과 차이점은 cmd 부분. npm run build를 해줌.
+    - build 폴더를 생성함
+- 이후 Nginx 도커 이미지를 이용해 Nginx 시작
+
+두 단계로 나뉨
+
+1. 빌드파일을 생성하는 단계 (Builder Stage)
+2. Nginx를 가동하고 첫번째 단계에서 생성된 빌드 파일들을 웹 브라우저의 요청에 따라 제공 (Run Stage)
+
+### 최종 Dockerfile
+
+```docker
+FROM node:alpine as builder
+WORKDIR '/usr/src/app'
+COPY package.json ./
+RUN npm install
+COPY ./ ./
+CMD ["npm", "run", "build"]
+
+FROM nginx
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+```
+
+- npm run build 로 생성된 파일들은 /usr/src/app/build에 들어간다.
+    - 애칭은(as) builder이다.
+- nginx를 실행하고 해당 폴더를 nginx 폴더로 copy 한다.
+
+```docker
+docker build ./
+docker run -p 8080:80 <이미지 이름>
+```
+
+- nginx의 기본 포트는 80 포트
+- [http://localhost:8080/](http://localhost:8080/) 로 접속
