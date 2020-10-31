@@ -1,0 +1,62 @@
+---
+layout: post
+title: "2020-10-31"
+author: "karais89"
+header-style: text
+---
+
+인프런에서 결제한 도커 강의 학습 및 내용 정리 진행.
+이전에 도커에 대해 몇개의 강의 및 책을 학습한 적은 있어 대략적인 방식만 알고 있는 상태에서, 실제 개발에 적용 가능한지 확인을 위해 학습 중.
+
+## 실행이 안되서 다시 복습
+
+[https://github.com/jaewonhimnae/docker-codes](https://github.com/jaewonhimnae/docker-codes)
+
+### 로컬 환경 테스트 트러블 슈팅
+
+- db 접속시 설정 mysql → localhost
+- CORS로 인해 제대로 실행되지 않음. express에 cors 모듈 다운 및 url 수정
+
+    ```jsx
+    // express에 추가
+    const cors = require('cors')();   // 통신 수락해주기 : cors
+    app.use(cors);
+
+    // axios 테스트시
+    axios.get('/api/values') -> axios.get('http://localhost:5000/api/values')
+    ```
+
+### 참고
+
+- 우선 host 설정에서 localhost가 아닌 mysql로 설정해야 도커 환경에서 접속 가능한 것 같다. (docker-compose에 명시되어야 됨)
+- react.js의 package.json에 디펜던시에 "axios": "^0.20.0" 추가
+- 도커 파일로 도커 빌드 예시
+
+    ```docker
+    docker build ./
+    docker build ./ -f Dockerfile.dev
+    docker build -t karais89/hello:latest ./
+
+    # 리액트 실행 예
+    docker run -p 3000:3000 <이미지이름>
+    ```
+
+- mysql폴더에 initialize.sql 파일을 만든이유(볼륨설정으로 아래와 같이 세팅해줌)
+
+    ```docker
+    PostgreSQL, MySQL이든 Docker 실행할 때 내부 데이터베이스를 방법은 동일하다. 
+    docker-compose.yml 혹은 Dockerfile 파일에 미리 해당 데이터베이스를 정의하고, 
+    docker-entrypoint-initdb.d에 SQL 스크립트 파일을 추가하면 Docker 이미지 실행 시 자동으로 
+    해당 SQL 스크립트를 읽어서 데이터베이스 세팅이 진행된다.
+
+    # ex
+    #   volumes:
+    #     - ./mysql/mysql_data:/var/lib/mysql
+    #     - ./mysql/sqls/:/docker-entrypoint-initdb.d/
+    ```
+
+- docker-compose 빌드
+
+    ```docker
+    docker-compose up --build
+    ```
