@@ -1,0 +1,311 @@
+---
+layout: post
+title: "2020-11-01"
+author: "karais89"
+header-style: text
+---
+
+인프런에서 결제한 도커 강의 학습 및 내용 정리 진행. 완료
+Travis Ci 및 AWS를 사용해야 구성할 수 있음. 실제 이런식으로 혼자서 구현 가능할까?
+설정하는게 있다 보니, 정리를 하지 않으면 구성하기 좀 힘들 수도 있을 것으로 보인다.
+
+# **섹션 9. 복잡한 어플을 실제로 배포해보기(테스트 & 배포 부분)**
+
+## 섹션설명
+
+할일 (8강에서 작성한 소스코드로) 
+
+1. 깃헙에 push
+2. Travis CI
+3. Docker Hub
+4. AWS ElasticBeanStalk
+
+CI로 빌드한 것을 Docker Hub에 전달. 이것을 AWS에서 가져가려고 할때 전달.
+
+## 도커 환경의 MYSQL부분 정리하기
+
+MySQL이 운영환경에서는 AWS RDS로 돌릴 예정.
+
+## Github에 소스 코드 올리기
+
+- docker-fullstack-app 저장소 생성 및 리모트 연결 후 푸시
+
+## Travis CI Steps
+
+1. 깃헙에 코드 push
+2. Travis CI가 자동으로 코드를 가져옴
+3. 가져온 코드로 테스트 코드 실행
+4. 성공하면 운영 환경 이미지들을 빌드한다.
+5. 빌드된 이미즈들을 Docker Hub로 보낸다
+6. AWS EB에 DockerHub에 이미지를 보냈다고 알림
+7. AWS EB에서 DockerHub에 있는 이미지를 가져온 후에 배포한다.
+
+[https://travis-ci.com/](https://travis-ci.com/)
+
+## .travis.yml 파일 작성하기
+
+1. 파일생성
+2. Test를 수행하기 위한 준비
+3. Test를 수행하기
+4. 모든 프로젝트의 운영버전 이미지를 빌드하기
+5. 빌드된 이미지를 도커허브에 보내주기
+6. 배포하기
+
+```yaml
+langauge: generic # 언어(플랫폼) 선택
+
+sudo: required # 관리자 권한
+
+services: # 도커 환경 구성
+    - docker
+
+# dev 환경
+before_install:
+    - docker build -t karais89/react-test-app -f ./frontend/Dockerfile.dev ./frontend
+
+script:
+    - docker run -e CI=true karais89/react-test-app npm run test
+
+# 운영환경
+after_success:
+    - docker build -t karais89/docker-frontend ./frontend # 각각의 이미지 빌드
+    - docker build -t karais89/docker-backend ./backend
+    - docker build -t karais89/docker-nginx ./nginx
+
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" -- password-stdin # 도커 허브에 로그인
+
+    - docker push karais89/docker-frontend # 빌드된 이미지를 도커 허브에 푸시
+    - docker push karais89/docker-backend
+    - docker push karais89/docker-nginx
+```
+
+## Dockerrun.aws.json에 대해서
+
+> Dockerrun.aws.json을 써야 ElastickBenstalk에서 이 앱을 작동시킬 수 있다.
+
+Full Stack App에서는 도커 파일이 여러개 존재 (컨테이너 별로) 어떻게 처리할지 알 수 없다.
+
+Dockerrun.aws.json에서 그 설정을 가이드 해준다.
+
+- [https://docs.aws.amazon.com/ko_kr/elasticbeanstalk/latest/dg/create_deploy_docker_v2config.html](https://docs.aws.amazon.com/ko_kr/elasticbeanstalk/latest/dg/create_deploy_docker_v2config.html)
+
+## Dockerrun.aws.json 파일 작성하기
+
+직접 해보면서 알아보는 시간
+
+Container Definition 작성
+
+```json
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "frontend",
+            "image": "karais89/docker-frontend",
+            "hostname": "frontend",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "backend",
+            "image": "karais89/docker-backend",
+            "hostname": "backend",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "nginx",
+            "image": "karais89/docker-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["frontend", "backend"],
+            "memory": 128
+        }
+    ]
+}
+```
+
+- containerDefinitions 컨테이너 정의
+- 객체 하나가 하나의 컨테이너 정의
+- name: 컨테이너 이름
+- image: 도커 이미지 이름
+- hostname: 호스트 이름 (도커 컴포즈를 이용해 생성된 다른 컨테이너에 접근)
+- essential: 실패시 작업 중지 필요시 true
+- memory: 인스턴스에 있는 메모리양
+- links: 연결할 컨테이너의 목록
+
+## 다중 컨테이너 앱을 위한 Elastic beanstalk 환경 생성
+
+[https://ap-northeast-2.console.aws.amazon.com/elasticbeanstalk/home?region=ap-northeast-2#/welcome](https://ap-northeast-2.console.aws.amazon.com/elasticbeanstalk/home?region=ap-northeast-2#/welcome)
+
+1. Create Application 버튼 클릭
+2. 앱 이름 정의
+3. 플랫폼 선택
+4. 코드 선택
+5.  Create Application 버튼 눌러서 생성
+
+## VPC(virtual private cloud)와 Security Group 설정하기
+
+### VPC와 Security Group 설정 이유?
+
+현재 데이터베이스를 위해 별다른 설정을 하지 않음.
+
+AWS RDS와 연결하기 위해 설정을 해줘야 함. 기본적으로 연결되어 있지 않기 때문에 통신을 하게 만들어 줘야 함.
+
+### VPC란?
+
+EB, EC2, RDS등 인스턴스들을 나의 아이디에서만 접근할 수 있도록 논리적으로 격리된 네트워크에서 생성가능하게 한다.
+
+### 현재 상황
+
+EB 인스턴스, RDS가 있음. 통신할수 없는 상황
+
+저희는 생성하지 않았지만 EB 인스턴스 생성시 자동 생성 됨
+
+vpc 검색
+
+### Security Group (방화벽)
+
+- InBound
+    - 외부에서 요청을 보내는 트래픽
+- OutBound
+    - 외부로 나가는 트래픽
+
+방화벽이 InBound, OutBound 통제
+
+> 답은 같은 VPC안에 있는 AWS 서비스간에는 트래픽을 모두 허용할수 있게 한다.
+
+## MYSQL을 위한 AWS RDS 생성하기
+
+- rds 검색후 생성.
+- docker-compose.yml 수정
+
+    ```yaml
+    backend:
+        build: 
+          dockerfile: Dockerfile.dev
+          context: ./backend
+        container_name: app_backend
+        volumes:
+          - /app/node_modules
+          - ./backend:/app
+        environment:
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: 12345678
+          MYSQL_DATABASE: myapp
+          MYSQL_PORT: 3306
+    ```
+
+- db.js 수정
+
+    ```jsx
+    const mysql = require("mysql");
+    const pool = mysql.createPool({
+        connectionLimit: 10,
+        host: process.env.MYSQL_HOST,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DATABASE,
+        port: process.env.MYSQL_PORT
+    });
+    exports.pool = pool;
+    ```
+
+## Security Group 생성하기
+
+- 같은 VPC에서 오는 트래픽은 모두 허용
+- VPC 검색
+- 보안 그룹 클릭
+- 보안 그룹 생성
+
+## Security Group 적용하기
+
+- rds  검색 후 보안그룹 추가
+- eb 검색 후 보안그룹 추가
+
+## **EB와 RDS 소통을 위한 환경 변수 설정하기**
+
+- EB 검색
+- 환경 클릭
+- 구성 클릭
+- 소프트웨어 환경 속성
+
+EB에 있는 컨테이너들이 mysql 인스턴스와 소통할때 환경변수 부분을 인식하지 못함.
+
+## travis.yml 파일 작성하기 (배포 부분)
+
+- 배포 부분
+
+```yaml
+langauge: generic # 언어(플랫폼) 선택
+
+sudo: required # 관리자 권한
+
+services: # 도커 환경 구성
+    - docker
+
+# dev 환경
+before_install:
+    - docker build -t karais89/react-test-app -f ./frontend/Dockerfile.dev ./frontend
+
+script:
+    - docker run -e CI=true karais89/react-test-app npm run test
+
+# 운영환경
+after_success:
+    - docker build -t karais89/docker-frontend ./frontend # 각각의 이미지 빌드
+    - docker build -t karais89/docker-backend ./backend
+    - docker build -t karais89/docker-nginx ./nginx
+
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin # 도커 허브에 로그인
+
+    - docker push karais89/docker-frontend # 빌드된 이미지를 도커 허브에 푸시
+    - docker push karais89/docker-backend
+    - docker push karais89/docker-nginx
+
+deploy:
+    provider: elasticbeanstalk
+    region: "ap-northeast-2"
+    app: "docker-fullstack-app"
+    env: "DockerFullstackApp-env"
+    bucket_name: elasticbeanstalk-ap-northeast-2-617906674571
+    bucket_path: "docker-fullstack-app"
+    on:
+        branch: master
+```
+
+## **Travis CI의 AWS 접근을 위한 API key 생성**
+
+Travis CI와 AWS가 실제로 통신할 수 있게 인증해야 됨
+
+AWS에서 제공해주는 Secret Key를 Travis.yml 파일에다가 적어주면 된다.
+
+### API Key 받기
+
+- IAM User 생성
+- ElasticBeanStalkFullAccess 선택후 사용자 만들기
+- apikey, secretkey 받고, [travis.com](http://travis.com) 설정에서 env에 설정
+- .travis.yml 수정
+
+```yaml
+		access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+```
+
+> 클라우드 환경이 대세가 되면서 어느 곳을 가도 aws에 어느정도 지식이 필요하다.
+
+### 전부 완료후 제거 하기.
+
+- eb 제거
+    - 환경 제거, 애플리케이션 제거
+- s3 제거
+- rds 제거
+- iam 제거
+- vpc 제거
