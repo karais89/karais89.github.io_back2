@@ -10,7 +10,7 @@ catalog: true
 tags: [unirx, unity3d]
 ---
 
-# 개요
+## 개요
 
 > 유니티로 게임을 개발시 좀 더 구조화된 방법으로 개발하고 싶다.
 
@@ -20,7 +20,7 @@ tags: [unirx, unity3d]
 
 MVC에서 파생되는 다양한 패턴들 MVP, MVVM은 결국 위와 같이 역할의 분리에 초점을 맞추고 있다고 보면 되고, 세부적인 내용이 조금 다르다고 이해해도 크게 무리가 없다고 생각한다.
 
-# 유니티에서의 패턴
+## 유니티에서의 패턴
 
 MVC, MVP, MVVM 중 유니티에 알맞는 패턴?
 
@@ -30,7 +30,7 @@ MVVM은 개인적으로는 너무 복잡해지는 경향이 있는 것 같아 �
 
 결국 MVC나 MVP 중에 선택을 해야 되는 문제이고, 유니티에서는 MVP가 더 적합하다는 판단이 들어 MVP를 선택하기로 함. (유니티에서는 일반적으로 UI를 표현하는 컴포넌트들이 화면을 직접 그리는 역할과 액션 처리를 함께 담당한다. 이러한 특징으로 MVC패턴을 사용하여 화면을 그리는 View와 액션을 처리하는 Controller을 완전히 분리하기 어렵게 된다)
 
-# MVP 패턴이란?
+## MVP 패턴이란?
 
 MVP 패턴에 대한 자료를 찾아보면, 정확한 정의는 없고, 대략적인 공통점들은 있다.
 
@@ -40,16 +40,16 @@ MVP 패턴에 대한 자료를 찾아보면, 정확한 정의는 없고, 대략�
 
 > Model - View - Presneter
 
-## Model
+### Model
 
 - Data와 관련된 모든 처리를 담당한다. 비즈니스 로직 처리.
     - 비즈니스 로직은 컴퓨터 프로그램에서 실세계의 규칙에 따라 데이터를 생성·표시·저장·변경하는 부분을 일컫는다.
 
-## View
+### View
 
 - 사용자에게 보여지는 UI 부분 (유니티에서는 모든 렌더링 되는 Object)
 
-## Presenter
+### Presenter
 
 - View에서 요청한 정보(User actions)로 Model을 가공하여(Update model) 변경된 Model정보를 받아(Model changed) View에게 전달(Update UI)해주는 부분
 - 접착제 역할
@@ -67,7 +67,7 @@ MVP 패턴에 대한 자료를 찾아보면, 정확한 정의는 없고, 대략�
 
 → 직접 조작하지만 않으면 알고 있지 않은 것 (이벤트 방식, SendMessage 등)
 
-# MV(R)P
+## MV(R)P
 
 [UniRx](https://github.com/neuecc/UniRx) 플러그인을 사용하면 유니티에서 MVP 패턴을 좀 더 쉽게 구현할 수 있다. (MVP 패턴에서 구현해야 되는 이벤트 기반 코드들을 더 쉽게 사용) 2020년 10월 9일 기준 v7.10(19년 7월 1일) 까지 나와 있는 상태이고, 원래는 Reactive Programming을 유니티에서 쉽게 사용 하기 위해 만들어진 플러그인이다.
 
@@ -147,7 +147,7 @@ eventTrigger.OnBeginDragAsObservable()
     .Subscribe(x => Debug.Log(x));
 ```
 
-# 설계 방향
+## 설계 방향
 
 - MVP 패턴을 보면서 헷갈리거나 정립되지 않는 부분은 과감히 내 방식으로 정립하고, 구현 후 문제점 발생시 개선하는 방향으로 진행.
 - 완전히 디자인 패턴을 따르지는 않을 예정 (클린 코드가 되는 대신 생산성이 저하되는 부분은 과감히 생산성을 따르는 방향)
@@ -160,7 +160,7 @@ eventTrigger.OnBeginDragAsObservable()
 - 그리고 Model의 구현시 거의 모든 역할을 Model에서 한다고 생각하면 될것으로 보임 (Presenter은 Model의 메서드를 호출하는 정도의 역할)
     - 보통의 예제에서는 간단한 메서드 구현 정도는 Presenter에서 해주는 부분도 있지만,  Model이 전부 해주는게 더 일반적인 구조인것으로 보임.
 
-# 결론
+## 결론
 
 - MV(R)P를 사용한 설계 진행
 - MV(R)P 아키텍처에 대해 다양한 자료 조사를 진행하였음. Github에서 UniRx 개발자가 예시로든 방법이 가장 깔끔하고, 생산성 있게 구조화 할 수 있는 방법으로 판단 되었음.
@@ -171,7 +171,7 @@ eventTrigger.OnBeginDragAsObservable()
     - MV(R)P는 UI에만 적용하는게 더 좋겠다라고 생각한 부분
 - View의 경우 복잡해지는 경우 커스텀 View를 만드는 방식으로 해결 가능.
 
-# 참고
+## 참고
 
 - [MVC 패턴 위키백과](https://ko.wikipedia.org/wiki/%EB%AA%A8%EB%8D%B8-%EB%B7%B0-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC)
 - [UniRx 공식 문서의 MV(R)P](https://github.com/neuecc/UniRx#model-view-reactivepresenter-pattern)
