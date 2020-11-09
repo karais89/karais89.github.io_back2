@@ -4,7 +4,7 @@ title: "MV(R)P 설계에 대한 생각"
 subtitle: "MV(R)P 설계에 대한 생각"
 date: 2020-11-09 13:47:00 +0900
 author: "karais89"
-header-img: "img/post-bg-reactive.png"
+header-img: "img/post-bg-reactive.jpg"
 header-mask: 0.4
 catalog: true
 tags: [unirx, unity3d]
