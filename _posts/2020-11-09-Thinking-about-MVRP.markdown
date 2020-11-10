@@ -79,7 +79,7 @@ MVVM 대신 MVP를 사용해야하는 이유?
 
 유니티는 UI 바인딩을 제공하지 않으며, 바인딩 레이어를 만드는 것은 복잡하며, 오버헤드가 크다. 
 
-MVP 패턴을 사요 Presenter는 View의 구성요소를 알고 있으며 업데이트 할 수 있다. 실제 바인딩을 하지 않지만, View를 구독(Observable)하여 바인딩 하는 것과 유사하게 동작하게 할 수 있다. (복잡하지 않고, 오버 헤드도 적게)
+MVP 패턴을 사용하는 Presenter는 View의 구성요소를 알고 있으며 업데이트 할 수 있다. 실제 바인딩을 하지 않지만, View를 구독(Observable)하여 바인딩 하는 것과 유사하게 동작하게 할 수 있다. (복잡하지 않고, 오버 헤드도 적게 사용 가능)
 
 이 패턴을 Reactive Presenter라고 한다.
 
@@ -110,7 +110,7 @@ public class ReactivePresenter : MonoBehaviour
     }
 }
 
-// Model. 모든 프로퍼티는 값의 변경을 알려 준다.
+// Model. 모든 프로퍼티는 값의 변경을 알려 준다. (ReactiveProperty)
 public class Enemy
 {
     public ReactiveProperty<long> CurrentHp { get; private set; }
@@ -128,13 +128,13 @@ public class Enemy
 
 View는 하나의 Scene이며, Unity의 hierarchy이다. (하나의 개체 혹은 객체?)
 
-View는 초기화시 Unity 엔진에 의해 Presenter와 연결됩니다.
+View는 초기화시 Unity 엔진에 의해 Presenter와 연결된다.
 
 XxxAsObservable 메서드를 사용하면 오버 헤드없이 이벤트 신호를 간단하게 생성 할 수 있습니다. SubscribeToText 및 SubscribeToInteractable은 간단한 바인딩 처럼 사용할 수 있게 하는 helper 클래스 입니다. 이것은 단순한 도구 일 수 있지만 매우 강력합니다. Unity 환경에서 자연스럽게 느껴지며 고성능과 깨끗한 아키텍처를 제공합니다.
 
 ![MV(R)P](/img/in-post/unity3d/2020-11-09-3.png)
 
-- V-> RP-> M-> RP-> V가 반응적으로 완전히 연결되었습니다.
+- V-> RP-> M-> RP-> V가 완전히 Reactive(반응적인)한 방법으로 연결되었다.
 
 - GUI 프로그래밍은 ObservableTrigger의 이점도 제공합니다. ObservableTrigger는 Unity 이벤트를 Observable로 변환하므로이를 사용하여 MV(R)P 패턴을 구성 할 수 있습니다. 예를 들어 ObservableEventTrigger는 uGUI 이벤트를 Observable로 변환합니다.
 
@@ -157,7 +157,7 @@ eventTrigger.OnBeginDragAsObservable()
 - Presenter는 각 팝업, 각 오브젝트 별로 존재한다. (컴포넌트 개념으로 생각)
     - 팝업의 아이템이 존재한다면 그 아이템도 각각의 Presenter가 존재. 구조가 복잡하지 않는다면 없어도 무방.
 - 간단한 예제에서는 항상 View-Presenter-Model은 1개씩 존재 했기 때문에, 각 Presetenr 1개에 2개이상의 view와 model이 존재해도 문제 없는지에 대한 고민을 함.
-- 그리고 Model의 구현시 거의 모든 역할을 Model에서 한다고 생각하면 될것으로 보임 (Presenter은 Model의 메서드를 호출하는 정도의 역할)
+- 그리고 Model의 구현시 거의 모든 역할을 Model에서 한다고 생각하면 될것으로 보임 (Presenter는 Model의 메서드를 호출하는 정도의 역할)
     - 보통의 예제에서는 간단한 메서드 구현 정도는 Presenter에서 해주는 부분도 있지만,  Model이 전부 해주는게 더 일반적인 구조인것으로 보임.
 
 ## 결론
