@@ -1,0 +1,185 @@
+---
+layout: post
+title: "2021-01-07"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+# 5. 파이썬 설치 및 개발 환경설정(1) - 파이썬, 아나콘다, Git 설치
+
+- 중요한 파트
+- 파이썬 & 아나콘다 설치
+    - [https://www.anaconda.com/download](https://www.anaconda.com/download)
+- Git 설치
+    - [https://git-scm.com/](https://git-scm.com/)
+- 아나콘다
+    - 아나콘다를 설치하면 파이썬도 설치된다 정도로 이해
+    - 통합 관리 도구
+- CMD
+    - git 입력
+- anaconda prompt 실행
+    - python 입력
+- 혹은 anaconda 주피터 노트북 실행
+    - 주피터 정말 좋음
+    - 명령어 입력후 알트 엔터
+
+# 6. 파이썬 설치 개발 환경 설정(2) - Atom 에디터 & Plug-in 설치 및 설명
+
+- 아톰 에디터를 사용할 예정
+    - 강사 개인적으로 많이 사용함
+    - 개인적으론 비쥬얼 스튜디오 코드나 파이참이 좋은듯.
+- 아톰 설치
+    - [https://atom.io/](https://atom.io/)
+- 관련 패키지 설치
+    - autocomplete-python
+    - Script
+- 설치 완료 테스트
+    - 아톰 에디터 실행
+    - 패키지 설치
+    - 테스트 코드 작성
+    - 실행 후 결과 확인
+- 아톰실행
+    - 파일 - 세팅 - 인스톨
+        - autocomplete-python
+        - Script
+    - 인스톨 완료 후 패키지에서 설치된 패키지 확인 가능
+        - 인스톨 후 제목을 클릭하면 레퍼런스 사이트로 가지는데 한번 확인하면 좋음
+
+
+        ![패키지 확인](/img/in-post/til/2021-01-07-1.jpg)
+
+- Script 사용 방법. 보통 Settings를 클릭하면 볼 수 있음
+
+    ![Script 사용법](/img/in-post/til/2021-01-07-2.jpg)
+
+    - 파일 저장 후 ctrl + shift + b 누르면 실행됨
+- cmd열고 atom 을 쳐도 아톰 에디터가 실행됨
+
+# 7. 아나콘다 간단하게 배우기
+
+## 아나콘다
+
+- 파이썬 기반의 데이터 분석에 필요한 오픈 소스를 모아놓은 개발 플랫폼
+    - 데이터 분석, 수학, 통계, 웹앱 등
+    - 미니콘다도 존재
+- 패키지 관리자 제공
+    - 파이썬 효율성을 극대화해서 사용 가능
+    - 필요한 모듈
+- 가상환경 관리자
+    - 프로젝트 효율적 관리
+
+## 가상환경
+
+- 중요
+- 프로젝트A, 프로젝트B에서 똑같은 패키지를 사용해도 버전이 다를 수 있다.
+- 한 컴퓨터에서 작업하면 꼬일 확률이 높다.
+- 환경 설정에 대해서는 피곤하게 하는 확률이 높다.
+- OS위에 여러개의 파이썬 버전, 각 패키지등을 가상환경에서 제어.
+- 각각의 프로젝트를 독립적으로 구성.
+- 관리 용이, 배포 용이, 충돌 문제 최소화
+
+## 아나콘다 프롬프트 실행
+
+```bash
+conda --version
+conda update conda
+conda list
+conda info --envs
+```
+
+### 가상환경 설정
+
+```bash
+# 뒤에는 설치할 패키지들 나열
+conda create --name test1
+conda create --name test1 python=3.6
+conda create --name test1 python=3.6 simplejson
+```
+
+### 가상환경 실행
+
+```bash
+conda activate test1
+conda deactivate
+```
+
+### 필요한것들 설치/제거
+
+```bash
+conda list
+pip install simplejson
+conda list
+pip uninstall simplejson
+
+# 무시하고 설치
+pip install --ignore-installed simplejson
+```
+
+### 가상환경 제거
+
+```bash
+conda remove --name test1 --all
+activate base
+```
+
+## 아나콘다 제공하는 툴 실습
+
+```bash
+conda create --name test1 python=3.5
+conda create --name test2 python=3.6
+conda info --envs
+
+# 유용한 명령어 - 캐시 제거
+conda clean --all
+```
+
+### 아나콘다 네비게이터 실행
+
+- GUI 환경으로 확인 가능
+
+    ![gui 환경](/img/in-post/til/2021-01-07-3.jpg)
+
+- 홈에 스파이더, 주키퍼 툴들이 있음
+
+    ![gui 환경](/img/in-post/til/2021-01-07-4.jpg)
+
+    - 스파이더는 강력한 IDE툴
+
+# 파이썬 설치 및 개발 환경 설정(3) - 테스트 코드 작성
+
+가상환경 만들기
+
+```bash
+conda info --envs
+conda create --name section2 python=3.5
+conda activate section2
+atom
+```
+
+에디터 실행
+
+프로젝트 폴더 생성
+
+- section2 폴더 생성
+
+테스트 코드 작성 & 실행
+
+```python
+from tkinter import *
+
+def printHello():
+    print('Hi')
+
+root = Tk()
+
+w = Label(root, text="Python Test")
+b = Button(root, text="Hello Python", command=printHello)
+c = Button(root, text="Quit", command=root.quit)
+
+w.pack()
+b.pack()
+c.pack()
+
+root.mainloop()
+```
