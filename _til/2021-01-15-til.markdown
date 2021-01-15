@@ -1,0 +1,538 @@
+---
+layout: post
+title: "2021-01-15"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 8. 파이썬 설치 및 개발 환경 설정(3) - 테스트 코드 작성
+
+가상환경 만들기
+
+```bash
+conda info --envs
+conda create --name section2 python=3.5
+conda activate section2
+atom
+```
+
+에디터 실행
+
+프로젝트 폴더 생성
+
+- section2 폴더 생성
+
+테스트 코드 작성 & 실행
+
+```python
+from tkinter import *
+
+def printHello():
+    print('Hi')
+
+root = Tk()
+
+w = Label(root, text="Python Test")
+b = Button(root, text="Hello Python", command=printHello)
+c = Button(root, text="Quit", command=root.quit)
+
+w.pack()
+b.pack()
+c.pack()
+
+root.mainloop()
+```
+
+# 9. 윈도우 환경에서 환경 설정 안될 경우 해결 방법
+
+- 문제는 사용자의 계정명이 영문일경우  문제가 전혀 없음. 한글일 경우 문제 발생
+
+# 10. 강의를 더 쉽게 학습할 수 있는 선행 학습 추천
+
+- [Python: 초절정 파이썬 강좌(인프런(생활코딩), 무료)](https://www.inflearn.com/course/%EC%B4%88%EC%A0%88%EC%A0%95-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%95%EC%A2%8C-python#)
+- [CSS: CSS 기본부터 활용까지(인프런(생활코딩), 무료)](https://www.inflearn.com/course/css-%EA%B8%B0%EB%B3%B8%EB%B6%80%ED%84%B0-%ED%99%9C%EC%9A%A9%EA%B9%8C%EC%A7%80#)
+- [HTML: 기본을 확실히! HTML의 모든 것(인프런(생활코딩), 무료)](https://www.inflearn.com/course/html-%EA%B8%B0%EB%B3%B8#)
+- 기타: Windows 및 Mac 운영체제에 대한 이해
+- 강사 블로그
+    - http://niceman.tistory.com
+
+기본 프로그래밍 실력있는 분은 안들어도 됨
+
+# 11. 섹션2 - 강의자료 및 소스코드
+
+# 12. 스크래핑 전 Chrome(크롬) 개발자 도구에서 알아야 할 것들!
+
+크롬 브라우저의 개발자 도구 학습.
+
+- F12, ctrl + shift + i
+
+타겟이 되는 애를 크롤링 할것이다 하면
+
+- 오른쪽 버튼 누르고 copy -copy selector 을 봄
+
+선택자에 대해서는 다음 파싱 강의에 간단히 정리
+
+![크롬 개발자 도구](/img/in-post/til/2021-01-15-1.jpg)
+
+# 13. 파이썬 urlib을 활용한 웹에서 필요한 데이터 추출하기(1)
+
+- 파이썬에서 제공하는 라이브러리를 사용
+- Urlretrieve
+- uriopen
+- [https://wikidocs.net/26](https://wikidocs.net/26)
+- [https://docs.python.org/3/library/urllib.request.html](https://docs.python.org/3/library/urllib.request.html)
+
+### 아나콘다 프롬프트 실행 (실행시 관리자 권한으로 실행)
+
+```python
+activate section2
+atom
+```
+
+### 아톰 에디터에선 한글이 안나와서 아래 구문 반드시 필요
+
+```python
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+```
+
+### 이미지 다운로드
+
+```python
+import sys
+import io
+import urllib.request
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDEwMjlfMjc3%2FMDAxNjAzOTU1NzU0MzU1.p_A9JNYl09FEvmdAGoLK-FtqHmoanxLA3ayDeAoMxnQg.DH9IYPqE3TRVit-W0z3e2uoSoX1WrFSA2Uey0bJkefkg.JPEG.keepblog%2Fpc0040500459.jpg"
+savePath = "c:/test1.jpg"
+
+urllib.request.urlretrieve(imgUrl, savePath)
+
+print("다운로드 완료!")
+```
+
+### html 저장
+
+```python
+import sys
+import io
+import urllib.request as dw
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDEwMjlfMjc3%2FMDAxNjAzOTU1NzU0MzU1.p_A9JNYl09FEvmdAGoLK-FtqHmoanxLA3ayDeAoMxnQg.DH9IYPqE3TRVit-W0z3e2uoSoX1WrFSA2Uey0bJkefkg.JPEG.keepblog%2Fpc0040500459.jpg"
+htmlURL = "http://google.com"
+
+savePath1 = "c:/test1.jpg"
+savePath2 = "c:/index.html"
+
+dw.urlretrieve(imgUrl, savePath1)
+dw.urlretrieve(htmlURL, savePath2)
+
+print("다운로드 완료!")
+```
+
+### 구글: 이미지 탭 (사자 사진)
+
+- 1000장을 다운로드 받고 싶을때?
+- 사람이 하면 너무 오래 걸림.
+- 배운걸 응용하면 한번에 받을 수 있음
+
+### urlopen 사용
+
+```python
+import sys
+import io
+import urllib.request as dw
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDEwMjlfMjc3%2FMDAxNjAzOTU1NzU0MzU1.p_A9JNYl09FEvmdAGoLK-FtqHmoanxLA3ayDeAoMxnQg.DH9IYPqE3TRVit-W0z3e2uoSoX1WrFSA2Uey0bJkefkg.JPEG.keepblog%2Fpc0040500459.jpg"
+htmlURL = "http://google.com"
+
+savePath1 = "c:/test1.jpg"
+savePath2 = "c:/index.html"
+
+f = dw.urlopen(imgUrl).read()
+f2 = dw.urlopen(htmlURL).read()
+
+saveFile1 = open(savePath1, 'wb') # w : write, r : read, a : add
+saveFile1.write(f)
+saveFile1.close()
+
+with open(savePath2, 'wb') as saveFile2:
+    saveFile2.write(f2)
+
+print("다운로드 완료!")
+```
+
+- with의 경우 close가 자동 호출 됨 (c#의 using)
+
+### urlOpen, urlretrieve 차이
+
+- html을 받아서 중간에 필요 데이터를 모아서 저장할때는 urlopen을 쓰는 게 좋음
+    - 변수 할당 → 파싱 → 저장
+- urlretrieve은 다이렉트로 다운로드 받음
+    - 저장 → open → 변수 할당 → 파싱 → 저장
+- 차이점은 명확함
+
+# 14. 파이썬 urllib을 활용한 웹에서 필요한 데이터 추출하기(2)
+
+- urlopen 파라미터 전달 방법
+    - get 방식으로 파라미터 전달
+- type 자료형 알아보기
+    - python dictinaroy
+    - python list
+    - python tuple
+
+```python
+import sys
+import io
+import urllib.request as req
+from urllib.parse import urlparse
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+url = "http://www.encar.com"
+
+mem = req.urlopen(url)
+
+# print(type(mem))
+# print(type({}))
+# print(type([]))
+# print(type(()))
+
+# print("geturl", mem.geturl())
+# print("status", mem.status) # 200, 404, 403, 500
+# print("headers", mem.getheaders())
+# print("info", mem.info())
+# print("code", mem.getcode())
+# print("read", mem.read(50).decode("utf-8")) # euc-kr
+print(urlparse("http://www.encar.com?test=test"))
+```
+
+### get 방식으로 api 사용
+
+```python
+import sys
+import io
+import urllib.request as req
+from urllib.parse import urlencode
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+API = "https://api.ipify.org"
+
+values = {
+    'format': 'json'
+}
+print('before', values)
+params = urlencode(values)
+print('after', params)
+
+url = API + "?" + params
+print("요청 url", url)
+
+reqData = req.urlopen(url).read().decode('utf-8')
+print("출력", reqData)
+```
+
+### 행정안전부 api 가져오기 (위와 동일 값만 변경해서 확인 가능)
+
+```python
+
+API = "https://www.mois.go.kr/gpms/view/jsp/rss/rss.jsp"
+
+values = {
+    'ctxCd': '1001'
+}
+```
+
+과제
+
+- 네이버 홈페이지, 상단, 우측 배너(동영상 광고) 저장해보기
+
+```python
+import sys
+import io
+import urllib.request as dw
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+imgUrl = "https://ssl.pstatic.net/tveta/libs/1319/1319041/ed6569922ea414713bf2_20201230142121604.jpg"
+movieUrl = "https://tvetamovie.pstatic.net/libs/1274/1274962/7d0eca8001c112298efd_20191129185648851.mp4-pBASE-v0-f95905-20191129185731318.mp4"
+
+savePath1 = "c:/test1.jpg"
+savePath2 = "c:/test2.mp4"
+
+dw.urlretrieve(imgUrl, savePath1)
+dw.urlretrieve(movieUrl, savePath2)
+
+print("다운로드 완료!")
+```
+
+- 기존에 만든것 그대로.. 사용
+
+# 15. 파이썬으로 youtube 동영상 다운로드 받고 mp3 변환 자동화하기!
+
+- pytube 라이브러리 사용
+- 동영상 저장 및 mp3 변환
+- 동영상 다운 및 mp3 변환 한 번에 자동화 하기
+- [https://github.com/pytube/pytube](https://github.com/pytube/pytube)
+- [http://filehorse.com/download-ffmpeg-64/](http://filehorse.com/download-ffmpeg-64/)
+
+### cannot import name 'quote' 에러 발생. 파이썬 버전 새로 설치
+
+```python
+conda create --name youtube python=3.8
+pip install pytube
+```
+
+### 영상 다운로드
+
+```python
+import pytube
+
+yt = pytube.YouTube("https://www.youtube.com/watch?v=CTRO5NXmAp8")
+videos = yt.streams.all()
+
+# print('videos', videos)
+
+#range(6) 0,1,2,3,4,5
+#range(1,6) 1,2,3,4,5
+for i in range(len(videos)):
+    print(i, ' , ', videos[i])
+
+down_dir = "C:\youtube"
+
+videos[0].download(down_dir)
+print("download complete")
+```
+
+ffmpeg를 사용하여 mp3 반환 (cmd 창) → 이건 수동
+
+```python
+ffmpeg -i "Maroon 5 - MAPS - DRUM REMIX By Adrien Drums.mp4" new.mp3
+```
+
+### 개선
+
+```python
+import pytube
+import os
+import subprocess
+
+yt = pytube.YouTube("https://www.youtube.com/watch?v=CTRO5NXmAp8")
+videos = yt.streams.all()
+
+# print('videos', videos)
+
+#range(6) 0,1,2,3,4,5
+#range(1,6) 1,2,3,4,5
+for i in range(len(videos)):
+    print(i, ' , ', videos[i])
+
+cNum = int(input("다운 받을 화질은?(0~21 입력)"))
+
+down_dir = "C:\youtube"
+
+videos[cNum].download(down_dir)
+
+newFileName = input("변환 할 mp3 파일명은?")
+oriFileName = videos[cNum].default_filename
+
+subprocess.call(['ffmpeg', '-i',
+    os.path.join(down_dir, oriFileName),
+    os.path.join(down_dir, newFileName)
+])
+
+print("동영상 다운로드 및 mp3 변환 완료!")
+```
+
+- subprocess은 자주 사용하는 라이브러리 (cmd 실행)
+
+### 과제: 동영상 url 입력 받아 다운 & 변환
+
+```python
+import pytube
+import os
+import subprocess
+
+url = input("다운 받을 url은?")
+yt = pytube.YouTube(url)
+// 이하 생략
+```
+
+- 위와 나머지는 똑같고 동영상 파일 받을 주소만 받으면 됨
+
+# 16. BeautifulSoup 사용법 및 간단 웹 파싱 기초 (1)
+
+- 오늘 강의 부터 실습이 많아짐
+- 간단 파싱 작업
+- urljoin, find_all, select_one, next_sibling, previos_slibling
+- 선택자(Selector)
+
+- [https://atom.io/packages/hyperclick](https://atom.io/packages/hyperclick)
+- BeautifulSoup: [https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+- Selector: [https://www.w3schools.com/cssref/css_selectors.asp](https://www.w3schools.com/cssref/css_selectors.asp)
+- 온라인(추천): [https://www.w3schools.com/cssref/trysel.asp](https://www.w3schools.com/cssref/trysel.asp)
+
+### beautifulsoup 설치
+
+```python
+pip install beautifulSoup4
+```
+
+### urljoin 사용법
+
+```python
+from urllib.parse import urljoin
+
+baseurl = "http://test.com/html/a.html"
+print(">>", urljoin(baseurl, "b.html"))
+print(">>", urljoin(baseurl, "sub/b.html"))
+print(">>", urljoin(baseurl, "../index.html"))
+print(">>", urljoin(baseurl, "../img/img.jpg"))
+print(">>", urljoin(baseurl, "../css/img.css"))
+```
+
+- 자주 사용됨. 유용함
+
+### BeautifulSoup 사용법
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+html = """
+<html>
+    <body>
+        <h1>파이썬 BeautifulSoup 공부</h1>
+        <p>태그 선택자</p>
+        <p>CSS 선택자</p>
+    </body>
+</html>
+"""
+
+soup = BeautifulSoup(html, "html.parser")
+# print('soup', type(soup))
+# print('preettify', soup.prettify())
+
+# 순서대로 .으로 접근 가능
+h1 = soup.html.body.h1
+print('h1', h1)
+print(h1.string)
+p1 = soup.html.body.p
+print('p1', p1)
+# 줄바꿈으로 인해 next_sibling 2번
+p2 = p1.next_sibling.next_sibling
+print('p2', p2)
+p3 = p1.previous_sibling.previous_sibling
+print('p3', p3)
+
+print("h1 >> ", h1.string)
+print("p >> ", p1.string)
+print("p >> ", p2.string)
+```
+
+- .(닷) 연산자를 이용해 가져오는 방식
+- 자주 사용하지는 않음 (웹 구조가 변경되면 가져오지 못하는 부분이 있음)
+
+### BeautifulSoup 사용법 - 2
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+html = """
+<html>
+    <body>
+        <ul>
+            <li><a href="http://www.naver.com">naver</a></li>
+            <li><a href="http://www.daum.net">daum</a></li>
+            <li><a href="http://www.daum.com">daum</a></li>
+            <li><a href="http://www.google.com">google</a></li>
+            <li><a href="http://www.tistory.com">tistory</a></li>
+        </ul>
+    </body>
+</html>
+"""
+
+soup = BeautifulSoup(html, 'html.parser')
+
+links = soup.find_all("a")
+# print('links', type(links))
+a = soup.find_all("a", string="daum") # string 해당 문자열 찾아서 가져오기
+print('a', a)
+b = soup.find_all("a", limit=3) # limit 제한을 둬서 가져오기
+print('b', b)
+c = soup.find_all(string=["naver", "google"]) # 해당 내용을 가져옴
+print('c', type(c))
+for a in links:
+    # print('a', type(a), a)
+    href = a.attrs['href']
+    txt = a.string
+    # print('txt >>', txt, 'href >>', href)
+```
+
+- 제공해주는 함수 사용
+
+### BeautifulSoup 사용법 - 3 셀렉터 사용 가장 많이 사용
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+html = """
+<html>
+    <body>
+        <div id="main">
+            <h1>강의목록</h1>
+            <ul class="lecs">
+                <li>java 초고수 되기</li>
+                <li>파이썬 기초 프로그래밍</li>
+                <li>파이썬 머신러닝 프로그래밍</li>
+                <li>안드로이드 블루투스 프로그래밍</li>
+            </ul>
+        </div>
+    </body>
+</html>
+"""
+
+soup = BeautifulSoup(html, 'html.parser')
+h1 = soup.select_one("div#main > h1") # "#main > h1"
+print('h1', h1.string)
+
+list_li = soup.select("div#main > ul.lecs > li") # "#main > .lecs > li"
+for li in list_li:
+    print('li >>>', li)
+```
+
+- 선택자는 정확한 타겟 선택 가능
+- [https://code.tutsplus.com/ko/tutorials/the-30-css-selectors-you-must-memorize--net-16048](https://code.tutsplus.com/ko/tutorials/the-30-css-selectors-you-must-memorize--net-16048)
+- 선택자를 사용한다면 왠만해서는 바뀌지 않고 사용 가능 (해당 웹사이트에서 해당 css 구조로 구현했기 때문)
