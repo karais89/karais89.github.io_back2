@@ -356,3 +356,161 @@ print('다운로드 완료')
 ### 실습(과제): 인프런 추천강좌(평점순 강좌, 학생수순) 이미지, 텍스트 가져오기
 
 - 사이트 구조 변경으로 실습 불가
+
+# 20. 파이썬 기초 공부 - 파이썬 클래스(Class) 개념 알아보기
+
+1. 클래스 생성자 이해하기
+2. self 이해하기
+3. 클래스 네임스페이스 이해하기
+4. 클래스 변수와 인스턴스 변수 차이점 이해하기
+
+Class Documentation: [https://docs.python.org/3/tutorial/classes.html](https://docs.python.org/3/tutorial/classes.html)
+
+네임스페이스라는 것은 변수가 객체를 바인딩할 때 그 둘 사이의 관계를 저장하고 있는 공간을 의미합니다.
+
+객체 - 자동차
+
+클래스 (Class)
+
+- 필드(속성,변수)
+- 메서드(동적-작업을수행)
+
+자동차
+
+- 속성(변수): 색, 배기량, 자동(수동), 중형소형
+- 메서드: 전진, 후진, 왼쪽, 오른쪽
+
+### 클래스 생성자 이해하기
+
+```python
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class UserInfo:
+    def __init__(self, name, phone):
+        self.name = name
+        self.phone = phone
+
+    def print_info(self):
+        print("-------------")
+        print("Name: " + self.name)
+        print("phone: " + self.phone)
+        print("-------------")
+
+    def __del__(self):
+        print("delete!")
+
+# 인스턴스 화
+user1 = UserInfo("kim", "010-1111-2222")
+user2 = UserInfo("park", "010-5555-6666")
+
+# 주소값 확인
+print(id(user1))
+print(id(user2))
+
+user1.print_info()
+user2.print_info()
+
+# 파이선에서 제공하는 dict
+print(user1.__dict__)
+print(user2.__dict__)
+
+print(user1.phone, user1.name)
+```
+
+### Self 이해하기
+
+```python
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class SelfTest:
+    def function1():
+        print("function1 called!")
+
+    def function2(self):
+        print(id(self))
+        print("function2 called!")
+
+f = SelfTest()
+# print(dir(f))
+print(id(f))
+f.function2()
+print(SelfTest.function1())
+```
+
+- 자동으로 Self 넘겨짐
+- 파이썬 메서드 호출 방법 2개 (Self 입력 안할시 클래스명.메서드명)
+
+### 클래스 변수, 인스턴스 변수
+
+```python
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# 클래스 변수, 인스턴스 변수
+
+class Warehouse:
+    stock_num = 0 # 클래스 변수
+    def __init__(self, name):
+        self.name = name # 인스턴스 변수
+        Warehouse.stock_num += 1
+
+    def __del__(self):
+        Warehouse.stock_num -= 1
+
+user1 = Warehouse('kim')
+user2 = Warehouse('park')
+
+print(user1.name)
+print(user2.name)
+print(user1.__dict__) # 인스턴스의 네임스페이스 확인
+print(user2.__dict__)
+print(Warehouse.__dict__) # 클래스의 네임스페이스 확인
+
+print(user1.stock_num) # 처음엔 자기 자신의 네임스페이스 확인 후 없으면 클래스의 네임스페이스 확인
+print(user2.stock_num)
+```
+
+- 인스턴스의 네임스페이스를 찾고 없으면 클래스의 네임스페이스를 찾음
+- 클래스의 변수는 공유가 된다.
+
+```python
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class NameTest:
+    total = 0
+
+print(dir())
+print("before : ", NameTest.__dict__)
+NameTest.total = 1
+print("after : ", NameTest.__dict__)
+
+n1 = NameTest()
+n2 = NameTest()
+print(id(n1), " vs ", id(n2))
+print(dir())
+print(n1.__dict__) # {}
+print(n2.__dict__) # {}
+n1.total = 77
+print(n1.__dict__) # 인스턴스 네임스페이스에 total이 생김
+
+print(n1.total) # 77
+print(n2.total) # 1
+```
+
+- dir()은 전체 프로그램의 구조를 보여줌
+- `__dict__`는 해당 클래스 및 인스턴스의 네임스페이스를 확인할 수 있음
