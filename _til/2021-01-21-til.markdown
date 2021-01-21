@@ -1,0 +1,358 @@
+---
+layout: post
+title: "2021-01-21"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 17. BeautifulSoup 사용법 및 간단 웹 파싱 기초 (2)
+
+1. html 파일 파싱 연습
+2. 더욱 다양한 css 선택자 사용해보기
+3. find, select 실습
+
+[http://pythonstudy.xyz/python/article/401-정규-표현식-Regex](http://pythonstudy.xyz/python/article/401-%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D-Regex)
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+import re #regex
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+html = """
+<html>
+    <body>
+        <ul>
+            <li><a id="naver" href="http://www.naver.com">naver</a></li>
+            <li><a href="http://www.daum.net">daum</a></li>
+            <li><a href="http://www.daum.com">daum</a></li>
+            <li><a href="https://www.google.com">google</a></li>
+            <li><a href="https://www.tistory.com">tistory</a></li>
+        </ul>
+    </body>
+</html>
+"""
+
+soup = BeautifulSoup(html, "html.parser")
+print(soup.find(id="naver").string)
+li = soup.find_all(href=re.compile(r"^https://"))
+
+for e in li:
+    print(e.attrs['href'])
+```
+
+- 정규표현식을 사용할수도 있음. 활용율이 좀 떨어짐
+- css 선택자를 더 많이 사용한다.
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+fp = open('food-list.html', encoding="utf-8")
+soup = BeautifulSoup(fp, "html.parser")
+
+# print("1", soup.select_one("li:nth-of-type(8)").string) # 제대로 안됨
+print("2", soup.select_one("#ac-list > li:nth-of-type(4)").string)
+print("3", soup.select("#ac-list > li[data-lo='cn']")[0].string)
+print("4", soup.select("#ac-list > li.alcohol.high")[0].string)
+
+param = {"data-lo": "cn", "class": "alcohol"}
+print("5", soup.find("li", param).string)
+print("6", soup.find(id="ac-list").find("li", param).string)
+
+for ac in soup.find_all("li"):
+    if ac['data-lo'] == 'us':
+        print('data-lo == us', ac.string)
+```
+
+- css 선택자 사용하는 방법 연습
+
+```python
+from bs4 import BeautifulSoup
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+fp = open('cars.html', encoding="utf-8")
+soup = BeautifulSoup(fp, "html.parser")
+
+def car_func(selector):
+    print("car_func", soup.select_one(selector).string)
+
+car_func("#gr")
+car_func("li#gr")
+car_func("ul > li#gr")
+car_func("#cars #gr")
+car_func("#cars > #gr")
+car_func("li[id='gr']")
+
+print("car_func", soup.select("li")[3].string)
+print("car_func", soup.find_all("li")[3].string)
+```
+
+- 함수 하나 만들어서 선택자 사용
+
+```python
+car_lambda = lambda q : print("car_lambda", soup.select_one(q).string)
+
+car_lambda("#gr")
+car_lambda("li#gr")
+car_lambda("ul > li#gr")
+car_lambda("#cars #gr")
+car_lambda("#cars > #gr")
+car_lambda("li[id='gr']")
+```
+
+- 람다식 사용 가능
+- [https://thrillfighter.tistory.com/356](https://thrillfighter.tistory.com/356)
+
+# 18. BeautifulSoup 사용법 및 간단 웹 파싱 실습(1) - 네이버, 다음, 인프런
+
+1. 다음 금융 시가총액 상위 종목 가져오기
+2. 네이버 금융 탑 10 종목 가져오기
+3. 인프런 추천 강좌 10개 가져오기
+
+위 3개의 공통점은 값이 자주 바뀜. 매일-매주-매월 일정한 시간에 데이터를 가져와서 활용가능.
+
+자동화를 해서 업무의 효율성 증가할 수 있음
+
+### 다음 금융
+
+- [https://finance.daum.net/](https://finance.daum.net/)
+- 다음 페이지의 구조가 바뀌어 기존 코드는 동작하지 않음.
+
+- 2019. 01. 29 이후로 다음 금융 사이트 파싱 예제가 ajax 비동기 방식으로 변경.
+- fake-useragent 플러그인 필요
+
+    ```python
+    pip install fake-useragent
+    ```
+
+    - user agent 정보를 점검해서 크롤링 봇일 경우에는 정보를 주지 않는 사이트의 경우에 사용
+    - user agenet 정보를 headers에 추가해서 전달함.
+
+        ![크롬 개발자 도구](/img/in-post/til/2021-01-21-1.jpg)
+
+- 크롬 개발자 도구에서 headers 값 확인 (xhr 버튼 클릭 필터 후 확인)
+
+```python
+from bs4 import BeautifulSoup
+import urllib.request as req
+import sys
+import io
+import json
+
+from fake_useragent import UserAgent
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# Fake Header 정보
+ua = UserAgent()
+
+# 헤더 선언
+headers = {
+    'User-Agent': ua.ie,
+    'referer': 'https://finance.daum.net/'
+}
+
+# 다음 주식 요청 URL
+url = "https://finance.daum.net/api/search/ranks?limit=10"
+
+res = req.urlopen(req.Request(url, headers=headers)).read().decode('utf-8')
+soup = BeautifulSoup(res, "html.parser")
+
+# 응답 데이터 확인(Json Data)
+print('res', res)
+
+# 응답 데이터 str -> json 변환 및 data 값 저장
+rank_json = json.loads(res)['data']
+
+# 중간 확인
+print('중간 확인 : ', rank_json, '\n')
+
+for elm in rank_json:
+    # print(type(elm)) #Type 확인
+    print('순위 : {}, 금액 : {}, 회사명 : {}'.format(elm['rank'], elm['tradePrice'], elm['name']), )
+```
+
+### 네이버 금융
+
+```python
+from bs4 import BeautifulSoup
+import urllib.request as req
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+url = "https://finance.naver.com/sise/"
+res = req.urlopen(url).read().decode('cp949')
+soup = BeautifulSoup(res, "html.parser")
+
+top10 = soup.select("#siselist_tab_0 > tr")
+
+i = 1
+for e in top10:
+    if e.find("a"): # if e.find("a") is not None:
+        print(i, e.select_one(".tltle").string)
+        i += 1
+```
+
+- 테이블로 되어있는것은 조금 생각을 해봐야함.
+- 다른점을 찾기
+
+### 인프런
+
+```python
+from bs4 import BeautifulSoup
+import urllib.request as req
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+url = "https://www.inflearn.com/"
+res = req.urlopen(url).read().decode("utf-8")
+soup = BeautifulSoup(res, "html.parser")
+
+recommnad = soup.select(".welcome_content .card-content>.course_title")
+# print(recommnad)
+for i, e in enumerate(recommnad, 1):
+    print(i, e.string)
+
+# href 가져오기
+link = soup.select(".welcome_content .card.course.course_card_item")
+for i, e in enumerate(link, 1):
+    if e.select_one('a'):
+        print(e.select_one('a')['href'])
+```
+
+![인프런](/img/in-post/til/2021-01-21-2.jpg)
+
+- 사이트 구조가 달라짐.
+- 여기서 시작해보세요 정도 가져오는 걸로..
+
+### 실습: 다음 실시간 인기 검색어 + link 스크랩핑 해오기
+
+- 실시간 검색어 폐지로 작업 x
+
+# 19. BeautifulSoup 사용법 및 간단 웹 파싱 실습(2) - 네이버, 인프런
+
+1. 네이버에서 원하는 사진(이미지) 한 번에 다운로드 하기
+2. 인프런 추천 강좌 이미지 한 번에 다운로드 & 제목 텍스트 파일 출력하기
+
+ErrorCode: [https://python.readthedocs.io/en/latest/library/errno.html](https://python.readthedocs.io/en/latest/library/errno.html)
+
+> 데이터의 양, 다양성, 속도가 중요함 (3vs)
+
+### 네이버에서 원하는 사진(이미지) 한번에 다운로드 하기
+
+```python
+from bs4 import BeautifulSoup
+import urllib.request as req
+import urllib.parse as rep
+import sys
+import io
+import os
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+opener = req.build_opener()
+opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+req.install_opener(opener)
+
+base = "https://search.naver.com/search.naver?where=image&sm=tab_jum&query="
+quote = rep.quote_plus("사자")
+url = base + quote
+
+res = req.urlopen(url)
+savePath = "C:\\imagedown\\" # c:\imagedown\
+
+# 예외처리
+try:
+    if not (os.path.isdir(savePath)):
+        os.makedirs(os.path.join(savePath))
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        print("폴더 만들기 실패!")
+        raise
+
+soup = BeautifulSoup(res, "html.parser")
+# 크롬의 copy selector 등으로 가져와서 참고 후 수정 가능
+img_list = soup.select("div.img_area > a.thumb._thumb > img")
+# print("test", img_list)
+
+for i, img_list in enumerate(img_list, 1):
+    # print(img_list['data_source'])
+    fullFileName = os.path.join(savePath, savePath+str(i)+'.jpg')
+    req.urlretrieve(img_list['data_source'], fullFileName)
+
+print('다운로드 완료')
+```
+
+- 네이버에서 크롤링을 막아둬서 해당 코드 동작 안함.
+- 셀라리늄 같은 걸 사용해서 크롤링을 해야 될 것으로 보임.
+
+### 인프런 추천 강좌 이미지 한 번에 다운로드 & 제목 텍스트 파일 출력하기
+
+```python
+from bs4 import BeautifulSoup
+import urllib.request as req
+import urllib.parse as rep
+import sys
+import io
+import os
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+base = "https://www.inflearn.com/courses"
+quote = rep.quote_plus("")
+url = base + quote
+
+res = req.urlopen(url)
+savePath = "C:\\imagedown\\" # c:\imagedown\
+
+# 예외처리
+try:
+    if not (os.path.isdir(savePath)):
+        os.makedirs(os.path.join(savePath))
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        print("폴더 만들기 실패!")
+        raise
+
+soup = BeautifulSoup(res, "html.parser")
+img_list = soup.select(".course_card_item")
+
+for i, e in enumerate(img_list, 1):
+    with open(savePath+"text_"+str(i)+".txt","wt") as f:
+        f.write(e.select_one(".course_title").string)
+    fullFileName = os.path.join(savePath, savePath+str(i)+'.png')
+    req.urlretrieve(e.select_one(".image > img")['src'], fullFileName)
+
+print('다운로드 완료')
+```
+
+- 강좌 내용이랑 좀 다른 부분이 있어 헤맴.
+- 파이썬 에러 처리 서치 필요.
+- enumerate 서치 필요
+
+### 실습(과제): 인프런 추천강좌(평점순 강좌, 학생수순) 이미지, 텍스트 가져오기
+
+- 사이트 구조 변경으로 실습 불가
