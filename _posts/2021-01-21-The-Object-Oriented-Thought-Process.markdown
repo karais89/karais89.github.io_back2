@@ -56,50 +56,50 @@ tags: [book]
 
 디자인 패턴및 SOLID는 간단히 맛만 보는 정도로 보여주고 있다.
 
-그래도 계속 반복되는 코드(동물, 자동차 등)의 예를 가지고 설명하는 부분이 오히려 좋았던 부분 인 것 같다.
+계속 반복되는 코드(동물, 자동차 등)를 예로 들어 설명하는 부분이 오히려 좋았던 부분 인 것 같다.
 
 결국 저자가 강조하는 부분은 상속 보다는 합성을 사용하자로 정리할 수 있다.
 
 아래 간단히 책에 나오는 주요 예제 코드를 정리하였다. 실제 동작하지 않는 수도 코드라는 점은 참고 하자.
 
-### 상속을 사용하지 않고, 합성을 사용한 예제 코드 이다.
+### 상속을 사용하지 않고, 합성을 사용한 예제
 
 ```csharp
 // 상속을 사용하지 않고, 합성을 사용한 예
 class Mammal {
-	public void eat() { print("I am Eating"); };
+  public void eat() { print("I am Eating"); };
 }
 class Walkable {
-	public void walk() { print("I am walking"); };
+  public void walk() { print("I am walking"); };
 }
 class Flyable {
-	public void fly() { print("I am flying"); };
+  public void fly() { print("I am flying"); };
 }
 class Dog {
-	Mammal dog = new Mammal();
-	Walkable walker = new Walkable();
+  Mammal dog = new Mammal();
+  Walkable walker = new Walkable();
 
-	// 위임
-	public void eat() { dog.eat(); }
-	public void walk() { walker.walk(); }
+  // 위임
+  public void eat() { dog.eat(); }
+  public void walk() { walker.walk(); }
 }
 class Bat {
-	Mammal bat = new Mammal();
-	Flyable flyer = new Flyable();
+  Mammal bat = new Mammal();
+  Flyable flyer = new Flyable();
 
-	// 위임
-	public void eat() { bat.eat(); }
-	public void fly() { flyer.fly(); }
+  // 위임
+  public void eat() { bat.eat(); }
+  public void fly() { flyer.fly(); }
 }
 
 void main() {
-	Dog fido = new Dog();
-	fido.dog.eat();
-	fido.walker.walk();
-	
-	Bat brown = new bat();
-	brown.eat();
-	brown.fly();
+  Dog fido = new Dog();
+  fido.dog.eat();
+  fido.walker.walk();
+
+  Bat brown = new bat();
+  brown.eat();
+  brown.fly();
 }
 ```
 
@@ -107,32 +107,34 @@ void main() {
 
 ```csharp
 class Mammal {
-	public void eat() { print("I am Eating"); };
+  public void eat() { print("I am Eating"); };
 }
 
 class Walkable implements IWalkable {
-	public void walk() { print("I am walking"); };
+  public void walk() { print("I am walking"); };
 }
 
 interface IWalkable {
-	public void walk();
+  public void walk();
 }
 
 // mammal은 상속받고 IWalkable은 구현으로 처리
 class Dog extends Mammal implements IWalkable {
-	IWalkable walker;
-	public Dog(IWalkable w) {
-		this.walker = w;
-	}
-	public void walk() {
-		walker.walk();
-	}
+  IWalkable walker;
+  
+  public Dog(IWalkable w) {
+    this.walker = w;
+  }
+  
+  public void walk() {
+    walker.walk();
+  }
 }
 
 void main() {
-	Dog fido = new Dog(new Walkable()); // 의존성 주입 
-	fido.walk();
-	fido.eat();
+  Dog fido = new Dog(new Walkable()); // 의존성 주입 
+  fido.walk();
+  fido.eat();
 }
 ```
 
@@ -140,23 +142,23 @@ void main() {
 
 ```csharp
 void main() {
-	Mammal cat = new Mammal(new CatNoise());
-	Mammal dog = new Mammal(new DogNoise());
-	
-	cat.makeNoise();
-	dog.makeNoise();
+  Mammal cat = new Mammal(new CatNoise());
+  Mammal dog = new Mammal(new DogNoise());
+
+  cat.makeNoise();
+  dog.makeNoise();
 }
 
 class Mammal {
-	MakingNoise speaker;
-	
-	public Mammal(MakingNoise sb) {
-		speaker = sb;
-	}
-	
-	public string makeNoise() {
-		return speaker.makeNoise();
-	}
+  MakingNoise speaker;
+
+  public Mammal(MakingNoise sb) {
+    speaker = sb;
+  }
+
+  public string makeNoise() {
+    return speaker.makeNoise();
+  }
 }
 
 interface MakingNoise { public string makeNoise(); }
