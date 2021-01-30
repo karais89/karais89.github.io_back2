@@ -7,7 +7,7 @@ author: "karais89"
 header-img: "img/post-bg-book.jpg"
 header-mask: 0.4
 catalog: true
-tags: [book]
+tags: [book, agile]
 ---
 
 ![book image](/img/in-post/book/29.jpg)
