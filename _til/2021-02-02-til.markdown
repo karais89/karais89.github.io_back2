@@ -49,14 +49,16 @@ with requests.Session() as s:
 
 - 로그인을 해야만 볼 수 있는 중고장터 글 확인 하기 (현재는 로그인 안해도 볼 수 있는 것 같음)
 - F12 개발자 도구 - 네트워크 탭
+  ![네트워크 탭](/img/in-post/til/2021-02-02-2.jpg)
     - 네트워크를 받는 순서대로 나옴
     - login_proc 에서 사용자 아이디 및 비밀번호 확인 가능
-        - 일반의 요청 URL: [https://user.ruliweb.com/member/login_proc](https://user.ruliweb.com/member/login_proc)
+        - 일반 -> 요청 URL: [https://user.ruliweb.com/member/login_proc](https://user.ruliweb.com/member/login_proc)
         - post 형태이고, 아래 form 형태도 확인 가능
 - 용용프로그램 탭
     - 쿠키 확인 가능
     - token 값 등 확인
 - 개발자 도구 copy - selector 복사
+
 
 ### 인프런 로그인
 
@@ -103,6 +105,7 @@ with requests.Session() as s:
 
 - 인프런도 이것도 약간 형태가 달라짐
 - 개발자 도구에서 네트워크에 로그 보존은 체크한 상태로 해야 됨
+    ![로그 보존](/img/in-post/til/2021-02-02-1.jpg)
 
 # 25. requests 통신 실습(로그인 처리) 고급(2) - 위시캣(wishket)
 
