@@ -1,0 +1,185 @@
+---
+layout: post
+title: "2021-02-02"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 24. requests 통신 실습(로그인 처리) 고급(1) - 루리웹, 인프런
+
+1. 루리웹 사이트 로그인 처리 후 게시판 글 가져오기
+2. 인프런 사이트 로그인 처리 후 개인정보 가져오기
+
+[https://2.python-requests.org/en/master/user/advanced/](https://2.python-requests.org/en/master/user/advanced/)
+
+### 루리웹 로그인
+
+```python
+import sys
+import io
+from bs4 import BeautifulSoup
+import requests
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# 로그인 유저 정보
+LOGIN_INFO = {
+    'user_id': 'REAL_USER_ID',
+    'user_pw': 'REAL_USER_PW'
+}
+
+# Sesstion 생성, with 구문안에서 유지
+with requests.Session() as s:
+    login_req = s.post('https://user.ruliweb.com/member/login_proc', data=LOGIN_INFO)
+    # html 소스 확인
+    # print('login_req', login_req.text)
+    # Header 확인
+    # print('headers', login_req.headers)
+    if login_req.status_code == 200 and login_req.ok:
+        post_one = s.get('https://bbs.ruliweb.com/market/board/32/read/4780617?')
+        post_one.raise_for_status()
+        soup = BeautifulSoup(post_one.text, 'html.parser')
+        # print(soup.prettify())
+        article = soup.select_one('div.board_main_view > div.view_content.autolink')
+        print(article.text)
+```
+
+- 로그인을 해야만 볼 수 있는 중고장터 글 확인 하기 (현재는 로그인 안해도 볼 수 있는 것 같음)
+- F12 개발자 도구 - 네트워크 탭
+    - 네트워크를 받는 순서대로 나옴
+    - login_proc 에서 사용자 아이디 및 비밀번호 확인 가능
+        - 일반의 요청 URL: [https://user.ruliweb.com/member/login_proc](https://user.ruliweb.com/member/login_proc)
+        - post 형태이고, 아래 form 형태도 확인 가능
+- 용용프로그램 탭
+    - 쿠키 확인 가능
+    - token 값 등 확인
+- 개발자 도구 copy - selector 복사
+
+### 인프런 로그인
+
+```python
+import sys
+import io
+from bs4 import BeautifulSoup
+import requests
+import urllib.parse as rep # utf-8 한글 사용하기 위해 사용하는데 여기선 사용 안함
+import urllib.request as req
+import os
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# 로그인 유저 정보
+LOGIN_INFO = {
+    'email': 'REAL_USER_ID',
+    'password': 'REAL_USER_PW'
+}
+
+# Sesstion 생성, with 구문안에서 유지
+with requests.Session() as s:
+    login_req = s.post('https://www.inflearn.com/api/signin', data=LOGIN_INFO)
+    # html 소스 확인
+    # print('login_req', login_req.text)
+    # Header 확인
+    # print('headers', login_req.headers)
+    if login_req.status_code == 200 and login_req.ok:
+        post_one = s.get('https://www.inflearn.com/dashboard')
+        post_one.raise_for_status()
+        soup = BeautifulSoup(post_one.text, 'html.parser')
+        # print(soup.prettify())
+        courseList = soup.select('div > div.box_content > div.courses_container > a > div.course_title')
+        fullPathName = os.path.join('c:/courseList.txt')
+        with open(fullPathName, "wt") as f:
+            for i, z in enumerate(courseList, 1):
+                # print(z.string)
+                f.write(z.string + '\n')
+            # 이미지는 따로 없어서 못함
+            # fullFileName = os.path.join('c:/', str(i)+'.jpg')
+            # req.urlretrieve(z['src'], fullFileName)
+```
+
+- 인프런도 이것도 약간 형태가 달라짐
+- 개발자 도구에서 네트워크에 로그 보존은 체크한 상태로 해야 됨
+
+# 25. requests 통신 실습(로그인 처리) 고급(2) - 위시캣(wishket)
+
+1. 보안 토큰(csrf Token), Fake User-agent, Header Payload 처리
+2. 위시캣(wishket) 사이트 로그인 처리 후 정보 가져오기
+
+Fake-UserAgent - [https://pypi.python.org/pypi/fake-useragent](https://pypi.python.org/pypi/fake-useragent)
+
+csrf 토큰 확인 및 유저 정보 확인등을 하는 사이트가 있음.
+
+csrf는 파라미터를 가지고 자동으로 행위를 수행하는 것을 방지 함.
+
+브라우저의 csrf 토큰 값을 내려주고 토큰 값을 랜덤으로 발행하여, 토큰 값이 맞아야 로그인 되도록 처리된다고 생각하면 됨.
+
+방대한 스크래핑은 불법. 사용 주의.
+
+```python
+pip install fake-useragent
+```
+
+크롬 개발자 도구를 열고, 로그 보존 체크 후 네트워크 탭 확인
+
+- 위시켓은 csrfmiddlewaretoken 값도 있음.
+- 토큰값은 어플리케이션-쿠키에 있음.
+- csrf는 로그인할때마다 랜덤. 위변조가 쉽지 않다.
+
+### 위시켓 로그인 후 크롤링
+
+```python
+import sys
+import io
+from bs4 import BeautifulSoup
+import requests
+from fake_useragent import UserAgent
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# 요청 url
+URL = 'https://www.wishket.com/accounts/login/'
+
+# fake UserAgent 생성
+ua = UserAgent()
+
+# print(ua.ie)
+# print(ua.chrome)
+# print(ua.random)
+
+with requests.Session() as s:
+    # URL 연결 - csrf 값을 받기 위한
+    s.get(URL)
+
+    # 로그인 정보 payload
+    LOGIN_INFO = {
+        'identification': 'REAL_USER_ID',
+        'password': 'REAL_USER_PW',
+        'csrfmiddlewaretoken': s.cookies['csrftoken']
+    }
+
+    # 요청
+    response = s.post(URL, data=LOGIN_INFO, headers={'User-Agent': str(ua.chrome), 'Referer': 'https://www.wishket.com/accounts/login/'})
+
+    # html 결과 확인
+    # print(response.text)
+
+    if response.status_code == 200 and response.ok:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        projectList = soup.select('div.mb16.user-info.user-info-client > div.user-project > div')
+        for i in projectList:
+            print(i.contents[0], i.contents[1].string)
+            # print(i.text)
+```
+
+- user-agent가 정말 중요하다. (브라우저 정보등 표시)
+- https는 referer 헤더도 필요함. 해당 부분으 네트워크 탭에 요청 헤더에 확인 가능
+- i.string 사용시 자식 노드가 하나라도 존재하면 None이 반환됨
+    - ex) <div class="body-3 mb10 header">등록한 프로젝트<p class="body-3-medium">0건</p></div>
+    - i.text형태나 i.contents 형태를 취해서 값을 가져오도록 함.
+    - i.text: 자식 노드 포함해서 텍스트 전부 반환
+    - i.contents: 리스트 형태로 반환
