@@ -258,3 +258,287 @@ driver.quit()
 ```
 
 - XPath로 경로 찾아서 클릭하는 형태로 진행 했는데 사실 xPath만 보면 어떤일을 하는지 알수 없음. 이렇게 처리해도 문제 없는지를 모르겠네.
+
+# 27. 웹 브라우저 없는 스크래핑 및 파싱 실습(2) - 네이버 까페 자동화
+
+1. selenium을 이용한 네이버 카페 자동으로 글쓰기
+2. 네이버 로그인 처리 후 회원 리스트 정보 가져오기
+3. class module 실습 작성
+4. 자주 사용하는 selenium 레퍼런스(refference) 문서 훑어보기
+
+selenium 문서: [http://selenium-python.readthedocs.io/index.html](http://selenium-python.readthedocs.io/index.html)
+
+현재 네이버 로그인 기능은 selenium으로 시도했을 경우 동작 안함 (21.02.11)
+
+브라우저나 인터넷 속도 등. 서버에서 오는 시간. 시간을 넉넉하게 주기
+
+### 네이버 까페 출석체크
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import time
+import pyperclip
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class NcafeWriteAtt:
+    # 클래스 초기화 실행 (webdriver 설정)
+    def __init__(self):
+        chrome_options = Options()
+        # chrome_options.add_argument("--headless") # CLI (user-agent)
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/workspace/section3/webdriver/chrome/chromedriver")
+        self.driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+        self.driver.implicitly_wait(5)
+
+    # 네이버 까페 로그인 && 출석 체크
+    def writeAttendCheck(self):
+        self.driver.get('https://nid.naver.com/nidlogin.login')
+
+        # self.driver.find_element_by_name('id').send_keys('id')
+        # self.driver.find_element_by_name('pw').send_keys('pw')
+        self.clipboard_input('//*[@id="id"]', 'id')
+        self.clipboard_input('//*[@id="pw"]', 'pw')
+
+        self.driver.find_element_by_xpath('//*[@id="log.login"]').click()
+        self.driver.implicitly_wait(30)
+        time.sleep(5)
+        self.driver.get('https://cafe.naver.com/AttendanceView.nhn?search.clubid=29771102&search.menuid=21') #네이버 iframe임. 실제 주소를 보려면 개발자 도구에서 네트워크 탭에서 확인
+        self.driver.implicitly_wait(30)
+        self.driver.switch_to_frame('cafe_main') # 포커스 변경
+        self.driver.find_element_by_id('cmtinput').send_keys('ㅊㅊ')
+        self.driver.find_element_by_xpath('//*[@id="btn-submit-attendance"]').click()
+        time.sleep(3)
+
+    def clipboard_input(self, user_xpath, user_input):
+        pyperclip.copy(user_input)
+        self.driver.find_element_by_xpath(user_xpath).click()
+        ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+        time.sleep(1)
+
+    # 소멸자
+    def __del__(self):
+        # self.driver.close() # 현재 실행 포커스 된 영역을 종료
+        self.driver.quit() # selenium 전체 프로그램 종료
+        print('Removed')
+
+# 실행
+if __name__ == '__main__':
+    # 객체 생성
+    a = NcafeWriteAtt()
+    # 시작 시간
+    start_time = time.time()
+    # 프로그램 실행
+    a.writeAttendCheck()
+    # 종료 시간 출력
+    print("---Total %s seconds ---" % (time.time() - start_time))
+    # 객체 소멸
+    del a
+```
+
+Selenium의 driver를 이용하여 아이디 및 비밀번호를 element.send_keys()메서드를 이용하여 로그인 시도 시 비정상적인 접근 방식으로 네이버 Captcha가 탐지하게 됐습니다. (로그인 불가)
+
+클립보드에 input을 복사한 뒤 해당 내용을 actionChain을 이용해 로그인 폼에 붙여 넣는 방법으로 우회
+
+- [https://www.selenium.dev/documentation/ko/webdriver/keyboard/](https://www.selenium.dev/documentation/ko/webdriver/keyboard/)
+
+### 네이버 까페 멤버 리스트 가져오기
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import time
+import pyperclip
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class NcafeMemberExr:
+    # 클래스 초기화 실행 (webdriver 설정)
+    def __init__(self):
+        chrome_options = Options()
+        # chrome_options.add_argument("--headless") # CLI (user-agent)
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/workspace/section3/webdriver/chrome/chromedriver")
+        self.driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+        self.driver.implicitly_wait(5)
+
+    # 네이버 까페 회원 1페이지 정보 리스트 추출
+    def getMemberList(self):
+        self.driver.get('https://nid.naver.com/nidlogin.login')
+        self.clipboard_input('//*[@id="id"]', 'id')
+        self.clipboard_input('//*[@id="pw"]', 'pw')
+        self.driver.find_element_by_xpath('//*[@id="log.login"]').click()
+        self.driver.implicitly_wait(30)
+        time.sleep(1)
+
+        self.driver.get('https://cafe.naver.com/CafeMemberViewTab.nhn?defaultSearch.clubid=29494256')
+        self.driver.implicitly_wait(30)
+        self.driver.switch_to_frame('cafe_main')
+        self.driver.implicitly_wait(5)
+        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        return soup.select('#main-area > div.mem_list_wrap > ul > li > div > div.nick > div > table > tbody > tr > td > a > div')
+
+    # 네이버 회원 리스트 출력 및 저장
+    def printMemberList(self, list):
+        f = open("c:/memberList.txt", "wt")
+        for i in list:
+            f.write(i.string.strip() + "\n")
+            print(i.string.strip())
+        f.close()
+
+    def clipboard_input(self, user_xpath, user_input):
+        pyperclip.copy(user_input)
+        self.driver.find_element_by_xpath(user_xpath).click()
+        ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+        time.sleep(1)
+
+    # 소멸자
+    def __del__(self):
+        # self.driver.close() # 현재 실행 포커스 된 영역을 종료
+        self.driver.quit() # selenium 전체 프로그램 종료
+        print('Removed')
+
+# 실행
+if __name__ == '__main__':
+    # 객체 생성
+    a = NcafeMemberExr()
+    # 시작 시간
+    start_time = time.time()
+    # 프로그램 실행
+    a.printMemberList(a.getMemberList())
+    # 종료 시간 출력
+    print("---Total %s seconds ---" % (time.time() - start_time))
+    # 객체 소멸
+    del a
+```
+
+- pyperclip을 사용하려면 headless 옵션은 사용하지 못하는 듯 함.
+- fiddler 피들러 추천
+    - http 통신을 전부 볼 수 있음
+- 클립 보드는 Chrome의 기능이 아니라 창 관리자가 제공하는 서비스 / 데몬입니다. 따라서 헤드리스로 실행하는 경우 사용 가능한 시스템 클립 보드가 없을 수 있습니다
+
+### 실습 : 권한이 필요한 사이트 게시판 페이지 별 리스트 추출하기
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import time
+import pyperclip
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+class NcafeBoard:
+    # 클래스 초기화 실행 (webdriver 설정)
+    def __init__(self):
+        chrome_options = Options()
+        # chrome_options.add_argument("--headless") # CLI (user-agent)
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/workspace/section3/webdriver/chrome/chromedriver")
+        self.driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+        self.driver.implicitly_wait(5)
+
+    # 로그인
+    def login(self):
+        self.driver.get('https://nid.naver.com/nidlogin.login')
+        self.clipboard_input('//*[@id="id"]', 'id')
+        self.clipboard_input('//*[@id="pw"]', 'pwd')
+        self.driver.find_element_by_xpath('//*[@id="log.login"]').click()
+        self.driver.implicitly_wait(30)
+        time.sleep(1)
+
+    # 네이버 게시판 리스트 가져오기
+    def getBoardList(self, page):
+        base = 'https://cafe.naver.com/ArticleList.nhn?search.clubid=29771102&search.menuid=63&search.boardtype=L'
+        quote = '&search.totalCount=72&search.page=' + str(page)
+        self.driver.get(base + quote)
+        # &search.totalCount=72&search.page=4
+        self.driver.implicitly_wait(30)
+        self.driver.switch_to_frame('cafe_main')
+        self.driver.implicitly_wait(5)
+        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        return soup.select('#main-area > div > table > tbody > tr > td.td_article > div.board-list > div > a.article')
+
+    # 네이버 게시판 리스트 출력 및 저장
+    def printBoardList(self, page):
+        self.login()
+        for i in range(1, page):
+            board = self.getBoardList(i)
+            f = open("c:/boardlist" + str(i) + ".txt", "wt")
+            for i in board:
+                for content in i.contents:
+                    f.write(content.string.strip())
+                    print(content.string.strip())
+                f.write('\n')
+            f.close()
+
+    def clipboard_input(self, user_xpath, user_input):
+        pyperclip.copy(user_input)
+        self.driver.find_element_by_xpath(user_xpath).click()
+        ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+        time.sleep(1)
+
+    # 소멸자
+    def __del__(self):
+        # self.driver.close() # 현재 실행 포커스 된 영역을 종료
+        self.driver.quit() # selenium 전체 프로그램 종료
+        print('Removed')
+
+# 실행
+if __name__ == '__main__':
+    # 객체 생성
+    a = NcafeBoard()
+    # 시작 시간
+    start_time = time.time()
+    # 프로그램 실행
+    a.printBoardList(4)
+    # 종료 시간 출력
+    print("---Total %s seconds ---" % (time.time() - start_time))
+    # 객체 소멸
+    del a
+```
+
+# 28. 아톰 데이터 & Github 연동해보자!
+
+1. Git 설치 확인
+2. Github 회원가입 및 저장소 생성
+3. Github 저장소 연동 (Local)
+    - 기존 프로젝트 저장소 추가
+    - 새로운 프로젝트 저장소 추가
+4. 아톰에디터에서 Github 사용
+5. Git add, commit, push, pull 테스트
+
+GitHub for Atom : [https://github.atom.io/](https://github.atom.io/)
+
+Atom Package: [https://atom.io/packages](https://atom.io/packages)
+
+Git 안내서 : [https://rogerdudler.github.io/git-guide/index.ko.html](https://rogerdudler.github.io/git-guide/index.ko.html)
+
+[https://github.com/](https://github.com/)
+
+[https://github.com/karais89/inflearn-python.git](https://github.com/karais89/inflearn-python.git)
+
+atom의 메뉴에 패키지 - 깃허브 - 토글 깃 탭 클릭 후 init 메뉴 선택 하면 됨.
+
+- pull (push), clone, fetch
+- 명령어 add, commit, push(pull), clone 등
+- reset —force 등
+- github push 할때는 커맨드로 해주는데 굳이 이것 까진 필요 없을 것 같음. 요즘엔 gui 환경이 워낙 좋게 나와서..
+- 근데 아톰 에디터에서는 커맨드로 설정을 해줘야 깃허브랑 연동이 가능한듯.. 엄청 구리네..
+- fork, sourcetree, github desktop 등을 사용하자..
+- 이번 강의는 다 아는 내용이라 그냥 넘어가자.
+- 아톰 플러그인 git-plus 설치
