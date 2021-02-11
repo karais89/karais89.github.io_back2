@@ -1,0 +1,260 @@
+---
+layout: post
+title: "2021-02-11"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 26. 웹 브라우저 없는 스크랩핑 및 파싱 실습(1) - 인프런
+
+urllib
+
+requests (fake-useragent)
+
+1. selenium 개념 및 설치 (크롬, 파이어폭스)
+2. phantomjs 개념 및 설치
+3. selenimu을 이용한 사이트 이미지 캡쳐 텍스트 및 예제 작성
+4. selenium을 이용한 인프런 로그인 자동화 하기
+5. selenium & chrome or firefox headless mode 최종 세팅
+
+selenium 문서 : [http://selenium-python.readthedocs.io/index.html](http://selenium-python.readthedocs.io/index.html)
+
+다운로드 (chrome): [https://sites.google.com/a/chromium.org/chromedriver/downloads](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+
+다운로드 (firefox): [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases)
+
+phantomjs 문서: [http://phantomjs.org/documentation/](http://phantomjs.org/documentation/)
+
+다운로드: [http://phantomjs.org/download.html](http://phantomjs.org/download.html)
+
+### 환경설정
+
+1. selenium + 크롬
+2. selenium + 파폭
+3. selenium + phantomjs
+
+크롬으로 실행할 예정
+
+```bash
+pip install selenium
+```
+
+웹드라이버도 다 다운로드 해야 됨.
+
+section3에 webdrier 폴더 생성후 다운로드 받은 파일 압축풀어 집어넣기
+
+환경변수로 등록하면 편하긴 하지만, 안하고 할 수 있음.
+
+### 스크린샷 찍는 예제 - PhantomJS 사용
+
+```python
+import sys
+import io
+from selenium import webdriver
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+driver = webdriver.PhantomJS('C:/workspace/section3/webdriver/phantomjs/phantomjs')
+
+driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://google.com')
+driver.save_screenshot("c:/website1.png")
+
+driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://www.daum.net')
+driver.save_screenshot("c:/website2.png")
+
+driver.quit()
+
+print('스크린샷 완료')
+```
+
+- phantomjs는 더이상 selenium에서는 제공하지 않음.
+- 하지만 아직도 phantomjs를 많이 사용함.
+- implicitly_wait 암묵적으로 대기.
+- from selenium import webdriver (selenium 모듈의 webdriver을 가져옴)
+
+### 스크린샷 찍는 예제 - 크롬
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+chrome_options = Options()
+chrome_options.add_argument("--headless") # CLI
+
+driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:/workspace/section3/webdriver/chrome/chromedriver')
+# driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+# driver.set_window_size(1920, 1080)
+# driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://google.com')
+# time.sleep(5)
+
+driver.save_screenshot("c:/website_ch1.png")
+
+# driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://www.daum.net')
+# time.sleep(5)
+driver.save_screenshot("c:/website_ch2.png")
+
+driver.quit()
+
+print('스크린샷 완료')
+```
+
+크롬에서 동작하는 것을 cli (command line interface)로 만들어야 됨
+
+- chrome_options = Options()
+- chrome_options.add_argument("--headless")
+- driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:/workspace/section3/webdriver/chrome/chromedriver')
+
+서버 입장에서는 실제 크롬 브라우저에서 접속하는 것이기 때문에 다른 변조 같은 걸 할 필요가 없음
+
+### 스크린샷 찍는 방법 - 파이어폭스
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+import time
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+firefox_options = Options()
+firefox_options.add_argument("--headless") # CLI
+
+driver = webdriver.Firefox(firefox_options=firefox_options, executable_path='C:/workspace/section3/webdriver/firefox/geckodriver')
+# driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+# driver.set_window_size(1920, 1080)
+# driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://google.com')
+# time.sleep(5)
+
+driver.save_screenshot("c:/website_ff1.png")
+
+# driver.implicitly_wait(5) # 암묵적으로 5초 대기
+
+driver.get('https://www.daum.net')
+# time.sleep(5)
+driver.save_screenshot("c:/website_ff2.png")
+
+driver.quit()
+
+print('스크린샷 완료')
+```
+
+- 파이어폭스도 많이 사용함
+
+### 인프런 사이트 로그인 예제
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# chrome_options = Options()
+# chrome_options.add_argument("--headless") # CLI
+
+# driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:/workspace/section3/webdriver/chrome/chromedriver')
+driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+driver.set_window_size(1920, 1080)
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+
+driver.get('https://www.inflearn.com/')
+time.sleep(3)
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+driver.find_element_by_xpath('//*[@id="header"]/nav/div[2]/div/div[2]/div[2]/div[2]/a[1]').click()
+time.sleep(3)
+driver.find_element_by_class_name('input.email').send_keys('id')
+driver.implicitly_wait(1)
+driver.find_element_by_class_name('input.pwd').send_keys('pwd')
+driver.implicitly_wait(1)
+driver.find_element_by_xpath('//*[@id="root"]/div[4]/section/form/button').click()
+time.sleep(3)
+
+driver.quit()
+```
+
+- find_element_by_xpath, find_element_by_class_name 등으로 찾기
+    - find_element_by_xpath의 경우 크롬 개발자 도구에서 xpath 복사 하는게 있음
+- implicitly_wait는 암묵적으로 대기해야 되는 경우 적절하게 처리?
+    - implicity_wait은 뜻 그대로 브라우저에서 사용되는 엔진 자체에서 파싱되는 시간을 기다려 준다.
+- time.sleep은 실습을 눈으롭 보기 위해 추가
+
+### 실습(과제): encar(엔카) 사이트 접속 후 자동으로 매물 조회하기
+
+```python
+import sys
+import io
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+# chrome_options = Options()
+# chrome_options.add_argument("--headless") # CLI
+
+# driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:/workspace/section3/webdriver/chrome/chromedriver')
+driver = webdriver.Chrome('C:/workspace/section3/webdriver/chrome/chromedriver')
+driver.set_window_size(1920, 1080)
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+
+driver.get('http://www.encar.com/index.do')
+time.sleep(3)
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+
+# 제조사 선택
+driver.find_element_by_xpath('//*[@id="manufact"]/a').click()
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+time.sleep(1)
+
+# 도요타
+driver.find_element_by_xpath('//*[@id="manufactListText"]/ul[2]/li[6]/a').click()
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+time.sleep(1)
+
+# 프리우스
+driver.find_element_by_xpath('//*[@id="seriesItemList"]/li[3]/a').click()
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+time.sleep(1)
+
+# 전체
+driver.find_element_by_xpath('//*[@id="mdlItemList"]/li[1]/a').click()
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+time.sleep(1)
+
+# 검색 버튼
+driver.find_element_by_xpath('//*[@id="indexSch1"]/div[1]/a').click()
+driver.implicitly_wait(3) # 암묵적으로 3초 대기
+
+driver.save_screenshot("c:/car_screenshot.png")
+time.sleep(3)
+print('스크린샷 완료')
+
+driver.quit()
+```
+
+- XPath로 경로 찾아서 클릭하는 형태로 진행 했는데 사실 xPath만 보면 어떤일을 하는지 알수 없음. 이렇게 처리해도 문제 없는지를 모르겠네.
