@@ -9,11 +9,11 @@ catalog: true
 tags: [python, crawling]
 ---
 
-# 개요
+## 개요
 
 현재 파이썬 크롤링 관련 공부를 진행 중. 공부하면서 활용 할 수 있는 분야가 없나 고민 중 사이트에서 품절 상태를 체크하여 텔레그램 봇으로 전송하는 간단한 봇 개발 하면 좋을 것 같아서 개발.
 
-# 플로우
+## 플로우
 
 1. 텔래그램 봇 만들기
 2. 파이썬 프로그램 생성
@@ -22,9 +22,9 @@ tags: [python, crawling]
     3. 특정 시간에는 알림이 가지 않도록 처리
 3. 클라우드 서비스를 이용하여 파이썬 프로그램 실행
 
-# 1. 텔레그램 봇 만들기 및 채널 설정
+## 1. 텔레그램 봇 만들기 및 채널 설정
 
-## 개인 봇 만들기
+### 개인 봇 만들기
 
 1. 텔레그램 접속 후 Botfather 검색. 여러개가 나오는데 뒤에 파란색 체크 박스가 공식 계정으로 보임. 해당 계정 클릭
 
@@ -87,7 +87,7 @@ tags: [python, crawling]
 
 ![Hello Telegram!](/img/in-post/python/2021-02-13_105725.jpg)
 
-## 채널을 생성하여 봇 공유 하기
+### 채널을 생성하여 봇 공유 하기
 
 현재 생성된 봇의 경우 개인만 볼 수 있는 봇이라 다른 사람들은 볼 수 없다.
 
@@ -135,22 +135,22 @@ tags: [python, crawling]
 
     ![Hello Telegram](/img/in-post/python/2021-02-13_112114.jpg)
 
-# 2. 파이썬 프로그램 생성
+## 2. 파이썬 프로그램 생성
 
 - 크롤링의 경우 과도한 트래픽 유발은 법적인 문제를 피할 수 없어, 주의가 필요하다. 10분마다 실행하는 정도의 트래픽은 괜찮을 것으로 확인하여 해당 부분 10분마다 품절 상태를 체크하는 봇을 만들기로 하였다.
 
-## 10분마다 실행 가능 하도록
+### 10분마다 실행 가능 하도록
 
 - 실제 파이썬을 실행하는 OS의 경우 우분투 서버를 사용할 예정이라. 처음에는 크론을 사용하여 구현하려고 함 (10분마다 해당 스크립트를 실행하는 방법).
 - 크론 보다는 크로스 플랫폼으로도 사용 가능한 파이썬 내부적으로 스케줄러 기능등을 사용할 수 있을 것 같아 해당 기능을 사용하기로 함.
 
-### pip 모듈 설치
+#### pip 모듈 설치
 
 ```bash
 pip install schedule --upgrade
 ```
 
-### 10분마다 현재 시간 출력 하는 예제
+#### 10분마다 현재 시간 출력 하는 예제
 
 ```python
 import schedule
@@ -170,18 +170,18 @@ while True:
 - 자세한 사용 방법은 아래 사이트 참고
     - [https://github.com/dbader/schedule](https://github.com/dbader/schedule)
 
-## bs4를 이용하여 웹 분석 후 품절 상태인지 체크
+### bs4를 이용하여 웹 분석 후 품절 상태인지 체크
 
 - 파이썬으로 크롤링을 진행할때 필수로 사용하는 beautifulsoup4 사용법은 너무 많아 여기서 소개하기는 힘들 것 같고 따로 공부를 진행해야 될 것 으로 보임
 
-### pip 모듈 설치
+#### pip 모듈 설치
 
 ```bash
 pip install beautifulsoup4 --upgrade
 pip install requests --upgrade
 ```
 
-### 사이트 크롤링
+#### 사이트 크롤링
 
 ```python
 import sys
@@ -219,16 +219,16 @@ def job():
     - [https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
     - [https://requests.readthedocs.io/en/master/user/quickstart/](https://requests.readthedocs.io/en/master/user/quickstart/)
 
-## 특정 시간에는 알림이 가지 않도록 처리
+### 특정 시간에는 알림이 가지 않도록 처리
 
-### pip 모듈 설치
+#### pip 모듈 설치
 
 ```python
 pip install datetime --upgrade
 pip install pytz --upgrade
 ```
 
-### 시간 체크 파이선 스크립트
+#### 시간 체크 파이선 스크립트
 
 ```python
 import pytz
@@ -244,7 +244,7 @@ def job():
 
 - 11시 부터 6시까지는 알림이 오지 않도록 설정
 
-## 완성 소스
+### 완성 소스
 
 ```python
 import sys
@@ -306,18 +306,18 @@ while True:
 - 품절 상태의 경우 60분마다 알림이 가도록 한다. (count 변수를 두어 6번 실행마다 1번 알림이 가도록 구현)
     - 이 부분은 정확히 60분 마다 오는 것은 아니고, 6번 마다 1번 정도 간격으로 오도록 구현 함. 로직상 오류가 있지만 무시할 수 있는 수준이라 무시.
 
-# 3. 클라우드 서비스를 이용하여 파이썬 프로그램 실행
+## 3. 클라우드 서비스를 이용하여 파이썬 프로그램 실행
 
 - docker등을 이용하여 쉽게 배포할 수 있는 환경을 구축하면 좋을 것 같으나, 간단한 프로그램이고, 인스턴스 앱은 바로 제거 할 예정이기 때문에 수동으로 환경 설정 후 실행 하는 방법을 택함.
 
-## 클라우드 선택
+### 클라우드 선택
 
 - [오라클 클라우드](https://www.oracle.com/kr/cloud/free/)의 경우 현재 무료로 2개의 인스턴스를 주기 때문에 해당 클라우드 서비스를 이용.
 - 가입 및 인증은 생략
 - Create VM으로 인스턴스 생성 후 ip 획득 (우분투 20으로 설정 및 public, private key 생성)
 - 오라클 클라우드 사이트의 경우 한국어도 지원하니 한국어로 변경해서 봐도 좋을 것 으로 보임.
 
-## SSH 접속
+### SSH 접속
 
 - MobaXterm을 사용하여 ssh 접속
 - 세션 생성 후 아래 값 입력
@@ -328,7 +328,7 @@ while True:
     - username은 ubuntu 입력 (오라클 vm에 사용자 이름)
     - use private key의 경우 오라클에서 발급받은 private key 입력
 
-## 세팅
+### 세팅
 
 - 파이썬 설치
 - 파이썬 pip 설치
@@ -359,7 +359,7 @@ pip3 install pytz --upgrade
 - MobaXterm의 경우 바로 파일을 업로드 할 수 있어 해당 기능 사용.
 - bot.py로 저장
 
-## 백그라운드에서 실행 가능 하도록 작업
+### 백그라운드에서 실행 가능 하도록 작업
 
 아래 명령어로 실행. 현재 bot.py로 저장한 상태
 
@@ -376,7 +376,7 @@ ps -ef | grep bot.py
 kill <pid>
 ```
 
-# 결론
+## 결론
 - 소스 자체는 클래스화 시켜 다듬어야 될 필요성이 있음. (파이썬 코드 네이밍 컨벤션 등 체크)
 - docker 등을 사용하여 배포 하면 좋을 것으로 보임.
 - python 이외에 golang 등을 사용하여 구현해도 재미있을 듯.
