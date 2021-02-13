@@ -3,7 +3,8 @@ layout: post
 title: "텔레그램 재고 알림 봇 만들기"
 subtitle: "텔레그램 재고 알림 봇 만들기 정리"
 author: "karais89"
-header-style: text
+header-img: "img/post-bg-python.jpg"
+header-mask: 0.4
 catalog: true
 tags: [python, crawling]
 ---
