@@ -28,19 +28,19 @@ tags: [python, crawling]
 
 1. 텔레그램 접속 후 Botfather 검색. 여러개가 나오는데 뒤에 파란색 체크 박스가 공식 계정으로 보임. 해당 계정 클릭
 
-    ![Botfather 검색](/img/in-post/python//__2021-02-13_100643.jpg)
+    ![Botfather 검색](/img/in-post/python/2021-02-13_100643.jpg)
 
 2. /newbot을 입력하면 bot 이름 및 bot의 사용자 이름을 입력하라고 나온다. 봇 이름은 중복되지 않은 이름으로 입력해야 한다.
+3. 
+    ![Bot 생성](/img/in-post/python/2021-02-13_101349.jpg)
 
-    ![Bot 생성](/img/in-post/python//__2021-02-13_101349.jpg)
+4. 입력하고 난 후 주소와 http 토큰 값이 나오므로 해당 값을 잘 기억해두자. url 주소로 이동하여 아무 글이나 작성한다.
 
-3. 입력하고 난 후 주소와 http 토큰 값이 나오므로 해당 값을 잘 기억해두자. url 주소로 이동하여 아무 글이나 작성한다.
+    ![Hello World!](/img/in-post/python/2021-02-13_101903.jpg)
 
-    ![Hello World!](/img/in-post/python/__2021-02-13_101903.jpg)
+5. 파이썬 텔레그램 봇 모듈을 설치하고, 아래 방법으로 chat Id를 확인 한다.
 
-4. 파이썬 텔레그램 봇 모듈을 설치하고, 아래 방법으로 chat Id를 확인 한다.
-
-5. 파이썬 스크립트로 확인
+6. 파이썬 스크립트로 확인
 
     ```bash
     import telegram
@@ -59,7 +59,7 @@ tags: [python, crawling]
     - 텔레그램 봇 사용 문서
         - [https://github.com/python-telegram-bot/python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
 
-6. url로 확인도 가능 하다.
+7. url로 확인도 가능 하다.
 
     ```
     https://api.telegram.org/bot<Your Token>/getUpdates
@@ -73,7 +73,7 @@ tags: [python, crawling]
    
    - url에 접속하면 json 데이터를 얻을 수 있고, 해당 개체의 "chat"의 id를 확인 한다.
 
-7. 아래 스크립트를 사용하여 봇으로 메시지를 보내 보자.
+8. 아래 스크립트를 사용하여 봇으로 메시지를 보내 보자.
 
     ```python
     import telegram
@@ -85,7 +85,7 @@ tags: [python, crawling]
     bot.sendMessage(chat_id = chat_id , text=text)
     ```
 
-![Hello Telegram!](/img/in-post/python/__2021-02-13_105725.jpg)
+![Hello Telegram!](/img/in-post/python/2021-02-13_105725.jpg)
 
 ## 채널을 생성하여 봇 공유 하기
 
@@ -95,15 +95,15 @@ tags: [python, crawling]
 
 1. 텔레그램에서 채널 생성
 
-    ![New Channel](/img/in-post/python/__2021-02-13_105945.jpg)
+    ![New Channel](/img/in-post/python/2021-02-13_105945.jpg)
 
 2. 채널 ID 획득을 위해 우선 public으로 채널을 생성한다. 채널 Id를 획득한 이후에는 private로 변경해도 무방 하다. 필자는 lonpeach_chat로 설정
 
-    ![Channel Type select](/img/in-post/python/__2021-02-13_111546.jpg)
+    ![Channel Type select](/img/in-post/python/2021-02-13_111546.jpg)
 
 3. 멤버에는 자신이 만든 봇을 추가 한다.
 
-    ![Add Member](/img/in-post/python/__2021-02-13_110145.jpg)
+    ![Add Member](/img/in-post/python/2021-02-13_110145.jpg)
 
 4. 아래 스크립트를 작성하여 채널 id를 획득한다. public_chat_name에는 자신이 설정한 link 주소를 입력한다. 필자의 경우 '@lonpeach_chat'
 
@@ -119,7 +119,7 @@ tags: [python, crawling]
     print(id_channel)
     ```
 
-    ![hi](/img/in-post/python/__2021-02-13_112132.jpg)
+    ![hi](/img/in-post/python/2021-02-13_112132.jpg)
 
 5. 아래 스크립트를 사용하여 bot으로 메시지를 보내자
 
@@ -133,7 +133,7 @@ tags: [python, crawling]
     bot.sendMessage(chat_id = chat_id , text=text)
     ```
 
-    ![Hello Telegram](/img/in-post/python/__2021-02-13_112114.jpg)
+    ![Hello Telegram](/img/in-post/python/2021-02-13_112114.jpg)
 
 # 2. 파이썬 프로그램 생성
 
@@ -322,7 +322,7 @@ while True:
 - MobaXterm을 사용하여 ssh 접속
 - 세션 생성 후 아래 값 입력
 
-    ![ssh setting](/img/in-post/python/__2021-02-13_115225.jpg)
+    ![ssh setting](/img/in-post/python/2021-02-13_115225.jpg)
 
     - Remote host의 경우 ip 주소 입력 (오라클 vm에 공용 IP 주소)
     - username은 ubuntu 입력 (오라클 vm에 사용자 이름)
