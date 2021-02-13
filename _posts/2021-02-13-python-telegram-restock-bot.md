@@ -15,7 +15,7 @@ tags: [python, crawling]
 
 ## 플로우
 
-1. 텔래그램 봇 만들기
+1. 텔레그램 봇 만들기
 2. 파이썬 프로그램 생성
     1. 10 분마다 실행
     2. bs4를 이용하여 웹 분석 후 품절 상태인지 체크
@@ -31,16 +31,16 @@ tags: [python, crawling]
     ![Botfather 검색](/img/in-post/python/2021-02-13_100643.jpg)
 
 2. /newbot을 입력하면 bot 이름 및 bot의 사용자 이름을 입력하라고 나온다. 봇 이름은 중복되지 않은 이름으로 입력해야 한다.
-3. 
+
     ![Bot 생성](/img/in-post/python/2021-02-13_101349.jpg)
 
-4. 입력하고 난 후 주소와 http 토큰 값이 나오므로 해당 값을 잘 기억해두자. url 주소로 이동하여 아무 글이나 작성한다.
+3. 입력하고 난 후 주소와 http 토큰 값이 나오므로 해당 값을 잘 기억해두자. url 주소로 이동하여 아무 글이나 작성한다.
 
     ![Hello World!](/img/in-post/python/2021-02-13_101903.jpg)
 
-5. 파이썬 텔레그램 봇 모듈을 설치하고, 아래 방법으로 chat Id를 확인 한다.
+4. 파이썬 텔레그램 봇 모듈을 설치하고, 아래 방법으로 chat Id를 확인 한다.
 
-6. 파이썬 스크립트로 확인
+5. 파이썬 스크립트로 확인
 
     ```bash
     import telegram
@@ -59,7 +59,7 @@ tags: [python, crawling]
     - 텔레그램 봇 사용 문서
         - [https://github.com/python-telegram-bot/python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
 
-7. url로 확인도 가능 하다.
+6. url로 확인도 가능 하다.
 
     ```
     https://api.telegram.org/bot<Your Token>/getUpdates
@@ -73,7 +73,7 @@ tags: [python, crawling]
    
    - url에 접속하면 json 데이터를 얻을 수 있고, 해당 개체의 "chat"의 id를 확인 한다.
 
-8. 아래 스크립트를 사용하여 봇으로 메시지를 보내 보자.
+7. 아래 스크립트를 사용하여 봇으로 메시지를 보내 보자.
 
     ```python
     import telegram
