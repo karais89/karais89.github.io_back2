@@ -1,0 +1,438 @@
+---
+layout: post
+title: "2021-02-24"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 29. 다양한 데이터 형식 개요
+
+1. 데이터 전송 표준 형식 종류
+2. 바이너리 데이터 vs 텍스트 데이터
+3. 바이너리, 텍스트 데이터 생성 실습
+
+XML, JSON, YAML, CSV, EXCEL
+
+[https://docs.microsoft.com/ko-kr/azure/machine-learning/team-data-science-process/prepare-data](https://docs.microsoft.com/ko-kr/azure/machine-learning/team-data-science-process/prepare-data)
+
+pickle : [https://docs.python.org/3/library/pickle.html](https://docs.python.org/3/library/pickle.html)
+
+텍스트 데이터
+
+- 텍스트 에디터 편집 가능, 가독성 좋음, 즉시 수정
+- 크기가 큼
+
+바이너리 데이터
+
+- 크기 작음, 동영상, 이미지 등
+- 에디터 편집 불가, 데이터 저장 영역 위치 정의
+
+```bash
+conda create --name section4 python=3.5
+activate section4
+atom
+```
+
+```python
+import pickle # (객체, 텍스트) 직렬화, 역직렬화
+
+# 파일 이름과 데이터
+bfilename = 'c:/workspace/section4/test.bin'
+tfilename = 'c:/workspace/section4/test.txt'
+
+data1 = 77
+data2 = "Hello, world!"
+data3 = ["car", "apple", "house"]
+
+# 바이너리 쓰기
+with open(bfilename, 'wb') as f:
+    pickle.dump(data1, f) # dumps (문자열 직렬화)
+    pickle.dump(data2, f)
+    pickle.dump(data3, f)
+
+# 텍스트 쓰기
+with open(tfilename, 'wt') as f:
+    f.write(str(data1))
+    f.write('\n')
+    f.write(data2)
+    f.write('\n')
+    f.writelines('\n'.join(data3))
+
+# 바이너리 읽기
+with open(bfilename, 'rb') as f:
+    b = pickle.load(f) # loads(문자열 역직렬화)
+    print(type(b), 'Binary Read1 |', b)
+    b = pickle.load(f)
+    print(type(b), 'Binary Read2 |', b)
+    b = pickle.load(f)
+    print(type(b), 'Binary Read3 |', b)
+
+# 텍스트 읽기
+with open(tfilename, 'rt') as f:
+    for i, line in enumerate(f, 1):
+        print(type(line), 'Text Read', str(i), ' | ', line, end='')
+```
+
+# 30. 파이썬으로 XML 데이터 다루기
+
+1. xml 데이터 간단 개요
+2. xml 기상청 날씨 데이터 조회
+3. xml 기상청 날씨 데이터 지역별 파싱 및 출력
+
+과제: [http://www.weather.go.kr/weather/lifenindustry/sevice_rss.jsp](http://www.weather.go.kr/weather/lifenindustry/sevice_rss.jsp)
+
+xml: [https://www.w3schools.com/xml/default.asp](https://www.w3schools.com/xml/default.asp)
+
+bs4: [https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+html: 지정된 태그
+
+sgml + html → xml
+
+XML
+
+- 인터넷에서 쉽게
+- 처리속도
+- 문서 작성 용이
+- 가독성
+- 어려움 x
+- xml 프로그램 쉽게
+
+### 텍스트 + 콘솔 : 지역별 (최저온도)
+
+```python
+import sys
+import io
+import urllib.request as req
+from bs4 import BeautifulSoup
+import os.path
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+# 다운로드 urllib
+url = "http://www.weather.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=108"
+save_name = "c:/workspace/section4/forecast.xml"
+
+if not os.path.exists(save_name):
+    req.urlretrieve(url, save_name)
+    print('다운로드 확인')
+
+# BeautifulSoup 파싱
+xml = open(save_name, 'r', encoding='utf-8').read()
+soup = BeautifulSoup(xml, 'html.parser')
+
+# xml 파싱은 find 더 좋음
+# 지역확인
+info = {}
+for location in soup.find_all('location'):
+    loc = location.find('city').string
+    # print(loc)
+    weather = location.find_all('tmn')
+    # print(weather)
+    if not (loc in info):
+        info[loc] = []
+    for tmn in weather:
+        info[loc].append(tmn.string)
+# print(info)
+# print(sorted(info.keys()))
+# print(list(info.keys()))
+# print(info.values())
+
+# 각 지역별 날씨 텍스트 쓰기
+with open('c:/workspace/section4/forecast.txt', 'wt', encoding='utf-8') as f:
+    for loc in sorted(info.keys()):
+        print("+", loc)
+        f.write(str(loc)+'\n')
+        for n in info[loc]:
+            print('-', n)
+            f.write('\t'+str(n)+'\n')
+```
+
+### 실습 : 본인 거주 지역 날씨 정보(xml) 파싱 및 출력 해보기
+
+```python
+import sys
+import io
+import urllib.request as req
+from bs4 import BeautifulSoup
+import os.path
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+# 다운로드 urllib
+url = "https://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=2647073000"
+save_name = "c:/workspace/section4/forecast2.xml"
+
+if not os.path.exists(save_name):
+    req.urlretrieve(url, save_name)
+    print('다운로드 확인')
+
+# BeautifulSoup 파싱
+xml = open(save_name, 'r', encoding='utf-8').read()
+soup = BeautifulSoup(xml, 'html.parser')
+
+# xml 파싱은 find 더 좋음
+# 지역확인
+info = {}
+for data in soup.find_all('data'):
+    seq = data.attrs['seq']
+    day = data.find('day')
+    hour = data.find('hour')
+    temp = data.find('temp')
+    tmx = data.find('tmx')
+    tmn = data.find('tmn')
+    if not (seq in info):
+        info[seq] = []
+    info[seq].append([{"날짜": day.string}, {"시간": hour.string}, {"온도": temp.string}, {"최고온도": tmx.string}, {"최저온도": tmn.string}])
+
+# print(info)
+
+# 각 지역별 날씨 텍스트 쓰기
+with open('c:/workspace/section4/forecast2.txt', 'wt', encoding='utf-8') as f:
+    for seq in sorted(info.keys()):
+        print("+", seq)
+        f.write("+" + str(seq) + '\n')
+        for detail in info[seq]:
+            for d in detail:
+                for i in d.items():
+                    f.write('\t' + i[0] + ': ' + i[1] + '\n')
+                    print('\t' + i[0] + ': ' + i[1])
+```
+
+- 원하는 형태를 만들려니까 조금 빡신 형태로 만든 것 같다. 더 쉬운 방법이 있을 듯..
+
+# 31. 파이썬 자료형에 대해 알아보자.
+
+1. List
+2. Tuple
+3. Dictionary
+4. Sets
+
+레퍼런스: [https://docs.python.org/3/tutorial/datastructures.html](https://docs.python.org/3/tutorial/datastructures.html)
+
+파이썬 쉽고 간단하고 명료하다.
+
+데이터 과학, 머신 러닝 등
+
+### 리스트
+
+선언
+
+```python
+# a = 'hello'
+# print(type(a))
+# print(a[0])
+# print(a[0:3])
+# print(a[-1:])
+#
+# for t in a:
+#     print(type(t))
+
+# 리스트 자료형 (순서, 중복, 수정, 삭제 가능)
+
+# 선언
+a = []
+b = list()
+c = [0, 0, 1, 2]
+d = [0, 1, 'car', 'apple', 'apart']
+e = [0, 1, ['car', 'apple', 'apart']]
+```
+
+인덱싱
+
+```python
+# 인덱싱
+print("#========#")
+print('d - ', type(d), d)
+print('d - ', d[1])
+print('d - ', d[0] + d[1] + d[1])
+print('e - ', e[-1][1])
+print('e - ', e[2][1])
+```
+
+슬라이싱
+
+```python
+# 슬라이싱
+print("#========#")
+print('d - ', d[0:3])
+print('d - ', d[1:3])
+print('d - ', d[2:])
+```
+
+연산
+
+```python
+# 연산
+print("#========#")
+print('c + d', c + d)
+print('c * 3', c * 3)
+print('hi + c[0]', 'hi' + str(c[0]))
+```
+
+수정, 삭제
+
+```python
+# 리스트 수정, 삭제
+print("#========#")
+c[0] = 4
+print('c - ', c)
+c[1:2] = ['a', 'b', 'c']
+print('c - ', c)
+c[1] = ['a', 'b', 'c']
+print('c - ', c)
+c[1:3] = []
+print('c - ', c)
+del c[3]
+print('c - ', c)
+
+# 리스트 삭제 del, remove, pop
+
+while a:
+    l = a.pop()
+    print(l)
+```
+
+함수
+
+```python
+# 리스트 함수
+a = [5, 2, 3, 1, 4]
+print("#========#")
+print('a - ', a)
+a.append(6)
+print('a - ', a)
+a.sort()
+print('a - ', a)
+a.reverse()
+print('a - ', a)
+print('a - ', a.index(4), a[4])
+print('a - ', a.count(3))  # 자주 사용
+a.remove(2)
+print('a - ', a)
+print('a - ', a.pop())
+print('a - ', a)
+ex = [8, 9]
+a.extend(ex)
+print('a - ', a)
+```
+
+### 튜플
+
+```python
+# 튜플 자료형 (순서O, 중복O, 수정X, 삭제X) 불변
+# 속도 튜플 > 리스트
+
+# 선언
+a = ()
+b = (0,)
+c = (0, 0, 1, 2)
+d = (0, 1, 'car', 'apple', 'apart')
+e = (0, 1, ('car', 'apple', 'apart'))
+
+print(type(b))
+
+# 인덱싱
+print("#========#")
+print('d - ', type(d), d)
+print('d - ', d[1])
+print('d - ', d[0] + d[1] + d[1])
+print('e - ', e[-1][1])
+print('e - ', e[2][1])
+
+# 슬라이싱
+print("#========#")
+print('d - ', d[0:3])
+print('d - ', d[1:3])
+print('d - ', d[2:])
+
+# 연산
+print("#========#")
+print('c + d', c + d)
+print('c * 3', c * 3)
+print('hi + c[0]', 'hi' + str(c[0]))
+
+# 리스트 함수
+a = (5, 2, 3, 1, 4)
+print("#========#")
+print('a - ', a)
+print('a - ', a.index(4), a[4])
+print('a - ', a.count(4))
+```
+
+### 딕셔너리
+
+```python
+# 딕셔너리 자료형 (key, value) - 순서 x, 수정 O, 삭제 O
+
+# 선언
+a = {'name': 'kim', 'phone': '01012345678', 'birth': 910809}
+b = {0: 'Hello World!'}
+c = {'arr': [0, 1, 2, 3]}
+print(type(a), a)
+
+# 출력
+print('a - ', a['name'])  # 없는키 가져오면 에러
+print('a - ', a.get('name'))  # 없는키 가져오면 none
+print('c - ', type(c.get('arr')))
+
+# 추가
+a['address'] = 'Seoul'
+print('a - ', a)
+a['rank'] = [1, 2, 3]
+print('a - ', a)
+
+print('a - ', a.keys())
+print('a - ', list(a.keys()))
+
+print('a - ', list(a.values()))
+print('a - ', a.values())
+
+print('a - ', a.items())
+print('a - ', type(list(a.items())[1]))
+
+print('a - ', 'name' in a)
+print('a - ', 'city' in a)
+```
+
+### 셋
+
+```python
+# Sets 자료형 (순서X, 중복X)
+a = set()
+b = set([1, 2, 3, 4])
+
+print(type(a))
+print(b)
+
+t = tuple(b)
+print(type(t), t)
+print(t[0:2])
+
+l = list(b)
+print(type(l), l)
+print(l[0:2])
+
+s1 = set([1, 2, 3, 4, 5, 6])
+s2 = set([4, 5, 6, 7, 8, 9])
+
+print('t - ', s1 & s2)
+print('t - ', s1.intersection(s2))
+
+print('t - ', s1 | s2)
+print('t - ', s1.union(s2))
+
+print('t - ', s1 - s2)
+print('t - ', s1.difference(s2))
+
+# 추가 제거
+s3 = set([0, 1, 2, 3])
+s3.add(4)
+print('s3 - ', s3)
+s3.remove(2)
+print('s3 - ', s3)
+```
