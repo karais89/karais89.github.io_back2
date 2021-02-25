@@ -1,0 +1,180 @@
+---
+layout: post
+title: "2021-02-25"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 32. 파이썬으로 JSON 데이터 다루기
+
+1. json 데이터 간단 개요
+2. 파이썬으로 json 데이터 읽고 쓰기
+3. 파이썬으로 json 데이터 파싱 하기
+4. gihub repository json 데이터 파싱 실습
+
+과제: [https://jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com)
+
+json: [https://www.w3schools.com/js/js_json_syntax.asp](https://www.w3schools.com/js/js_json_syntax.asp)
+
+simpleJSON: [https://simplejson.readthedocs.io/en/latest/](https://simplejson.readthedocs.io/en/latest/)
+
+json sort 온라인: [https://jsoneditoronline.org/](https://jsoneditoronline.org/)
+
+```go
+pip install simplejson
+```
+
+### simplejson 사용 (dumps, loads)
+
+```python
+import simplejson as json
+# import json
+
+# dict(json 선언)
+data = {}
+data['people'] = []
+data['people'].append({
+    'name': 'kim',
+    'website': 'naver.com',
+    'from': 'Seoul'
+})
+data['people'].append({
+    'name': 'park',
+    'website': 'google.com',
+    'from': 'Busan'
+})
+data['people'].append({
+    'name': 'lee',
+    'website': 'daum.net',
+    'from': 'Inchean'
+})
+
+# print(data)
+# {'people': [{'name': 'kim', 'website': 'naver.com', 'from': 'Seoul'}, {'name': 'park', 'website': 'google.com', 'from': 'Busan'}, {'name': 'lee', 'website': 'daum.net', 'from': 'Inchean'}]}
+
+# dict(json) -> str
+e = json.dumps(data, indent=4)
+# print(type(e))
+# print(e)
+
+# str -> dict(json)
+d = json.loads(e)
+# print(type(d))
+# print(d)
+
+with open('c:/workspace/section4/member.json', 'w') as outfile:
+    outfile.write(e)
+
+with open('c:/workspace/section4/member.json', 'r') as infile:
+    r = json.loads(infile.read())
+    print("=====")
+    # print(type(r))
+    # print(r)
+    for p in r['people']:
+        print('name:', p['name'])
+        print('website:', p['website'])
+        print('from:', p['from'])
+        print()
+```
+
+### dump, load 사용
+
+```python
+import simplejson as json
+
+# dict(json 선언)
+data = {}
+data['people'] = []
+data['people'].append({
+    'name': 'kim',
+    'website': 'naver.com',
+    'from': 'Seoul',
+    'grade': [95, 77, 89, 91]
+})
+data['people'].append({
+    'name': 'park',
+    'website': 'google.com',
+    'from': 'Busan',
+    'grade': [55, 72, 49, 71]
+})
+data['people'].append({
+    'name': 'lee',
+    'website': 'daum.net',
+    'from': 'Inchean',
+    'grade': [35, 55, 44, 11]
+})
+
+# print(data)
+
+# json 파일 쓰기 (dump)
+with open('c:/workspace/section4/member.json', 'w') as outfile:
+    json.dump(data, outfile)
+
+with open('c:/workspace/section4/member.json', 'r') as infile:
+    r = json.load(infile)
+    # print(type(r))
+    # print(r)
+    print("================")
+    for p in r['people']:
+        print('name:', p['name'])
+        print('website:', p['website'])
+        print('from:', p['from'])
+        grade = ''
+        for g in p['grade']:
+            grade = grade + ' ' + str(g)
+        print('grade:', grade.lstrip())
+        print()
+```
+
+- 파일쓰고, 읽기 할때는 dump, load 쓰는게 더 빠르고 간결하다.
+
+### github json 데이터 읽고 쓰기
+
+```python
+import urllib.request as req
+import simplejson as json
+import os.path
+
+# url
+url = 'https://api.github.com/repositories'
+
+# 경로, 파일명
+savename = 'c:/workspace/section4/repo.json'
+
+if not os.path.exists(savename):
+    req.urlretrieve(url, savename)
+
+items = json.load(open(savename, 'r', encoding='utf-8'))
+# items = json.loads(open(savename, 'r', encoding='utf-8').read())
+
+# 출력
+for item in items:
+    print(item['full_name'], ' - ', item['owner']['url'])
+```
+
+### 실습: jsonplaceholder 사이트에서 json 파싱 실습
+
+```python
+import urllib.request as req
+import simplejson as json
+import os.path
+
+url = 'https://jsonplaceholder.typicode.com/comments'
+
+save_name = 'c:/workspace/section4/placeholder.json'
+
+if not os.path.exists(save_name):
+    req.urlretrieve(url, save_name)
+
+with open(save_name, 'r') as readFile:
+    items = json.load(readFile)
+    for item in items[:5]:
+        print('name:', item['name'])
+        print('email:', item['email'])
+        print()
+```
+
+- 상위 5개만 불러오도록 처리
+    - 슬라이스 처리를 했는데, 만약에 항목이 5개 이하 라도 에러 나지 않음 (파이썬 자체적으로 처리 해줌)
