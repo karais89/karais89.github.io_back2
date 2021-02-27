@@ -170,3 +170,105 @@ df.to_csv('c:/workspace/section4/result_s3.csv')
 
 - 인터넷으로 zip 파일 다운로드 및 압축 해제 후 csv 파일 로드 및 쓰기 완료
 - 편집 까지 진행하려고 하다가 해당 csv 데이터가 어떤 데이터인지 까지 파악을 해야 될 것 같아서 간단히 index 정렬까지만 진행하고 완료 함.
+
+# 34. 파이썬 Pandas 사용하기(2) - Excel 읽기, 쓰기
+
+1. 파이썬 Pandas로 엑셀 데이터 읽고 쓰기
+2. 파이썬 Pandas로 엑셀 데이터 편집하기
+3. 파이썬 Pandas로 엑셀 데이터 파일 출력
+
+[https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html)
+
+핵심
+
+- CSV(Excel) → Pandas로 읽어와 가공(Write)
+
+```bash
+pip install xlrd
+pip install openpyxl
+```
+
+### Excel 읽고 쓰기 (1)
+
+```python
+import pandas as pd
+# xlrd, openpyxl
+
+# 기본 읽기
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx')
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', sheet_name=0)
+# print(df)
+# print(df.head())
+# print(df.tail())
+
+# 행, 푸터(Footer) 스킵
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', skiprows=[0], skipfooter=10)
+# print(df)
+
+# 헤더 정의(1)
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', header=0)
+# print(df)
+# print(list(df))
+# print(list(df.columns.values))
+
+# 헤더 정의(2)
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', skiprows=[0], header=None, names=['State', 2003, 2004, 2005])
+# print(df)
+
+# 특정 값 치환
+# df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', header=0, na_values='...', converters={"2003": lambda w: w if w > 60000 else None})
+# print(df)
+# print(pd.isnull(df))
+
+# 실습 정리 및 인덱스 재정의
+df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', header=0)
+# print(df)
+print(df.rename(index=lambda x: x+1))
+print(df.rename(index=lambda x: x+1).index)
+```
+
+### Excel 읽고 쓰기 (2)
+
+```python
+import pandas as pd
+
+df = pd.read_excel('c:/workspace/section4/excel_s1.xlsx', header=0)
+# print(df)
+
+# 컬럼 값 수정
+# df['State'] = df['State'].str.replace(' ', '|')
+# print(df['State'])
+
+# 평균 컬럼 추가
+df['Avg'] = df[['2003', '2004', '2005']].mean(axis=1).round(2)
+# print(df)
+
+# 합계 컬럼 추가
+df['Sum'] = df[['2003', '2004', '2005']].sum(axis=1).round(2)
+# print(df)
+
+# 최대값 출력
+print(df[['2003', '2004', '2005']].max(axis=0))
+
+# 최소값 출력
+print(df[['2003', '2004', '2005']].min(axis=0))
+
+# 상세 정보
+print(df.describe())
+
+df.to_excel('c:/workspace/section4/result_s1.xlsx', index=None)
+```
+
+### 간단한 샘플
+
+```python
+import pandas as pd
+import numpy as np
+
+# 랜덤으로 DataFrame 생성
+# df = pd.DataFrame(np.random.randint(0, 100, size=(100, 4)), columns=['ONE', 'TWO', 'THREE', 'FOUR'])
+df = pd.DataFrame(np.random.randn(100, 4), columns=['ONE', 'TWO', 'THREE', 'FOUR'])
+print(df)
+
+df.to_excel('c:/workspace/section4/result_s2.xlsx', index=False)
+```
