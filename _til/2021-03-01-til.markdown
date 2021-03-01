@@ -1,0 +1,269 @@
+---
+layout: post
+title: "2021-03-01"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 35. 파이썬 Pandas 사용하기(3) - 다음, 네이버 주식 Charts(차트)
+
+1. Pandas Series DataFrame 기초 설명
+2. Pandas Series DataFrame 실습
+3. Pandas_datareader로 주식(증권) 데이터 가져오기
+4. Pandas로 차트(Chart) 그려보기
+
+Pandas: [http://pandas-datareader.readthedocs.io/en/latest/remote_data.html](http://pandas-datareader.readthedocs.io/en/latest/remote_data.html)
+matplotlib: [https://matplotlib.org/stable/tutorials/introductory/sample_plots.html](https://matplotlib.org/stable/tutorials/introductory/sample_plots.html)
+
+```bash
+pip install matplotlib
+pip install pandas-datareader
+```
+
+### Series 사용
+
+```python
+from pandas import Series
+
+# Series 선언
+series1 = Series([92600, 94800, 88800, 75400, 92300])
+print(series1)
+
+# 총 개수
+print('count', series1.count())
+# 요약
+print('describe', series1.describe())
+
+# 인덱스 접근
+print(series1[2])
+
+# Series2 선언
+series2 = Series([92600, 94800, 88800, 75400, 92300], index=['2018-02-12', '2018-02-13', '2018-02-14', '2018-02-15', '2018-02-16'])
+print(series2)
+
+# 인덱스 순회
+for date in series2.index:
+    print('date', date)
+
+# 값 순회
+for price in series2.values:
+    print('price', price)
+
+# Series3 선언
+series_g1 = Series([10, 20, 30], index=['n1', 'n2', 'n3'])
+series_g2 = Series([50, 40, 25], index=['n3', 'n2', 'n1'])
+
+# Series 병합 & 계산
+sum = series_g1 + series_g2
+mul = series_g1 * series_g2
+cul = (series_g1 * series_g2) * (0.5 + 1)
+
+print('sum')
+print(sum)
+print('mul')
+print(mul)
+print('cul')
+print(cul)
+```
+
+- Pandas는 광범위한 패키지. Series로 DataFrame을 만들 수 있다.
+
+### DataFrame
+
+```python
+from pandas import Series, DataFrame
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+r_data = {'City': ['서울', '대구', '부산', '대전'], 'Total1': [55000, 49000, 52000, 50000], 'Total2': [65000, 59000, 62000, 60000]}
+i_data = ['one', 'two', 'three', 'four']
+
+# 출력1
+print(r_data)
+print(i_data)
+
+# DataFrame 정의
+d_frame = DataFrame(r_data, index=i_data)
+print(type(d_frame))
+print(d_frame)
+print(d_frame.index)
+print(d_frame.values)
+print(d_frame['City'])  # Columns
+# print(d_frame.loc['one'])  # Rows
+# print(type(d_frame.loc['one']))
+
+# 값 순회
+for e in d_frame.values:
+    for i, z in enumerate(e):
+        print(i, z)
+```
+
+- Dataframe은 dict을 받음
+
+### pandas_datareader 사용
+
+```python
+import pandas_datareader.data as web
+import datetime
+
+# 조회 시작날짜 & 마감 날짜
+start = datetime.datetime(2018, 2, 1)
+end = datetime.datetime(2018, 2, 15)
+
+# Google 정보 호출 -> Naver 정보로 변경
+gs = web.DataReader('035720', 'naver', start, end)
+print(gs.index)
+print(gs['Open'])
+print(gs.loc['2018-02-13'])
+print(gs.describe())
+```
+
+- 파이썬 트레이딩 봇을 많이 만든다.
+    - 이때는 국내 api를 사용. (키움, 대신 등 속도등 문제로)
+- [https://www.google.com/finance/](https://www.google.com/finance/)
+
+### 차트 만들기
+
+```python
+import matplotlib.pyplot as plt
+
+# 리스트 범위(x축)
+x = range(0, 256)
+print(x)
+
+# 리스트 범위(y축)
+y = [v*v for v in x]
+# for v in x:
+#     y.append(v*v)
+print(y)
+
+# 차트 설정
+plt.plot(x, y, 'bo')
+
+# 차트 실행
+plt.show()
+```
+
+### 화면 분할 차트 만들기
+
+```python
+import matplotlib.pyplot as plt
+
+# fig 객체 생성
+fig = plt.figure()
+
+# 서브 슬롯 생성(2행 1열)
+ax1 = fig.add_subplot(2, 1, 1)
+ax2 = fig.add_subplot(2, 1, 2)
+
+# x축 생성
+x = range(0, 100)
+
+# y축 생성1
+y = [v*v for v in x]
+
+# y축 생성2
+z = [v*v*2 for v in x]
+
+# 라인 차트(1행1열)
+ax1.plot(x, y, 'b--', z, 'ro')
+
+# 바 차트(2행1열)
+ax2.bar(x, z)
+
+plt.show()
+```
+
+### 네이버 & 카카오 주식 가져오기
+
+```python
+import matplotlib.pyplot as plt
+import pandas_datareader.data as web
+import datetime
+
+# 조회 시작 및 종료 날짜
+start = datetime.datetime(2018, 2, 1)
+end = datetime.datetime(2018, 2, 17)
+
+# 네이버 주식 정보 조회
+gs_naver = web.DataReader('035420', 'naver', start, end)
+# 카카오 주식 정보 조회
+gs_kakao = web.DataReader('035720', 'naver', start, end)
+
+# 출력
+print(gs_naver)
+print(gs_kakao)
+
+# 윈도우 제목
+fig = plt.figure('Chart Test')
+
+# 차트 사이즈 지정
+fig.set_size_inches(10, 6, forward=True)
+
+# 차트 설정1
+plt.plot(gs_naver.index, gs_naver['Close'], 'b', label="Naver")
+
+# 차트 설정2KRX: 035420
+plt.plot(gs_kakao.index, gs_kakao['Close'], 'r', label="Kakao")
+
+# 범례위치
+plt.legend(loc='upper left')
+
+# 차트 제목
+plt.title('Naver & Kakao')
+
+plt.show()
+```
+
+### 실습: 주식 시세 조회(구글) 후 엑셀 출력 및 차트 그리기
+
+```python
+import matplotlib.pyplot as plt
+import pandas_datareader.data as web
+import datetime
+
+# 조회 시작 및 종료 날짜
+start = datetime.datetime(2021, 2, 15)
+end = datetime.datetime(2021, 3, 1)
+
+# 삼성전자우 정보 조회
+gs_samsung = web.DataReader('005935', 'naver', start, end)
+
+# 출력
+print(type(gs_samsung))
+
+# 엑셀 파일 저장
+gs_samsung.to_excel('c:/workspace/section4/result_sam1.xlsx', index=None)
+
+# 차트 그리기
+
+# 윈도우 제목
+fig = plt.figure('Chart Test')
+
+# 차트 사이즈 지정
+fig.set_size_inches(10, 6, forward=True)
+
+# 서브 슬롯 생성(2행 1열)
+ax1 = fig.add_subplot(2, 1, 1)
+ax2 = fig.add_subplot(2, 1, 2)
+
+# 차트 설정1
+ax1.plot(gs_samsung.index, gs_samsung['Close'], 'b', label='Close')
+
+# 차트 설정2
+ax2.plot(gs_samsung.index, gs_samsung['Open'], 'r', label='Open')
+
+# 범례위치
+ax1.legend(loc='upper left')
+ax2.legend(loc='upper left')
+
+# 차트 제목
+plt.title('Samsung')
+
+plt.show()
+```
