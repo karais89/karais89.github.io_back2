@@ -1,0 +1,482 @@
+---
+layout: post
+title: "2021-03-03"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 38. 파이썬 & 데이터베이스 연동 - TinyDB
+
+1. TinyDB 소개 및 파이썬 연동하기
+2. 테이블 생성(Create) 및 조회(Select) 실습
+3. 테이블 수정(Update) 및 삭제(Delete) 실습
+4. TinyDB 고급 사용법 외 기타 팁
+
+TinyDB: [http://tinydb.readthedocs.io/en/latest/index.html](http://tinydb.readthedocs.io/en/latest/index.html)
+JSONPlaceholder : [https://jsonplaceholder.typicode.com/](https://jsonplaceholder.typicode.com/)
+수업 소스 파일 : [https://github.com/eunki7/python_create_app_1](https://github.com/eunki7/python_create_app_1)
+
+초경량 DB
+
+- 모바일, 라즈베리파이, iot 등
+
+```bash
+pip install tinydb
+pip install simpejson
+```
+
+### 데이터 삽입
+
+```python
+import simplejson as json
+from tinydb.storages import MemoryStorage
+from tinydb import TinyDB
+
+# 파일 DB 생성
+db = TinyDB('c:/workspace/section5/database/database.db')
+
+# 메모리 DB 생성
+# db = TinyDB(storage=MemoryStorage)
+
+# 테이블 선택
+users = db.table('users')
+todos = db.table('todos')
+
+# 테이블 데이터 삽입
+# users.insert({'name': 'kim', 'email': 'test@google.com'})
+# todos.insert({'name': 'homework', 'complete': False})
+
+# 테이블 데이터 전체 삽입1
+with open('c:/workspace/section5/data/users.json', 'r') as infile:
+    r = json.loads(infile.read())
+    for u in r:
+        users.insert(u)
+
+# 테이블 데이터 전체 삽입2
+with open('c:/workspace/section5/data/todos.json', 'r') as infile:
+    r = json.loads(infile.read())
+    for t in r:
+        todos.insert(t)
+
+# 전체 데이터 출력
+print(users.all())
+print(todos.all())
+
+# 테이블 목록
+print(db.tables())
+
+# 전체 데이터 삭제
+# users.truncate()  # db.drop_table('users')
+# todos.truncate()  # db.drop_table('todos')
+# db.drop_tables()
+
+db.close()
+```
+
+### 데이터 조회, 삭제, 수정 (Query)
+
+```python
+import simplejson as json
+from tinydb.storages import MemoryStorage
+from tinydb import TinyDB, Query
+
+# 파일 DB 생성
+db = TinyDB('c:/workspace/section5/database/database.db')
+
+# 메모리 DB 생성
+# db = TinyDB(storage=MemoryStorage)
+
+# 테이블 선택
+users = db.table('users')
+todos = db.table('todos')
+
+# users 테이블 출력
+for item in users:
+    print(item['username'], ' : ', item['phone'])
+
+# todos 테이블 출력
+for item in todos:
+    print(item['title'], ' : ', item['completed'])
+
+# 연결 관계 출력 (조건문) TinyDB는 조인을 지원안함
+for item in users:
+    print('[', item['username'], ']')
+    for todo in todos:
+        if todo['userId'] == item['id']:
+            print(todo['title'])
+
+# 쿼리 객체 사용 조회
+# SQL = Query()
+Users = Query()
+Todos = Query()
+
+# Row 수정
+users.update({'username': 'kim'}, Users.id == 3)
+
+# Row 조회
+user_3 = users.search(Users.id == 3)  # >, <, >=, <=
+print(users.search(Users.id == 3))
+print(user_3)
+
+# Row 삭제
+users.remove(Users.id == 3)
+print(users.search(Users.id == 3))
+
+db.close()
+```
+
+### 고급 기능 (where)
+
+```python
+import simplejson as json
+from tinydb.storages import MemoryStorage
+from tinydb import TinyDB, Query, where
+
+# 파일 DB 생성
+db = TinyDB('c:/workspace/section5/database/database.db')
+
+# 테이블 선택
+users = db.table('users')
+todos = db.table('todos')
+
+Users = Query()
+Todos = Query()
+
+# Users 여러가지 조회 방법
+print(users.search(Users.id == 7))
+print(users.search(Users['id'] == 7))
+print(users.search(where('id') == 7))
+print(users.search(Query()['id'] == 7))
+print(users.search(where('address')['zipcode'] == '90566-7771'))
+print(users.search(where('address').zipcode == '90566-7771'))
+
+# 고급 쿼리
+print(users.search(Users.email.exists()))
+print(users.search(Users['email'].exists()))
+
+# Not
+print('not', users.search(~(Users.username == 'Karianne')))
+
+# OR
+print('or', users.search((Users.username == 'Karianne') | (Users.username == 'Kamren')))
+
+# AND
+print('and', users.search((Users.username == 'Karianne') & (Users.id == 4)))
+
+# 기타 함수
+print('len', len(users))
+print('len', len(todos))
+print('contains', users.contains(Users.username == 'Karianne'))
+print('count', users.count(Users.username == 'Karianne'))
+```
+
+### 고급 기능
+
+```python
+import simplejson as json
+from tinydb.storages import MemoryStorage
+from tinydb import TinyDB, Query, where
+
+# 파일 DB 생성
+db = TinyDB('c:/workspace/section5/database/database1.db')
+
+# db.insert({'name': 'kim', 'email': 'test1@daum.net'})  # json(dict)
+# db.insert_multiple([{'name': 'lee', 'email': 'test2@daum.net'}, {'name': 'park', 'email': 'test3@daum.net'}])  # jsonArrary(dict) [{}, {}, {}]
+
+SQL = Query()
+
+el = db.get(SQL.name == 'kim')
+
+# id 값 출력
+# print(el)
+# print(el.doc_id)
+
+# 데이터 수정
+# db.update({'email': 'test1@google.com'}, doc_ids=[1])
+
+# 데이터 수정 및 추가
+# db.upsert({'email': 'test1@naver.com', 'login': True}, SQL.name == 'park')  # update + insert
+
+# 데이터 삭제
+# db.remove(doc_ids=[1, 3])
+# db.remove(SQL.name == 'park')
+
+# 전체 조회
+print(db.all())
+```
+
+### 실습: album & photo 요청 후 DB에 저장하기
+
+```python
+import urllib.request as req
+import simplejson as json
+import os.path
+from tinydb import TinyDB, Query, where
+
+def down_load_file(name):
+    base_url = 'https://jsonplaceholder.typicode.com/'
+    base_file_name = 'c:/workspace/section5/data/'
+    url = base_url + name
+    save_name = base_file_name + name + ".json"
+    if not os.path.exists(save_name):
+        req.urlretrieve(url, save_name)
+
+    return save_name
+
+# json 더미 파일 다운로드 및 저장
+albums_file = down_load_file('albums')
+photos_file = down_load_file('photos')
+
+# DB 생성
+db = TinyDB('c:/workspace/section5/database/database2.db')
+
+# 테이블 선택
+albums = db.table('albums')
+photos = db.table('photos')
+
+# 테이블 내용 제거
+albums.truncate()
+photos.truncate()
+
+# json 데이터 삽입
+with open(albums_file) as in_file:
+    albums.insert_multiple(json.loads(in_file.read()))
+
+with open(photos_file) as in_file:
+    photos.insert_multiple(json.loads(in_file.read()))
+
+# 테이블 개수 출력
+print('len', len(albums))
+print('len', len(photos))
+
+db.close()
+```
+
+# 39. 파이썬 & 데이터베이스 연동 - SQLite3
+
+1. SQLite3 연동
+2. SQLite3 Manage 설치 및 사용법
+3. 테이블 생성(Create) 및 조회(Select) 실습
+4. 테이블 수정(Update) 및 삭제(Delete) 실습
+5. 그 외 사용 팁
+
+SQLite Browser: [http://sqlitebrowser.org/](http://sqlitebrowser.org/)
+SQLite3 Doc: [https://www.sqlite.org/lang.html](https://www.sqlite.org/lang.html)
+JSONPlaceholder : [https://jsonplaceholder.typicode.com/](https://jsonplaceholder.typicode.com/)
+
+SQLite
+
+- RDBMS
+- 적은 용량, 무료, 설정 용이, 기능적, 속도, 크로스플랫폼
+- 동시성에 부족
+
+### sqlite3 기본 사용
+
+```python
+import sqlite3
+import simplejson as json
+import datetime
+
+# db 생성
+conn = sqlite3.connect('c:/workspace/section5/database/sqlite1.db')  # auto commit - isolation_level=None
+# db 생성 (메모리)
+# conn = sqlite3.connect(":memory:")
+
+# 날짜 생성
+now = datetime.datetime.now()
+print('now', now)
+
+nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')
+print('now', nowDatetime)
+
+# sqlite3 버전 확인
+print('sqlite3.version', sqlite3.version)
+print('sqlite3.sqlite_version', sqlite3.sqlite_version)
+
+# cursor 연결
+c = conn.cursor()
+print(type(c))
+
+# 테이블 생성 (SQLite3 DataType : TEXT, NUMERIC, INTEGER, REAL, BLOB)
+c.execute("CREATE TABLE IF NOT EXISTS users(id integer PRIMARY KEY, username text, email text, phone text, website text, regdate text)")
+
+# 데이터 삽입
+# c.execute("INSERT INTO users VALUES(1, 'kim', 'kim@naver.com', '010-0000-0000', 'kim.co.kr', ?)", (nowDatetime,))
+
+userList = (
+    (2, 'kim', 'kim@naver.com', '010-0000-0000', 'kim.co.kr', nowDatetime),
+    (3, 'kim', 'kim@naver.com', '010-0000-0000', 'kim.co.kr', nowDatetime),
+    (4, 'kim', 'kim@naver.com', '010-0000-0000', 'kim.co.kr', nowDatetime)
+)
+# c.executemany("INSERT INTO users(id, username, email, phone, website, regdate) VALUES (?, ?, ?, ?, ?, ?)", userList)
+
+with open('c:/workspace/section5/data/users.json', 'r') as infile:
+    r = json.load(infile)
+    userData = []
+    for user in r:
+        t = (user['id'], user['username'], user['email'], user['phone'], user['website'], nowDatetime)
+        # print(t)
+        userData.append(t)
+    # print('userData', userData)
+    # print('userData', tuple(userData))
+    c.executemany("INSERT INTO users(id, username, email, phone, website, regdate) VALUES (?, ?, ?, ?, ?, ?)", userData)
+    # c.executemany("INSERT INTO users(id, username, email, phone, website, regdate) VALUES (?, ?, ?, ?, ?, ?)", tuple(userData))
+
+# print('users db delete', conn.execute('DELETE from users').rowcount, 'rows')
+conn.commit()
+conn.close()
+```
+
+- commit, rollback
+
+### SE
+
+```python
+import sqlite3
+
+# db 생성
+conn = sqlite3.connect('c:/workspace/section5/database/sqlite1.db')  # auto commit - isolation_level=None
+
+# cursor 연결
+c = conn.cursor()
+
+# 데이터 조회 전체
+c.execute('SELECT * FROM users')
+
+# 1개 로우 선택
+# print(c.fetchone())
+
+# 지정 로우 선택
+# print(c.fetchmany(size=4))
+
+# 전체 로우 선택
+# print(c.fetchall())
+
+# 순회1
+# rows = c.fetchall()
+# for row in rows:
+#     print('usage1 > ', row)
+
+# 순회2
+# for row in c.fetchall():
+#     print('usage2 > ', row)
+
+# 순회3
+# for row in c.execute("SELECT * FROM users"):
+#     print('usage3 > ', row)
+
+# 조건 조회 1
+param1 = (1,)
+c.execute("SELECT * FROM users WHERE id=?", param1)
+print(c.fetchall())
+
+# 조건 조회 2
+param2 = 1
+c.execute("SELECT * FROM users WHERE id='%s'" % param2)  # %s, %d, %f python format
+print(c.fetchall())
+
+# 조건 조회 3
+c.execute("SELECT * FROM users WHERE id=:id", {"id": 1})
+print(c.fetchall())
+
+# 조건 조회 4
+param4 = (1, 4)
+c.execute("SELECT * FROM users WHERE id IN(?, ?)", param4)
+print(c.fetchall())
+
+# 조건 조회 5
+c.execute("SELECT * FROM users WHERE id=:id1 OR id=:id2", {"id1": 1, "id2": 4})
+print(c.fetchall())
+
+# dump
+with conn:
+    # dump 출력
+    with open('c:/workspace/section5/data/test.dump', 'w') as f:
+        for line in conn.iterdump():
+            f.write('%s\n' % line)
+        print("dump write complete!")
+```
+
+### Update & Delete
+
+```python
+import sqlite3
+
+# db 생성
+conn = sqlite3.connect('c:/workspace/section5/database/sqlite1.db')  # auto commit - isolation_level=None
+
+# 커서 연결
+c = conn.cursor()
+
+# 데이터 수정1
+c.execute("UPDATE users SET username=? WHERE id=?", ('niceman', 1))
+
+# 데이터 수정2
+c.execute("UPDATE users SET username=:name WHERE id=:id", {"name": "goodboy", "id": 2})
+
+# 데이터 수정2
+c.execute("UPDATE users SET username='%s' WHERE id='%s'" % ('cuteboy', 3))
+
+# 데이터 삭제1
+c.execute("DELETE FROM users WHERE id=?", (4,))
+
+# 중간 데이터 확인
+for user in c.execute("SELECT * FROM users"):
+    print(user)
+
+conn.commit()
+conn.close()
+```
+
+### 실습 : posts & comments 요청 후 DB에 저장 후 join 조회
+
+```python
+import requests
+import simplejson as json
+import sqlite3
+import datetime
+
+url_post = 'https://jsonplaceholder.typicode.com/posts'
+url_comment = 'https://jsonplaceholder.typicode.com/comments'
+nowDatetime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+with requests.Session() as s:
+    res_post = requests.get(url_post)
+    res_comment = requests.get(url_comment)
+    if res_post.status_code == 200 and res_comment.status_code == 200:
+        with sqlite3.connect('c:/workspace/section5/database/sqlite2.db') as conn:
+            c = conn.cursor()
+
+            # drop table
+            c.execute("DROP TABLE IF EXISTS posts")
+            c.execute("DROP TABLE IF EXISTS comments")
+
+            # post data
+            c.execute("CREATE TABLE IF NOT EXISTS posts(id integer PRIMARY KEY, userId integer, title text, body text, regdate text)")
+            posts = json.loads(res_post.text)
+            postData = []
+            for p in posts:
+                t = (p['id'], p['userId'], p['title'], p['body'], nowDatetime)
+                postData.append(t)
+
+            c.executemany("INSERT INTO posts(id, userId, title, body, regdate) VALUES (?, ?, ?, ?, ?)", postData)
+
+            # comments data
+            c.execute("CREATE TABLE IF NOT EXISTS comments(id integer PRIMARY KEY, postId integer, name text, email text, body text, regdate text)")
+            comments = json.loads(res_comment.text)
+            commentData = []
+            for comment in comments:
+                t = (comment['id'], comment['postId'], comment['name'], comment['email'], comment['body'], nowDatetime)
+                commentData.append(t)
+            c.executemany("INSERT INTO comments(id, postId, name, email, body, regdate) VALUES (?, ?, ?, ?, ?, ?)", commentData)
+            
+            # join 연산 후 출력
+            c.execute('SELECT * FROM posts INNER JOIN comments ON posts.id = comments.postId WHERE posts.id = ?', (1,))
+            rows = c.fetchall()
+            for row in rows:
+                print('usage1 > ', row)
+
+            conn.commit()
+```
