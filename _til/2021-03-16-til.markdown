@@ -1,0 +1,262 @@
+---
+layout: post
+title: "2021-03-16"
+author: "karais89"
+header-style: text
+---
+
+크롤링보다는 자동화 쪽에 좀 더 관심이 있음.
+
+# 40. 파이썬 & 데이터베이스 연동 - MySQL & MariaDB
+
+1. MySQL & MariaDB 차이점 및 연동 (설치) 설정
+2. QueryBox 설치 및 사용법
+3. 테이블 생성 (Create) 및 조회 (Select) 실습
+4. 테이블 수정 (Update) 및 삭제 (Delete) 실습
+5. 그 외 사용 법
+
+MariaDB : [https://mariadb.com/kb/en/library/documentation/](https://mariadb.com/kb/en/library/documentation/)
+
+MySQL: [https://dev.mysql.com/doc/refman/5.7/en/](https://dev.mysql.com/doc/refman/5.7/en/)
+호환성: [https://mariadb.com/kb/ko/mariadb-mysql/](https://mariadb.com/kb/ko/mariadb-mysql/)
+
+pymysql: [http://pymysql.readthedocs.io/en/latest/index.html](http://pymysql.readthedocs.io/en/latest/index.html)
+
+윈도우 : [http://gdpark.tistory.com/44](http://gdpark.tistory.com/44)
+
+쿼리박스(win,mac) : [http://www.querybox.com/download/](http://www.querybox.com/download/)
+
+MySQL : 오라클이 인수 이후. 업데이트 늦고 최신성도 점 점 떨어짐.
+
+MariaDB: MySQL을 만든 살마이 회사를 나와서 만든 DB, GPL V2. 퍼포먼스 MariaDB가 조금 더 빠름. 여러 개발자들이 협업. 브랜치 릴리즈. 개인이 사용하기 좋은. 소규모가 사용하기 좋은 DB.
+
+라이브러리, 인터페이스 그대로 작성
+
+> 뿌리는 같지만 가는 방향은 다름
+
+mysql 설치 (8.0)
+
+- server only
+- 비밀번호 123456
+
+```sql
+SHOW databases;
+USE mysql;
+create user python@localhost identified by '1111!';
+grant all privileges on *.* to python@localhost identified by '1111!'; # 에러 발생
+flush privileges;
+```
+
+- 우선 mysql 8.0 부터 위 방식으로 안되는 것 같음 root로 그냥 실행
+
+```sql
+create database python_app1;
+SHOW databases;
+```
+
+- 쿼리박스 추천 함 (개인만 무료)
+- 파이참의 부가기능 데이터베이스도 좋은 것 같음
+
+### mysql 기본 사용
+
+```python
+import pymysql
+import simplejson as json
+import datetime
+
+# mysql connection
+conn = pymysql.connect(host='localhost', user='root', password='123456',
+                       db='python_app1', charset='utf8')
+
+# pymysql 버전 확인
+# print('pymysql.version', pymysql.__version__)
+
+# 데이터베이스 선택
+# conn.select_db('python_app1')
+
+# cursor 연결
+c = conn.cursor()
+print(type(c))
+
+# 데이터 베이스 생성
+# c.execute('create database python_app2') # dml, ddl, dcl
+
+# 커서 반환
+# c.close()
+
+# 접속 해제
+# conn.close()
+
+# 트랜잭션 시작 선언
+# conn.begin()
+
+# 커밋
+# conn.commit()
+
+# 롤백
+# conn.rollback()
+
+# 날짜 생성
+now = datetime.datetime.now()
+nowDateTime = now.strftime('%Y-%m-%d %H:%M:%S')
+print(nowDateTime)
+
+c.execute("CREATE TABLE IF NOT EXISTS users(id bigint(20) NOT NULL, \
+                    username varchar(20), \
+                    email varchar(30), \
+                    phone varchar(30), \
+                    website varchar(30), \
+                    regdate varchar(20) NOT NULL, PRIMARY KEY(id))" \
+          )  # AUTO_INCREMENT, DEFAULT
+
+try:
+    with conn.cursor() as c:
+        # json to mysql
+        with open('c:/workspace/section5/data/users.json', 'r') as infile:
+            r = json.load(infile)
+            userData = []
+            for user in r:
+                t = (user['id'], user['username'], user['email'], user['phone'], user['website'], nowDateTime)
+                userData.append(t)
+            c.executemany('INSERT INTO users(id, username, email, phone, website, regdate) VALUES (%s, %s, %s, %s, %s, %s)', userData)
+        conn.commit()
+finally:
+    conn.close()
+```
+
+### 조회
+
+```sql
+import pymysql
+
+# mysql connection
+conn = pymysql.connect(host='localhost', user='root', password='123456',
+                       db='python_app1', charset='utf8')
+
+try:
+    with conn.cursor() as c:  # conn.cursor(pymysql.cursors.DictCursor)
+        c.execute('SELECT * FROM users')
+        # 1개 로우
+        print(c.fetchone())
+        # 선택 지정
+        print(c.fetchmany(3))
+        # 전체 로우
+        print(c.fetchall())
+
+        # 순회1
+        c.execute('SELECT * FROM users ORDER BY id ASC')
+        rows = c.fetchall()
+        for row in rows:
+            print('usage1 > ', row)
+
+        # 순회2
+        c.execute('SELECT * FROM users ORDER BY id DESC')
+        for row in c.fetchall():
+            print('usage2 > ', row)
+
+        # 조건조회1
+        param1 = (1,)
+        c.execute('SELECT * FROM users WHERE id=%s', param1)
+        print('param1', c.fetchall())
+
+        # 조건조회2
+        param2 = 1
+        c.execute("SELECT * FROM users WHERE id='%d'" % param2) # python formatting: %s, %f, %d, %o
+        print('param2', c.fetchall())
+
+        # 조건조회3
+        param3 = (4, 5)
+        c.execute("SELECT * FROM users WHERE id IN(%s, %s)", param3)
+        print('param3', c.fetchall())
+
+        # 조건조회4
+        param4 = (4, 5)
+        c.execute("SELECT * FROM users WHERE id IN('%d', '%d')" % param4)
+        print('param4', c.fetchall())
+finally:
+    conn.close()
+```
+
+### 삭제 및 수정
+
+```python
+import pymysql
+
+# mysql connection
+conn = pymysql.connect(host='localhost', user='root', password='123456',
+                       db='python_app1', charset='utf8')
+
+try:
+    with conn.cursor() as c:
+        # 데이터 수정1
+        c.execute('UPDATE users SET username = %s WHERE id = %s', ('niceman', 1))
+        # 데이터 수정2
+        c.execute("UPDATE users SET username = '%s' WHERE id = '%d'" % ('goodboy', 2))
+
+        # 중간 데이터 확인1
+        c.execute('SELECT * FROM users ORDER BY id DESC')
+        for row in c.fetchall():
+            print('check1 > ', row)
+
+        # 데이터 삭제1
+        c.execute("DELETE FROM users WHERE id = %s", (1,))
+        # 데이터 삭제2
+        c.execute("DELETE FROM users WHERE id = '%d'" % (2,))
+
+        # 중간 데이터 확인1
+        c.execute('SELECT * FROM users ORDER BY id DESC')
+        for row in c.fetchall():
+            print('check2 > ', row)
+
+    conn.commit()
+finally:
+    conn.close()
+```
+
+### 실습: 첨부 파일 (엑셀) 파일 DB에 저장 후 조회하기
+
+```python
+import pandas as pd
+import pymysql
+import datetime
+
+# mysql connection
+conn = pymysql.connect(host='localhost', user='root', password='123456',
+                       db='python_app1', charset='utf8')
+# 날짜 생성
+now = datetime.datetime.now()
+nowDateTime = now.strftime('%Y-%m-%d %H:%M:%S')
+print(nowDateTime)
+
+try:
+    with conn.cursor() as c:
+        # 테이블 생성
+        c.execute("CREATE TABLE IF NOT EXISTS person(id bigint(20) NOT NULL, \
+                            first_name varchar(20), \
+                            last_name varchar(20), \
+                            gender char(6), \
+                            country varchar(20), \
+                            age int(11), \
+                            p_date varchar(20), \
+                            p_id bigint(20), \
+                            regdate varchar(20) NOT NULL, PRIMARY KEY(id))")
+        c.execute('DELETE FROM person')
+
+        # 엑셀 읽기
+        df = pd.read_excel('c:/workspace/section5/Rows_1000.xlsx')
+        # 새로운 컬럼 추가
+        df['regdate'] = nowDateTime
+        for data in df.values:
+            c.execute('INSERT INTO person(id, first_name, last_name, gender, country, age, p_date, p_id, regdate) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', tuple(data))
+
+        # 조건조회1
+        param1 = (1, 2, 3, 4, 10, 20)
+        c.execute('SELECT first_name, gender, age FROM person WHERE id IN(%s, %s, %s, %s, %s, %s)', param1)
+        print('param1', c.fetchall())
+
+    conn.commit()
+finally:
+    conn.close()
+```
+
+- 첨부파일에 컬럼이 뭘 의미하는지 몰라서 샘플 xlsx 다운로드 후 해당 엑셀 파일 DB에 저장하는 예제로 변경
