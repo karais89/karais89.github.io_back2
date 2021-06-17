@@ -67,6 +67,7 @@ pip install uvicorn[standard]
 ```bash
 uvicorn main:app --reload
 ```
+- 단 파일명은 main.py 파일
 
 ## 2. Hello World
 
