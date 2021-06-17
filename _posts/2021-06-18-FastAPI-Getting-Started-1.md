@@ -38,7 +38,7 @@ tags: [python, fastapi]
 - 견고함: 생산 준비 코드를 가져옵니다. 자동 대화형 설명서 사용.
 - 표준 기반: [OpenAPI](https://github.com/OAI/OpenAPI-Specification) (이전에는 Swagger라고 함) 및 [JSON 스키마](https://json-schema.org/)를 기반으로 하며 완전히 호환됩니다.
 
-### 사용 후 느낀 장점A
+### 사용 후 느낀 장점
 
 - 빠른 속도 (실제 측정은 해보지 않았지만 기존 장고나 플라스크를 사용하기 꺼려했던 이유 중 하나)
 - 타입 선언을 어느 정도 강제 한다는 부분
