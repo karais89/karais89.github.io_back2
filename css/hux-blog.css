@@ -619,7 +619,7 @@ pre.highlight {
   font-size: 20px;
 }
 .search-page #search-input {
-  font-family: "Cascadia Code", "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: 'Cascadia Code', "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
   border: none;
   outline: none;
   padding: 0;
@@ -776,7 +776,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: "Cascadia Code", "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: 'Cascadia Code', "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .postlist-container {
   margin-bottom: 15px;
