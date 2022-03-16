@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "블로그 폰트 변경"
+title: "코딩용 고정폭 폰트 Cascadia Code 사용기"
 subtitle: "폰트 변경에 대한 간단한 히스토리 작성 용도"
 date: "2022-03-16 22:53:00 +0900"
 author: "karais89"
