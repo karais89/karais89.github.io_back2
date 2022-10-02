@@ -40,7 +40,7 @@ const config = {
             'https://github.com/karais89/karais89.github.io/tree/main/my-website/',
         },
         blog: {
-          routeBasePath: '/',
+          // routeBasePath: '/',
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -64,13 +64,13 @@ const config = {
         //   src: 'img/logo.svg',
         // },
         items: [          
-          {to: '/', label: 'Blog', position: 'left'},
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
             label: 'Tutorial',
           },
+          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/karais89/karais89.github.io',
             label: 'GitHub',
